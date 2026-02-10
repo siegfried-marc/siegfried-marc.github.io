@@ -190,23 +190,31 @@
                 </div>
                 <div class="flex gap-20 px-20 pl-[20vw]" id="works-wrapper">
                     <!-- Card 1 -->
-                    <div class="work-item w-[80vw] md:w-[600px] h-[60vh] relative group cursor-pointer">
-                        <div class="absolute inset-0 bg-gray-100 transform rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
-                        <div class="absolute inset-0 bg-white border border-black p-8 flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
-                            <div class="w-full h-3/5 overflow-hidden bg-gray-200 mb-6 relative">
-                                <video src="public\gradients.mp4" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110" autoplay loop></video>
-                                <div class="absolute top-2 right-2 bg-black text-white text-xs font-mono px-2 py-1">MOTION DESIGN</div>
-                            </div>
-                            <div>
-                                <h3 class="text-4xl font-bold mb-2">Gradient Motion Design</h3>
-                                <p class="text-gray-500 font-mono text-sm">A project dedicated to gradient motion design where I explored liquid-like color shifts in After Effects. I experimented with various techniques to achieve these smooth, visually satisfying transitions, showing my ability to create modern, abstract visuals and high-quality motion textures.</p>
-                            </div>
-                            <div class="flex justify-between items-end border-t border-black pt-4">
-                                <span class="text-4xl font-black opacity-10">01</span>
-                                <i class="ri-arrow-right-up-line text-2xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>
+<div class="work-item w-[80vw] md:w-[600px] h-[60vh] relative group cursor-pointer">
+    <div class="absolute inset-0 bg-gray-100 transform rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-white border border-black p-8 flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-3/5 overflow-hidden bg-gray-200 mb-4 relative shrink-0">
+            <video src="public\gradients.mp4" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110" autoplay loop muted></video>
+            <div class="absolute top-2 right-2 bg-black text-white text-xs font-mono px-2 py-1">MOTION DESIGN</div>
+        </div>
+
+        <div class="flex-1 overflow-hidden flex flex-col min-h-0 mb-4">
+            <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Gradient Motion Design</h3>
+            <div class="overflow-y-auto pr-2 custom-scrollbar">
+                <p class="text-gray-500 font-mono text-sm">
+                    A project dedicated to gradient motion design where I explored liquid-like color shifts in After Effects. I experimented with various techniques to achieve these smooth, visually satisfying transitions, showing my ability to create modern, abstract visuals and high-quality motion textures.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-end border-t border-black pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-10">01</span>
+            <i class="ri-arrow-right-up-line text-2xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+        </div>
+    </div>
+</div>
                     <!-- Card 2 -->
                     <div class="work-item w-[80vw] md:w-[600px] h-[60vh] relative group cursor-pointer mt-20">
                         <div class="absolute inset-0 bg-gray-900 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
@@ -484,6 +492,7 @@
     <script type="module" src="./src/main.js"></script>
 </body>
 </html>
+
 
 
 

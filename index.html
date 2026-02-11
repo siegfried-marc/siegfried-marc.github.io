@@ -28,7 +28,6 @@
         <div class="text-6xl md:text-9xl font-black tracking-tighter mix-blend-difference" id="loader-percent">000</div>
         <div class="text-xs font-mono mt-4 tracking-widest uppercase opacity-50">Loading Interface</div>
     </div>
-    <div class="loader-curtain" id="loader-curtain"></div>
     <!-- Navigation -->
     <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white opacity-0" id="navbar">
         <div class="text-2xl font-black tracking-tighter uppercase cursor-pointer hover:opacity-70 transition-opacity">MARC.S</div>
@@ -134,18 +133,23 @@
                         </div>
                     </div>
                     <!-- Interactive Map -->
-                    <div class="relative h-[400px] md:h-[500px] bg-gray-50 border border-gray-200 rounded-2xl flex items-center justify-center overflow-hidden" id="map-container" data-gsap="scale-in">
-                        <div class="absolute top-4 right-4 text-xs font-mono text-gray-400">OBERSTDORF</div>
-                        <!-- Simplified SVG Map of Oberstdorf -->
-                        <img src="public\oberstdorf_g.png" width="500px" height="500px">
-                        <!-- Pin -->
-                        <div class="absolute map-pin opacity-0 top-[140px] left-[95px] md:top-[160px] md:left-[365px]" id="map-pin">
-                            <i class="ri-map-pin-fill text-4xl text-black drop-shadow-2xl"></i>
-                            <div class="w-3 h-1 bg-black/50 rounded-full blur-[2px] mx-auto mt-[-5px]"></div>
-                        </div>
-                        <!-- Radar Effect -->
-                        <div class="absolute top-[140px] left-[95px] md:top-[175px] md:left-[375px] w-20 h-20 -ml-8 -mt-8 border border-black/30 rounded-full animate-ping opacity-20"></div>
-                    </div>
+<div class="relative h-[400px] md:h-[500px] bg-gray-50 border border-gray-200 rounded-2xl flex items-center justify-center overflow-hidden" id="map-container" data-gsap="scale-in">
+    <div class="absolute top-4 right-4 text-xs font-mono text-gray-400">OBERSTDORF</div>
+    
+    <!-- Simplified SVG Map of Oberstdorf -->
+    <div class="relative inline-block h-full md:h-auto">
+        <img src="public\oberstdorf_g.png" class="w-auto h-full md:w-[500px] md:h-auto object-contain">
+
+        <!-- Pin -->
+        <div class="absolute map-pin opacity-0 top-[32%] left-[73%] -translate-x-1/2 -translate-y-[85%] flex flex-col items-center" id="map-pin">
+            <i class="ri-map-pin-fill text-4xl text-black drop-shadow-2xl"></i>
+            <div class="w-3 h-1 bg-black/50 rounded-full blur-[2px] mt-[-5px]"></div>
+        </div>
+
+        <!-- Radar Effect -->
+        <div class="absolute top-[32%] left-[73%] w-20 h-20 -translate-x-1/2 -translate-y-1/2 border border-black/30 rounded-full animate-ping opacity-20 pointer-events-none"></div>
+    </div>
+</div>
                 </div>
             </div>
         </section>

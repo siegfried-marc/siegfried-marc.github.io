@@ -122,6 +122,31 @@ setTimeout(() => {
     }
 }, 5000);
 
+// Function to handle smooth scroll to top
+const scrollToTop = () => {
+    // Attempt to find the Lenis instance
+    // Check if it's 'lenis' or 'window.lenis' based on your main.js setup
+    const lenisInstance = window.lenis || (typeof lenis !== 'undefined' ? lenis : null);
+
+    if (lenisInstance) {
+        lenisInstance.scrollTo(0, {
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+    } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+};
+
+// Select the button and prevent the instant jump
+const homeBtn = document.getElementById('home-button');
+if (homeBtn) {
+    homeBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // STOPS THE INSTANT JUMP
+        scrollToTop();
+    });
+}
+
 // Language Slider
 document.addEventListener('DOMContentLoaded', () => {
     const btnEn = document.getElementById('lang-en');
@@ -250,7 +275,7 @@ function updateTimeBasedStats() {
     }
     // --- CAREER STATS CALCULATION ---
     // Calculate Experience
-    let expYears = now.getFullYear() - careerStartDate.getFullYear();
+    let expYears = now.getFullYear() - careerStartDate.getFullYear() - 1.5;
     let expMonths = now.getMonth() - careerStartDate.getMonth();
     if (expMonths < 0) {
         expYears--;
@@ -260,8 +285,8 @@ function updateTimeBasedStats() {
     const expEl = document.getElementById('dynamic-exp');
     if(expEl) expEl.innerText = `${expYears}+`;
     // Calculate Projects (Approximate rate: 1.5 projects per month since start)
-    const totalMonthsSinceStart = (expYears * 12) + expMonths;
-    const estimatedProjects = Math.floor(totalMonthsSinceStart * 1.5) + 20; // +20 base
+    const totalMonthsSinceStart = (expYears * 5) + expMonths;
+    const estimatedProjects = Math.floor(totalMonthsSinceStart * 1.2) + 25; // +20 base
     const projEl = document.getElementById('dynamic-projects');
     if(projEl) projEl.innerText = `${estimatedProjects}+`;
 }

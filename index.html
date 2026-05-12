@@ -9,7 +9,7 @@
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='%23fff' font-family='system-ui' font-weight='800'>D</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='900'%3EM%3C/text%3E%3C/svg%3E">
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -29,17 +29,26 @@
         <div class="text-xs font-mono mt-4 tracking-widest uppercase opacity-50">Loading Interface</div>
     </div>
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white opacity-0" id="navbar">
-        <div class="text-2xl font-black tracking-tighter uppercase cursor-pointer hover:opacity-70 transition-opacity">MARC.S</div>
-        <div class="hidden md:flex gap-8 font-mono text-sm">
-            <a href="#about" class="hover:underline underline-offset-4">ABOUT</a>
-            <a href="#works" class="hover:underline underline-offset-4">WORKS</a>
-            <a href="#contact" class="hover:underline underline-offset-4">CONTACT</a>
+<nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white opacity-0" id="navbar">
+    <div class="text-2xl font-black tracking-tighter uppercase cursor-pointer hover:opacity-70 transition-opacity">MARC.S</div>
+    
+    <div class="hidden md:flex gap-8 font-mono text-sm">
+        <a href="#about" class="hover:underline underline-offset-4" data-en="ABOUT" data-de="ÜBER MICH">ABOUT</a>
+        <a href="#works" class="hover:underline underline-offset-4" data-en="WORKS" data-de="PROJEKTE">WORKS</a>
+        <a href="#contact" class="hover:underline underline-offset-4" data-en="CONTACT" data-de="KONTAKT">CONTACT</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+        <div class="flex items-center font-mono text-[10px] border border-white/30 rounded-full p-1 bg-white/10">
+            <button id="lang-en" class="cursor-pointer px-2 py-1 rounded-full bg-white text-black transition-all duration-300">EN</button>
+            <button id="lang-de" class="cursor-pointer px-2 py-1 rounded-full hover:text-gray-400 transition-all duration-300">DE</button>
         </div>
-        <div class="text-xs font-mono border border-white/30 px-3 py-1 rounded-full">
+
+        <div class="hidden sm:block text-xs font-mono border border-white/30 px-3 py-1 rounded-full whitespace-nowrap" data-en="AVAILABLE FOR WORK" data-de="VERFÜGBAR FÜR PROJEKTE">
             AVAILABLE FOR WORK
         </div>
-    </nav>
+    </div>
+</nav>
     <main class="relative z-10 w-full overflow-hidden">
 
          <!-- Hero Section -->
@@ -53,7 +62,9 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
         <div class="order-2 lg:order-1 space-y-6">
             <div class="overflow-hidden">
-                <h2 class="text-xl text-gray-500 font-mono hero-reveal">Hello, I am</h2>
+                <h2 class="text-xl text-gray-500 font-mono hero-reveal" 
+                data-en="Hello, I am" 
+                data-de="Hallo, ich bin">Hello, I am</h2>
             </div>
             <div class="relative">
                 <h1 class="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4">
@@ -66,10 +77,10 @@
                 <span class="text-xl md:text-2xl font-mono" id="typewriter"></span>
             </div>
             <div class="pt-8 flex flex-col sm:flex-row gap-6 hero-reveal">
-                <a href="#contact" class="magnetic-btn px-10 py-4 bg-black text-white font-bold hover:bg-gray-900 transition-colors shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] border border-black text-center">
+                <a href="#contact" class="magnetic-btn px-10 py-4 bg-black text-white font-bold hover:bg-gray-900 transition-colors shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] border border-black text-center" data-en="START A PROJECT" data-de="STARTE EIN PROJEKT">
                     START A PROJECT
                 </a>
-                <a href="#about" class="magnetic-btn px-10 py-4 border border-black font-bold hover:bg-black hover:text-white transition-all text-center">
+                <a href="#about" class="magnetic-btn px-10 py-4 border border-black font-bold hover:bg-black hover:text-white transition-all text-center" data-en="VIEW PROFILE" data-de="ZUM PROFIL">
                     VIEW PROFILE
                 </a>
             </div>
@@ -82,7 +93,7 @@
 
                     <!-- Overlay Lines -->
                     <div class="absolute inset-0 border border-white/20 pointer-events-none"></div>
-                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 text-xs font-mono font-bold border border-black">
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 text-xs font-mono font-bold border border-black" data-en="SCROLL TO EXPLORE" data-de="SCROLL NACH UNTEN">
                         SCROLL TO EXPLORE
                     </div>
                 </div>
@@ -117,18 +128,20 @@
                             BORN IN <br>
                             <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-800">OBERSTDORF</span>
                         </h2>
-                        <p class="text-xl text-gray-600 leading-relaxed mb-10 max-w-md" data-gsap="fade">
+                        <p class="text-xl text-gray-600 leading-relaxed mb-10 max-w-md" data-gsap="fade" 
+                        data-en="Bachelor’s graduate in Media Design, based in Sonthofen. Combining my experience and creativity to create exceptional digital experiences." 
+                        data-de="Bachelor-Absolvent im Bereich Mediendesign, wohnhaft in Sonthofen. Ich kombiniere meine Erfahrung und Kreativität, um außergewöhnliche digitale Erlebnisse zu schaffen.">
                             Bachelor’s graduate in Media Design, based in Sonthofen. Combining my experience and creativity to create exceptional digital experiences.
                         </p>
                         <!-- Stats -->
                         <div class="grid grid-cols-2 gap-8 mb-12">
                             <div class="border-l-2 border-black pl-6" data-gsap="fade">
                                 <div class="text-4xl font-bold mb-2" id="dynamic-projects">0+</div>
-                                <div class="text-sm font-mono text-gray-500">PROJECTS DONE</div>
+                                <div class="text-sm font-mono text-gray-500" data-en="PROJECTS DONE" data-de="ERLEDIGTE PROJEKTE">PROJECTS DONE</div>
                             </div>
                             <div class="border-l-2 border-black pl-6" data-gsap="fade">
                                 <div class="text-4xl font-bold mb-2" id="dynamic-exp">0+</div>
-                                <div class="text-sm font-mono text-gray-500">YEARS EXP.</div>
+                                <div class="text-sm font-mono text-gray-500" data-en="YEARS EXP." data-de="JAHRE ERFAHRUNG">YEARS EXP.</div>
                             </div>
                         </div>
                     </div>
@@ -161,33 +174,33 @@
             <div class="container mx-auto px-6 text-center relative z-10">
                 <div class="mb-12">
                     <h3 class="text-sm font-mono uppercase tracking-[0.3em] text-gray-400 mb-2">System Runtime</h3>
-                    <h2 class="text-3xl md:text-5xl font-bold">LIFE CHRONOMETER</h2>
+                    <h2 class="text-3xl md:text-5xl font-bold" data-en="LIFE CHRONOMETER" data-de="LEBENSCHRONOMETER">LIFE CHRONOMETER</h2>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
                     <!-- Unit Block -->
                     <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
                         <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="years">00</div>
-                        <div class="text-xs uppercase text-gray-500 mt-2">Years</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Years" data-de="Jahre">Years</div>
                     </div>
                     <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
                         <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="months">00</div>
-                        <div class="text-xs uppercase text-gray-500 mt-2">Months</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Months" data-de="Monate">Months</div>
                     </div>
                     <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
                         <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="days">00</div>
-                        <div class="text-xs uppercase text-gray-500 mt-2">Days</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Days" data-de="Tage">Days</div>
                     </div>
                     <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
                         <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="hours">00</div>
-                        <div class="text-xs uppercase text-gray-500 mt-2">Hours</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Hours" data-de="Stunden">Hours</div>
                     </div>
                     <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
                         <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="minutes">00</div>
-                        <div class="text-xs uppercase text-gray-500 mt-2">Minutes</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Minutes" data-de="Minuten">Minutes</div>
                     </div>
                     <div class="bg-white text-black p-6 border border-white rounded-lg relative overflow-hidden">
                         <div class="text-5xl md:text-6xl font-black font-mono age-digit relative z-10" id="seconds">00</div>
-                        <div class="text-xs uppercase text-gray-800 mt-2 relative z-10 font-bold">Seconds</div>
+                        <div class="text-xs uppercase text-gray-800 mt-2 relative z-10 font-bold" data-en="Seconds" data-de="Sekunden">Seconds</div>
                         <div class="absolute bottom-0 left-0 h-1 bg-black transition-all duration-1000 ease-linear w-full" id="sec-bar"></div>
                     </div>
                 </div>
@@ -200,7 +213,7 @@
         <section id="works" class="bg-white relative overflow-hidden">
             <div class="h-screen sticky top-0 flex items-center overflow-hidden" id="works-container">
                 <div class="absolute top-10 left-10 z-20">
-                    <h2 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-black to-gray-400 opacity-20">WORKS</h2>
+                    <h2 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-black to-gray-400 opacity-20" data-en="WORKS" data-de="PROJEKTE">WORKS</h2>
                 </div>
                 <div class="flex gap-20 px-20 pl-[20vw]" id="works-wrapper">
                     
@@ -222,7 +235,9 @@
                     after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none">
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
-                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8">
+                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="A project dedicated to gradient motion design where I explored liquid-like color shifts in After Effects. I experimented with various techniques to achieve these smooth, visually satisfying transitions, showing my ability to create modern, abstract visuals and high-quality motion textures." 
+                data-de="Ein Projekt, das sich dem Gradient Motion Design widmet, bei dem ich fließende Farbverläufe in After Effects erforscht habe. Ich habe mit verschiedenen Techniken experimentiert, um diese weichen, visuell ansprechenden Übergänge zu erzielen, und dabei meine Fähigkeit gezeigt, moderne, abstrakte Visuals und hochwertige Motion-Texturen zu gestalten.">
                     A project dedicated to gradient motion design where I explored liquid-like color shifts in After Effects. I experimented with various techniques to achieve these smooth, visually satisfying transitions, showing my ability to create modern, abstract visuals and high-quality motion textures.
                 </p>
             </div>
@@ -252,7 +267,9 @@
                     after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
-                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8">
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="Animated cinematic intro for my personal logo using After Effects. I used lighting and depth to turn a static design into a professional opening sequence, showing my skill in creating high-quality motion graphics that give a brand a more dramatic and polished feel." 
+                data-de="Animiertes, cineastisches Intro für mein persönliches Logo in After Effects. Durch den Einsatz von Licht und Tiefenwirkung habe ich ein statisches Design in eine professionelle Opening-Sequenz verwandelt und dabei meine Fähigkeit gezeigt, hochwertige Motion Graphics zu erstellen, die einer Marke einen dramatischeren und zugleich polierten Look verleihen.">
                     Animated cinematic intro for my personal logo using After Effects. I used lighting and depth to turn a static design into a professional opening sequence, showing my skill in creating high-quality motion graphics that give a brand a more dramatic and polished feel.
                 </p>
             </div>
@@ -292,7 +309,9 @@
                     after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none">
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
-                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8">
+                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="Logo and packaging designs for a personal protein brand called „Crive“. I built the entire brand look from scratch, combining clean typography with professional layouts to create a product that feels both modern and energetic." 
+                data-de="Logo- und Verpackungsdesigns für eine persönliche Proteinmarke namens „Crive“. Ich habe das gesamte Markenbild von Grund auf neu entwickelt und dabei klare Typografie mit professionellen Layouts kombiniert, um ein Produkt zu schaffen, das gleichermaßen modern und energiegeladen wirkt.">
                     Logo and packaging designs for a personal protein brand called "Crive." I built the entire brand look from scratch, combining clean typography with professional layouts to create a product that feels both modern and energetic.
                 </p>
             </div>
@@ -346,8 +365,10 @@
                     after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
-                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8">
-                    A website I built for my university game project, "Lifeline," to showcase the story, gameplay, and a gallery of work. It includes a journal section for behind-the-scenes updates, demonstrating my ability to organize a lot of different content into a clean, easy-to-navigate site.
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="A website I built for my university game project, „Lifeline“, to showcase the story, gameplay, and a gallery of work. It includes a journal section for behind-the-scenes updates, demonstrating my ability to organize a lot of different content into a clean, easy-to-navigate site." 
+                data-de="Eine Website, die ich für mein Universitäts-Spielprojekt „Lifeline“ erstellt habe, um die Story, das Gameplay und eine Galerie meiner Arbeiten zu präsentieren. Sie enthält außerdem einen Journal-Bereich mit Einblicken hinter die Kulissen und zeigt meine Fähigkeit, umfangreiche Inhalte übersichtlich und benutzerfreundlich zu strukturieren.">
+                    A website I built for my university game project, "Lifeline", to showcase the story, gameplay, and a gallery of work. It includes a journal section for behind-the-scenes updates, demonstrating my ability to organize a lot of different content into a clean, easy-to-navigate site.
                 </p>
             </div>
         </div>
@@ -387,7 +408,9 @@
                     after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none">
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
-                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8">
+                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="A series of thumbnails I created in Adobe Photoshop for social media, focusing on clear layouts and bold text to make them stand out. This project shows my skill in blending images and designing eye-catching visuals that help content get noticed in a busy feed." 
+                data-de="Eine Reihe von Thumbnails, die ich in Adobe Photoshop für soziale Medien erstellt habe, mit Fokus auf klaren Layouts und auffälliger Typografie, um sie hervorzuheben. Dieses Projekt zeigt meine Kompetenz, Bilder zu kombinieren und aufmerksamkeitsstarke Designs zu entwickeln, die Inhalte in einem überfüllten Feed sichtbar machen.">
                     A series of thumbnails I created in Adobe Photoshop for social media, focusing on clear layouts and bold text to make them stand out. This project shows my skill in blending images and designing eye-catching visuals that help content get noticed in a busy feed.
                 </p>
             </div>
@@ -442,7 +465,9 @@
                     after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
-                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8">
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="100,000 followers on TikTok reached in under three months, shown through a dashboard of my account’s growth and analytics. It reflects my interest in tracking social media trends and learning what type of content connects with an audience to help a channel grow." 
+                data-de="100.000 Follower auf TikTok in weniger als drei Monaten erreicht, dargestellt anhand eines Dashboards zum Wachstum und zu den Analysen meines Accounts. Dies spiegelt mein Interesse daran wider, Social-Media-Trends zu verfolgen und zu verstehen, welche Inhalte bei einem Publikum ankommen, um das Wachstum eines Kanals zu fördern.">
                     100,000 followers on TikTok reached in under three months, shown through a dashboard of my account’s growth and analytics. It reflects my interest in tracking social media trends and learning what type of content connects with an audience to help a channel grow.
                 </p>
             </div>
@@ -472,8 +497,11 @@
     <div class="w-full md:w-1/2 flex justify-end order-1 md:order-1">
         <div class="p-8 border border-gray-200 bg-white shadow-lg hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 w-full md:w-80">
             <i class="ri-pen-nib-fill text-5xl mb-4"></i>
-            <h3 class="text-2xl font-bold mb-2">Graphic Design</h3>
-            <p class="text-sm text-gray-500">Visual storytelling through branding, logos, and digital illustrations.</p>
+            <h3 class="text-2xl font-bold mb-2" data-en="Graphic Design" data-de="Grafik Design">Graphic Design</h3>
+            <p class="text-sm text-gray-500" 
+            data-en="Visual storytelling through branding, logos, and digital illustrations." 
+            data-de="Visuelles Storytelling durch Branding, Logos und digitale Illustrationen.">
+            Visual storytelling through branding, logos, and digital illustrations.</p>
         </div>
     </div>
 
@@ -495,7 +523,10 @@
                             <div class="p-8 border border-gray-200 bg-white shadow-lg hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 w-full md:w-80">
                                 <i class="ri-layout-2-fill text-5xl mb-4"></i>
                                 <h3 class="text-2xl font-bold mb-2">UI/UX Design</h3>
-                                <p class="text-sm text-gray-500">Creating intuitive interfaces and seamless user journeys. Accessibility focused.</p>
+                                <p class="text-sm text-gray-500" 
+                                data-en="Creating intuitive interfaces and seamless user journeys. Accessibility focused." 
+                                data-de="Entwicklung intuitiver Interfaces und durchgängiger User Journeys mit Schwerpunkt auf Barrierefreiheit.">
+                                Creating intuitive interfaces and seamless user journeys. Accessibility focused.</p>
                             </div>
                         </div>
                         <div class="w-4 h-4 bg-black rounded-full border-4 border-white z-20 order-2 md:order-2"></div>
@@ -515,7 +546,10 @@
                             <div class="p-8 border border-gray-200 bg-white shadow-lg hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 w-full md:w-80">
                                 <img src="public\8350470.png" width="50px" height="50px">
                                 <h3 class="text-2xl font-bold mb-2">Video Editing</h3>
-                                <p class="text-sm text-gray-500">Creative storytelling through precise editing, color, and sound.</p>
+                                <p class="text-sm text-gray-500" 
+                                data-en="Creative storytelling through precise editing, color, and sound." 
+                                data-de="Kreatives Storytelling durch präzise Montage, Farbgestaltung und Ton.">
+                                Creative storytelling through precise editing, color, and sound.</p>
                             </div>
                         </div>
                         <div class="w-4 h-4 bg-black rounded-full border-4 border-white z-20 order-2 md:order-2"></div>
@@ -536,7 +570,7 @@
 <section id="contact" class="py-32 bg-black text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
     <div class="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-        <h2 class="text-6xl md:text-9xl font-black mb-12 hover:tracking-wide transition-all duration-500 cursor-default">GET IN TOUCH</h2>
+        <h2 class="text-6xl md:text-9xl font-black mb-12 hover:tracking-wide transition-all duration-500 cursor-default" data-en="GET IN TOUCH" data-de="MELDE DICH">GET IN TOUCH</h2>
         
 <div class="flex flex-wrap justify-center gap-8 mb-20">
     <a href="https://github.com/siegfried-marc" target="_blank" 

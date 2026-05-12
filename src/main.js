@@ -26,8 +26,9 @@ let cursorX = 0, cursorY = 0;
 window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    // Dot follows instantly
-    gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 });
+    
+    // Using set is more performant for instant following
+    gsap.set(cursorDot, { x: mouseX, y: mouseY });
 });
 // Smooth outline follow loop
 function animateCursor() {
@@ -120,6 +121,34 @@ setTimeout(() => {
         gsap.set("#navbar", { autoAlpha: 1 });
     }
 }, 5000);
+
+// Language Slider
+document.addEventListener('DOMContentLoaded', () => {
+    const btnEn = document.getElementById('lang-en');
+    const btnDe = document.getElementById('lang-de');
+    
+    const translate = (lang) => {
+        // Toggle button styles
+        if (lang === 'de') {
+            btnDe.classList.add('bg-white', 'text-black');
+            btnEn.classList.remove('bg-white', 'text-black');
+        } else {
+            btnEn.classList.add('bg-white', 'text-black');
+            btnDe.classList.remove('bg-white', 'text-black');
+        }
+
+        // Find all elements with data-en or data-de
+        document.querySelectorAll('[data-en]').forEach(el => {
+            el.textContent = el.getAttribute(`data-${lang}`);
+        });
+
+        // Optional: Update typewriter strings if you use them in your main.js
+        // if (lang === 'de') window.typewriterStrings = ["Entwickler", "Designer"];
+    };
+
+    btnEn.addEventListener('click', () => translate('en'));
+    btnDe.addEventListener('click', () => translate('de'));
+});
 
 // 4. Parallax Elements
 gsap.utils.toArray('.parallax-element').forEach(el => {

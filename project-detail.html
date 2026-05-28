@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Project Detail | Marc Siegfried</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='900'%3EM%3C/text%3E%3C/svg%3E">
+    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <link rel="stylesheet" href="./src/main.css">
+
+    <style>
+        body {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-black selection:text-white bg-white text-[#111111]">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white" id="detail-navbar">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase hover:opacity-70 transition-opacity">MARC.S</a>
+        
+        <div class="flex items-center gap-4">
+            <div class="flex items-center font-mono text-[10px] border border-white/30 rounded-full p-1 bg-white/10">
+                <button id="lang-en" class="cursor-pointer px-2 py-1 rounded-full bg-white text-black transition-all duration-300">EN</button>
+                <button id="lang-de" class="cursor-pointer px-2 py-1 rounded-full hover:text-gray-400 transition-all duration-300">DE</button>
+            </div>
+            
+            <a href="index.html#works" class="group flex items-center gap-2 font-mono text-sm border border-white/30 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300 whitespace-nowrap">
+                <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i> 
+                <span data-en="BACK TO PROJECTS" data-de="ZURÜCK ZU PROJEKTEN">BACK TO PROJECTS</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="w-full">
+        <header class="min-h-[80vh] flex flex-col justify-end relative px-6 md:px-20 pb-16 grid-bg border-b border-gray-200">
+            <div class="max-w-5xl space-y-4 relative z-10">
+                <div class="inline-block bg-black text-white text-xs font-mono px-3 py-1 uppercase tracking-widest" id="project-category">---</div>
+                <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-none" id="project-title">---</h1>
+                <p class="text-xl md:text-2xl text-gray-500 font-mono max-w-2xl pt-4" id="project-tagline">---</p>
+            </div>
+        </header>
+
+        <section class="border-b border-gray-200 bg-gray-50 font-mono text-xs md:text-sm">
+            <div class="container mx-auto px-6 md:px-20 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div>
+                    <span class="block text-gray-400 uppercase tracking-wider mb-1" data-en="Role" data-de="Rolle">Role</span>
+                    <span class="font-bold text-black" id="meta-role">---</span>
+                </div>
+                <div>
+                    <span class="block text-gray-400 uppercase tracking-wider mb-1" data-en="Timeline" data-de="Zeitraum">Timeline</span>
+                    <span class="font-bold text-black" id="meta-timeline">---</span>
+                </div>
+                <div>
+                    <span class="block text-gray-400 uppercase tracking-wider mb-1" data-en="Tools Used" data-de="Tools">Tools Used</span>
+                    <span class="font-bold text-black" id="meta-tools">---</span>
+                </div>
+                <div>
+                    <span class="block text-gray-400 uppercase tracking-wider mb-1">Context</span>
+                    <span class="font-bold text-black" id="meta-context">---</span>
+                </div>
+            </div>
+        </section>
+
+        <article class="container mx-auto px-6 md:px-20 py-24 max-w-5xl space-y-24">
+            
+            <div class="w-full aspect-[16/9] bg-gray-100 overflow-hidden border border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,0.1)]" data-detail-gsap="fade-up" id="hero-media-container"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-start" data-detail-gsap="fade-up">
+                <div class="md:col-span-1 border-l-2 border-black pl-4">
+                    <h3 class="font-mono font-bold text-xs uppercase tracking-widest text-gray-400">01 // CONTEXT</h3>
+                    <h2 class="text-2xl font-black mt-2" data-en="The Brief" data-de="Das Projekt">The Brief</h2>
+                </div>
+                <div class="md:col-span-2 text-lg text-gray-600 leading-relaxed space-y-6" id="chapter-1-text"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-detail-gsap="fade-up" id="mid-grid-container"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-start" data-detail-gsap="fade-up">
+                <div class="md:col-span-1 border-l-2 border-black pl-4">
+                    <h3 class="font-mono font-bold text-xs uppercase tracking-widest text-gray-400">02 // PROCESS</h3>
+                    <h2 class="text-2xl font-black mt-2" data-en="Execution" data-de="Umsetzung">Execution</h2>
+                </div>
+                <div class="md:col-span-2 text-lg text-gray-600 leading-relaxed space-y-6">
+                    <div id="chapter-2-text"></div>
+                    <blockquote class="border-l-4 border-black font-mono text-sm bg-gray-50 p-6 my-4 text-black italic" id="project-quote">"---"</blockquote>
+                </div>
+            </div>
+
+            <div class="w-full aspect-[21/9] bg-gray-100 overflow-hidden border border-gray-200" data-detail-gsap="fade-up" id="panoramic-container"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-start" data-detail-gsap="fade-up">
+                <div class="md:col-span-1 border-l-2 border-black pl-4">
+                    <h3 class="font-mono font-bold text-xs uppercase tracking-widest text-gray-400">03 // OUTCOME</h3>
+                    <h2 class="text-2xl font-black mt-2" data-en="Reflections" data-de="Fazit">Reflections</h2>
+                </div>
+                <div class="md:col-span-2 text-lg text-gray-600 leading-relaxed space-y-6" id="chapter-3-text"></div>
+            </div>
+
+        </article>
+
+        <footer class="bg-black text-white py-24 text-center border-t border-gray-800">
+            <div class="container mx-auto px-6 max-w-xl space-y-6">
+                <h3 class="font-mono text-xs text-gray-400 uppercase tracking-widest" data-en="FINISHED WITH THIS INSIGHT?" data-de="FERTIG MIT DIESEM EINBLICK?">FINISHED WITH THIS INSIGHT?</h3>
+                <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight" data-en="Explore more projects" data-de="Weitere Projekte ansehen">Explore more projects</h2>
+                <div class="pt-4">
+                    <a href="index.html#works" class="magnetic-btn px-8 py-4 bg-white text-black font-bold hover:bg-gray-200 transition-colors inline-block" data-en="RETURN TO PORTFOLIO" data-de="ZURÜCK ZUM PORTFOLIO">
+                        RETURN TO PORTFOLIO
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script type="module">
+        // ==========================================================================
+        //  EASY EDIT DATABASE: CONTENT CATALOG FOR YOUR PROJECTS
+        // ==========================================================================
+        const projectCatalog = {
+            "gradients": {
+                en: {
+                    title: "Gradient Motion\nDesign Study",
+                    category: "Motion Design",
+                    tagline: "Exploring abstract liquid color shifts and procedural motion transitions in After Effects.",
+                    role: "Motion Designer",
+                    context: "Personal Case Study",
+                    chapter1: "<p>Static brand implementations often lose their depth in immersive media streams. The objective of this project was to establish a framework that bridges fluid textures with design principles.</p>",
+                    chapter2: "<p>By combining vector masks with complex noise mapping inside After Effects, I generated algorithmic liquid color interactions.</p>",
+                    quote: "The goal wasn't just motion for motion's sake — it was about engineering a captivating color dynamic.",
+                    chapter3: "<p>The results demonstrated that procedural movement significantly amplifies user engagement metrics.</p>"
+                },
+                de: {
+                    title: "Gradient Motion\nDesign Studie",
+                    category: "Motion Design",
+                    tagline: "Untersuchung abstrakter, flüssiger Farbübergänge und prozeduraler Bewegungsmuster in After Effects.",
+                    role: "Motion Designer",
+                    context: "Persönliches Projekt",
+                    chapter1: "<p>Statische Markeninszenierungen verlieren in digitalen Medien oft an Tiefe. Ziel dieses Projekts war es, eine Struktur zu schaffen, die fließende Texturen mit Designprinzipien verbindet.</p>",
+                    chapter2: "<p>Durch die Kombination von Vektormasken mit komplexem Noise-Mapping in After Effects habe ich algorithmische Interaktionen erzeugt.</p>",
+                    quote: "Das Ziel war nicht einfach Bewegung um der Bewegung willen — es ging darum, eine spannende Farbdynamik zu entwickeln",
+                    chapter3: "<p>Die Ergebnisse zeigten, dass prozedurale Bewegungen die Verweildauer der Nutzer messbar steigern.</p>"
+                },
+                timeline: "2 Weeks",
+                tools: "After Effects",
+                heroMedia: { type: 'video', src: 'public/gradients.mp4' },
+                gridMedia: [
+                    { type: 'video', src: 'public/motiondesign1.mp4' },
+                    { type: 'video', src: 'public/motiondesign2.mp4' }
+                ],
+                bannerImg: "public/motiondesign3.mp4"
+            },
+            "logos": {
+                en: {
+                    title: "Logo Intro\nAnimation",
+                    category: "Motion Design",
+                    tagline: "Creating high-impact cinematic idents and reveal animations for absolute brand recognition.",
+                    role: "Motion Designer",
+                    context: "Brand Asset",
+                    chapter1: "<p>Animated cinematic intro for my personal logo identity. I focused on spatial contrast to turn static structures into clean motion branding highlights.</p>",
+                    chapter2: "<p>Utilizing precise ease-curves and temporal layer offsets inside linear production spaces to ensure snappy pacing.</p>",
+                    quote: "Simplicity in layout, absolute impact in motion.",
+                    chapter3: "<p>Logo animation brings brands to life, making them more memorable and impactful for audiences.</p>"
+                },
+                de: {
+                    title: "Logo Intro\nAnimation",
+                    category: "Motion Design",
+                    tagline: "Erstellung ausdrucksstarker, filmischer Idents und Reveal-Animationen für maximalen Markenwiedererkennungswert.",
+                    role: "Motion Designer",
+                    context: "Brand Asset",
+                    chapter1: "<p>Animiertes, filmisches Intro für mein persönliches Logo. Ich habe mich auf räumliche Kontraste konzentriert, um statische Strukturen in saubere Motion-Branding-Highlights zu verwandeln.</p>",
+                    chapter2: "<p>Nutzung präziser Speed-Curves und zeitlicher Ebenen-Offsets in Produktionsräumen, um ein knackiges Pacing zu garantieren.</p>",
+                    quote: "Einfachheit im Layout, absolute Wirkung in der Bewegung.",
+                    chapter3: "<p>Logo-Animationen erwecken Marken zum Leben und machen sie für das Publikum einprägsamer und wirkungsvoller.</p>"
+                },
+                timeline: "3 Weeks",
+                tools: "After Effects, Premiere Pro",
+                heroMedia: { type: 'video', src: 'public/logos.mp4' },
+                gridMedia: [
+                    { type: 'image', src: 'public/logoani_white.mp4' },
+                    { type: 'image', src: 'public/logoani_white2.mp4' }
+                ],
+                bannerImg: "public/Glitch Logo Animation.mp4"
+            },
+            "packaging": {
+                en: {
+                    title: "Brand & Packaging\nDesign Case Study",
+                    category: "Packaging Design / Branding",
+                    tagline: "Creating clean typography, minimalist layouts, and modern visual assets for a fictional brand.",
+                    role: "Lead Conceptor & Designer",
+                    context: "Fictional Case Study",
+                    chapter1: "<p>The goal of this project was to design a modern, clean visual identity for 'Crive' — a fictional brand that sells protein powder and protein gummies. The focus was to step away from busy, crowded supplement layouts and create something purely modern and minimalist.</p>",
+                    chapter2: "<p>The design relies on strong typographic hierarchies, clean layout grids, and a high-contrast color system. By balancing a lot of whitespace with sharp geometry, the final packaging looks premium, highly structured, and stands out effortlessly on both retail shelves and digital feeds.</p>",
+                    quote: "Good packaging design is simple — it structures information perfectly and lets clean typography do the heavy lifting.",
+                    chapter3: "<p>The finished project showcases how a cohesive design system can be applied across different packaging shapes and formats, resulting in a distinct, modern product lineup that looks clean from every angle.</p>"
+                },
+                de: {
+                    title: "Brand & Packaging\nDesign Case Study",
+                    category: "Verpackungsdesign / Branding",
+                    tagline: "Erstellung klarer Typografie, minimalistischer Layouts und moderner Grafiken für eine fiktive Marke.",
+                    role: "Konzeption & Design",
+                    context: "Fiktive Case Study",
+                    chapter1: "<p>Ziel dieses Projekts war es, eine moderne und saubere visuelle Identität für 'Crive' zu entwickeln – eine fiktive Marke, die Proteinpulver und Protein-Gummies verkauft. Der Fokus lag darauf, sich von überladenen Supplement-Layouts abzuheben und ein absolut minimalistisches Design zu kreieren.</p>",
+                    chapter2: "<p>Das Design setzt auf starke typografische Hierarchien, klare Layoutraster und ein kontrastreiches Farbsystem. Durch das Zusammenspiel von viel Freiraum und präziser Geometrie wirkt die Verpackung hochwertig, strukturiert und fällt sowohl im Regal als auch in digitalen Feeds sofort auf.</p>",
+                    quote: "Gutes Verpackungsdesign ist einfach – es strukturiert Informationen perfekt und lässt klare Typografie die Arbeit machen.",
+                    chapter3: "<p>Das fertige Projekt zeigt, wie ein konsistentes Designsystem auf verschiedene Verpackungsformen angewendet werden kann, sodass eine saubere, moderne Produktlinie entsteht, die aus jedem Blickwinkel überzeugt.</p>"
+                },
+                timeline: "4 Weeks",
+                tools: "Illustrator, Photoshop",
+                heroMedia: { type: 'video', src: 'public/circle_motions2w.mp4' }, 
+                gridMedia: [
+                    { type: 'image', src: 'public/Crive_gummies_w.png' },
+                    { type: 'image', src: 'public/Crive_logo_horizontal.png' }
+                ],
+                bannerImg: "public/Crive_showcase_w.png"
+            },
+            "webdesign": {
+                en: {
+                    title: "Minimalist Web\nInterfaces",
+                    category: "Web Design / UI & UX",
+                    tagline: "Engineering clean typography, balanced whitespace, and interactive layouts for digital experiences.",
+                    role: "UI/UX Designer & Developer",
+                    context: "Production Framework",
+                    chapter1: "<p>Interface design often suffers from visual clutter that distracts from the core content. For this project, we made a website for our semester game project, that utilize grid hierarchies to make browsing effortless and visually calming.</p>",
+                    chapter2: "<p>The design mixes a clean, modern look with simple interactive touches. The layouts are well-structured and adjust smoothly, so everything stays easy to read on both large screens and small phones.</p>",
+                    quote: "Design is not what it looks like; it's how it structures information and behavior.",
+                    chapter3: "<p>By establishing a strict layout system, the interface increases user navigation speed and creates an instantly recognizable digital identity.</p>"
+                },
+                de: {
+                    title: "Minimalistische\nWeb-Interfaces",
+                    category: "Webdesign / UI & UX",
+                    tagline: "Entwicklung klarer Typografie, harmonischer Freiräume und interaktiver Layouts für digitale Erlebnisse.",
+                    role: "UI/UX Designer & Entwickler",
+                    context: "Produktions-Framework",
+                    chapter1: "<p>Interface-Design leidet oft unter visuellem Ballast, der vom wesentlichen Inhalt ablenkt. Dieses Projekt untersucht Content-First-Layouts, die eine klare Rasterhierarchie nutzen, um das Navigationserlebnis mühelos und visuell beruhigend zu gestalten.</p>",
+                    chapter2: "<p>Das Design verbindet ein klares, modernes Erscheinungsbild mit einfachen interaktiven Elementen. Die Layouts sind gut strukturiert und passen sich nahtlos an, sodass alles sowohl auf großen Bildschirmen als auch auf kleinen Smartphones gut lesbar bleibt.</p>",
+                    quote: "Design bestimmt nicht nur, wie etwas aussieht, sondern wie es Informationen und Interaktionen strukturiert.",
+                    chapter3: "<p>Durch die Etablierung eines strikten Layoutsystems optimiert die Benutzeroberfläche die Navigationsgeschwindigkeit der Nutzer und schafft eine sofort wiedererkennbare digitale Identität.</p>"
+                },
+                timeline: "1 Semester",
+                tools: "Unity, HTML, CSS, Tailwind",
+                heroMedia: { type: 'video', src: 'public/lifeline_website.mp4' },
+                gridMedia: [
+                    { type: 'image', src: 'public/lifeline_website_about.png' },
+                    { type: 'image', src: 'public/lifeline_website_features.png' }
+                ],
+                bannerImg: "public/lifeline_website_journal.png"
+            },
+            "thumbnails": {
+                en: {
+                    title: "High-Conversion\nThumbnails",
+                    category: "Social Media Marketing / Graphic Design",
+                    tagline: "Crafting scroll-stopping thumbnails that turn fleeting glances into bold visuals, sharp storytelling, and a touch of curiosity in every frame",
+                    role: "Visual Designer & Content Strategist",
+                    context: "Growth Architecture",
+                    chapter1: "<p>In fast-paced media feeds, a thumbnail must communicate a complex narrative in less than a second. With my thumbnails, I translate layered ideas into bold, immediate visuals that stop the scroll and spark curiosity, no matter the topic.</p>",
+                    chapter2: "<p>The process involves extracting high-contrast visual subjects and surrounding them with dynamic lighting. Elements are scaled and positioned based on visibility to make sure they stand out even at tiny mobile dimensions.</p>",
+                    quote: "A great thumbnail acts as a cinematic window — it establishes intrigue and expectations instantly.",
+                    chapter3: "<p>Implementing these structured layout assets directly results to organic click-through rates, serving as a core foundation for fast growth on social media channels.</p>"
+                },
+                de: {
+                    title: "High-Conversion\nThumbnails",
+                    category: "Social Media Marketing / Grafikdesign",
+                    tagline: "Klare und auffällige Thumbnails, die sofort Aufmerksamkeit bekommen. Mit starken Bildern, klarer Story und ein bisschen Neugier in jedem Bild",
+                    role: "Visual Designer & Content Strategist",
+                    context: "Wachstums-Architektur",
+                    chapter1: "<p>In schnelllebigen Medienfeeds muss ein Thumbnail in weniger als einer Sekunde eine komplexe Geschichte vermitteln. Mit meinen Thumbnails übersetze ich vielschichtige Ideen in klare, sofort verständliche Visuals, die den Scroll stoppen und Neugier wecken – unabhängig vom Thema.</p>",
+                    chapter2: "<p>Der Prozess basiert auf dem Freistellen kontrastreicher Bildelemente umgeben von dynamischer Lichtsetzung. Die Objekte werden nach Sichtbarkeit skaliert und positioniert, damit sie auch in minimalen mobilen Größen wirken.</p>",
+                    quote: "Ein großartiges Thumbnail fungiert als filmisches Fenster – es weckt sofort Neugier und Erwartungen.",
+                    chapter3: "<p>Die Implementierung dieser Asset-Strukturen führte zu steigenden organischen Klickraten und bildete das Fundament für Wachstum auf Social-Media-Kanälen.</p>"
+                },
+                timeline: "Continuous",
+                tools: "Photoshop, Stable Diffusion",
+                heroMedia: { type: 'image', src: 'public/student-job_thumbnail_g.png' },
+                gridMedia: [
+                    { type: 'image', src: 'public/motion-design_thumbnail.png' },
+                    { type: 'image', src: 'public/graphic-design_thumbnail.png' }
+                ],
+                bannerImg: "public/circle_motions.mp4"
+            },
+            "programming": {
+                en: {
+                    title: "Custom Web Tools\n& Browser Extensions",
+                    category: "Software Development / JavaScript Utilities",
+                    tagline: "Building local-first browser utilities and custom ad filtration tools to eliminate external data dependencies.",
+                    role: "Frontend Developer",
+                    context: "Independent Software Utilities",
+                    chapter1: "<p>Most online file converters and utility sites force users to upload data to external servers, creating privacy risks and slow workflows. To solve this, I built a collection of standalone, browser-based tools that process everything locally. The suite includes a PDF merger, a dedicated JSON translator for game engines, and a batch asset merger that handles image collections and grid-based visual comparisons. I also integrated an open-source AI pipeline to build a vertical video shorts clipper capable of generating live captions directly on the client side.</p>",
+                    chapter2: "<p>Alongside the web utilities, I engineered a custom browser extension designed to reclaim total control over the web experience. It features built-in blocking for video streams, display ads, and intrusive pop-ups, combined with a custom right-click enabler that forcibly bypasses script restrictions to restore disabled context menus.</p>",
+                    quote: "Software should be local, fast, and secure. If a tool doesn't explicitly need a server backend, your data should never leave your machine.",
+                    chapter3: "<p>By keeping all processing and AI calculations strictly within the browser runtime, these utilities achieve instant execution speeds while guaranteeing absolute data privacy without external server dependencies.</p>"
+                },
+                de: {
+                    title: "Custom Web Tools\n& Browser Extensions",
+                    category: "Softwareentwicklung / JavaScript Utilities",
+                    tagline: "Entwicklung lokaler Web-Utilities und maßgeschneiderter Ad-Filtration-Tools zur unabhängigen Datenverarbeitung.",
+                    role: "Frontend-Entwickler & Toolsmith",
+                    context: "Unabhängige Software-Utilities",
+                    chapter1: "<p>Die meisten Online-Konverter zwingen Nutzer dazu, Daten auf externe Server hochzuladen, was zu Datenschutzrisiken und langsamen Workflows führt. Um das zu lösen, habe ich eine Reihe eigenständiger, browserbasierter Tools entwickelt, die Daten rein lokal verarbeiten. Die Suite umfasst einen PDF-Merger, einen speziellen JSON-Übersetzer für Game-Engines sowie einen Batch-Asset-Merger für Bildsammlungen und rasterbasierte visuelle Vergleiche. Zudem habe ich eine Open-Source-KI-Pipeline integriert, um einen Clipper für vertikale Videos (Shorts) inklusive Live-Untertiteln direkt auf Client-Seite umzusetzen.</p>",
+                    chapter2: "<p>Neben den Web-Tools habe ich eine eigene Browser-Erweiterung entwickelt, um die volle Kontrolle über das Surferlebnis zurückzugewinnen. Sie blockiert Videostreams, Display-Ads sowie nervige Pop-ups und enthält einen Right-Click-Enabler, der Skriptsperren umgeht, um deaktivierte Kontextmenüs wieder freizuschalten.</p>",
+                    quote: "Software sollte lokal, schnell und sicher sein. Wenn ein Tool kein Server-Backend benötigt, sollten die eigenen Daten den Rechner niemals verlassen.",
+                    chapter3: "<p>Da die gesamte Verarbeitung und die KI-Berechnungen strikt in der Browser-Runtime stattfinden, erreichen diese Tools maximale Geschwindigkeit bei absolutem Datenschutz – völlig ohne externe Serverabhängigkeiten.</p>"
+                },
+                timeline: "Continuous",
+                tools: "JavaScript, HTML5, CSS3, Chrome API",
+                heroMedia: [
+                    { type: 'image', src: 'public/tool_batch-merger.png' },
+                    { type: 'image', src: 'public/tool_rpgmaker-translation.png' },
+                    { type: 'image', src: 'public/tool_shorts-studio.png' }
+                ],
+                gridMedia: [
+                    { type: 'image', src: 'public/crive_adblock-popup2.png' },
+                    { type: 'image', src: 'public/tool_pdf-merger.png' }
+                ],
+                bannerImg: "public/tool_shorts-studio2.png"
+            }
+        };
+
+        // --- Core Page Logic Setup ---
+        const urlParams = new URLSearchParams(window.location.search);
+        let projectId = urlParams.get('id') || 'gradients';
+        if (!projectCatalog[projectId]) projectId = 'gradients';
+        
+        const project = projectCatalog[projectId];
+        let currentLang = 'en';
+
+        // Core Render Function
+        function renderProject(lang) {
+            const data = project[lang];
+            
+            document.getElementById('page-title').textContent = `${data.category} | ${data.title.replace('\n', ' ')}`;
+            document.getElementById('project-title').innerHTML = data.title.replace('\n', '<br>');
+            document.getElementById('project-category').textContent = data.category;
+            document.getElementById('project-tagline').textContent = data.tagline;
+            document.getElementById('meta-role').textContent = data.role;
+            document.getElementById('meta-context').textContent = data.context;
+            document.getElementById('chapter-1-text').innerHTML = data.chapter1;
+            document.getElementById('chapter-2-text').innerHTML = data.chapter2;
+            document.getElementById('project-quote').textContent = `"${data.quote}"`;
+            document.getElementById('chapter-3-text').innerHTML = data.chapter3;
+            
+            // Shared metadata injection
+            document.getElementById('meta-timeline').textContent = project.timeline;
+            document.getElementById('meta-tools').textContent = project.tools;
+
+            // Handle static elements with data-attributes
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+        }
+
+        // --- Dynamic Asset Injection Loop (Supporting Mixed Formats) ---
+        // --- NEW ADAPTIVE HERO MEDIA / SLIDESHOW ENGINE ---
+        const mediaContainer = document.getElementById('hero-media-container');
+
+        if (Array.isArray(project.heroMedia)) {
+            // 1. Render the slideshow structure with an absolute container and navigation dots
+            mediaContainer.innerHTML = `
+                <div class="relative w-full h-full overflow-hidden group">
+                    <div id="hero-slides-wrapper" class="flex w-full h-full transition-transform duration-700 ease-out">
+                        ${project.heroMedia.map(slide => `
+                            <div class="w-full h-full shrink-0">
+                                <img src="${slide.src}" class="w-full h-full object-cover" alt="Project Slide">
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Navigation Dots -->
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10 bg-black/20 backdrop-blur-xs px-3 py-1.5 rounded-full">
+                        ${project.heroMedia.map((_, index) => `
+                            <button class="slide-dot w-2 h-2 rounded-full bg-white/40 transition-all duration-300" data-slide="${index}"></button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // 2. Slideshow Mechanics
+            let currentSlide = 0;
+            const slidesWrapper = document.getElementById('hero-slides-wrapper');
+            const dots = document.querySelectorAll('.slide-dot');
+            const totalSlides = project.heroMedia.length;
+
+            function goToSlide(index) {
+                currentSlide = index;
+                // Shift slides horizontally
+                slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update dots visual state
+                dots.forEach((dot, idx) => {
+                    if (idx === currentSlide) {
+                        dot.classList.add('bg-white', 'w-4');
+                        dot.classList.remove('bg-white/40');
+                    } else {
+                        dot.classList.remove('bg-white', 'w-4');
+                        dot.classList.add('bg-white/40');
+                    }
+                });
+            }
+
+            // Connect dots click events
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const targetIndex = parseInt(e.target.getAttribute('data-slide'));
+                    goToSlide(targetIndex);
+                });
+            });
+
+            // Optional: Auto-play every 4 seconds
+            setInterval(() => {
+                let nextSlide = (currentSlide + 1) % totalSlides;
+                goToSlide(nextSlide);
+            }, 4000);
+
+            // Initialize the first active dot look
+            goToSlide(0);
+
+        } else {
+            // Fallback: Keep original behavior intact for all other projects
+            if (project.heroMedia.type === 'video') {
+                mediaContainer.innerHTML = `<video src="${project.heroMedia.src}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>`;
+            } else {
+                mediaContainer.innerHTML = `<img src="${project.heroMedia.src}" class="w-full h-full object-cover" alt="Project Asset">`;
+            }
+        }
+
+        const midGridContainer = document.getElementById('mid-grid-container');
+        const targetMediaArray = project.gridMedia || project.gridImages;
+
+        if (midGridContainer && targetMediaArray) {
+            midGridContainer.innerHTML = targetMediaArray.map(item => {
+                if (typeof item === 'object' && item.type === 'video') {
+                    return `
+                        <div class="aspect-square bg-gray-50 border border-gray-200 overflow-hidden relative">
+                            <video src="${item.src}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                        </div>
+                    `;
+                } else {
+                    const imgSrc = typeof item === 'object' ? item.src : item;
+                    
+                    if (imgSrc.endsWith('.mp4') || imgSrc.endsWith('.webm')) {
+                        return `
+                            <div class="aspect-square bg-gray-50 border border-gray-200 overflow-hidden relative">
+                                <video src="${imgSrc}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="aspect-square bg-gray-50 border border-gray-200 overflow-hidden relative group">
+                            <img src="${imgSrc}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Process Step">
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+
+        // Expanded Panoramic Injection Handler supporting both formats
+        const panoramicContainer = document.getElementById('panoramic-container');
+        if (panoramicContainer && project.bannerImg) {
+            const bannerPath = typeof project.bannerImg === 'object' ? project.bannerImg.src : project.bannerImg;
+            const isBannerVideo = (typeof project.bannerImg === 'object' && project.bannerImg.type === 'video') || 
+                                  bannerPath.endsWith('.mp4') || 
+                                  bannerPath.endsWith('.webm');
+
+            if (isBannerVideo) {
+                panoramicContainer.innerHTML = `<video src="${bannerPath}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>`;
+            } else {
+                panoramicContainer.innerHTML = `<img src="${bannerPath}" class="w-full h-full object-cover" alt="Banner Process Asset">`;
+            }
+        }
+
+        // Run Initial Build Execution
+        renderProject(currentLang);
+
+        // --- Translation Click Mechanics ---
+        const btnEn = document.getElementById('lang-en');
+        const btnDe = document.getElementById('lang-de');
+
+        function updateToggleStyles(lang) {
+            if (lang === 'de') {
+                btnDe.classList.add('bg-white', 'text-black');
+                btnEn.classList.remove('bg-white', 'text-black');
+            } else {
+                btnEn.classList.add('bg-white', 'text-black');
+                btnDe.classList.remove('bg-white', 'text-black');
+            }
+        }
+
+        btnEn.addEventListener('click', () => { currentLang = 'en'; renderProject('en'); updateToggleStyles('en'); });
+        btnDe.addEventListener('click', () => { currentLang = 'de'; renderProject('de'); updateToggleStyles('de'); });
+
+        // --- Smooth Scrolling & Cursor Engines ---
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            gsap.set(cursorDot, { x: mouseX, y: mouseY });
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            if(cursorOutline) {
+                cursorOutline.style.left = cursorX + "px";
+                cursorOutline.style.top = cursorY + "px";
+            }
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        gsap.registerPlugin(ScrollTrigger);
+        document.querySelectorAll('[data-detail-gsap="fade-up"]').forEach((element) => {
+            gsap.fromTo(element, { opacity: 0, y: 40 }, { 
+                opacity: 1, y: 0, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: element, start: "top 85%", toggleActions: "play none none none" }
+            });
+        });
+    </script>
+</body>
+</html>

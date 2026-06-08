@@ -275,7 +275,7 @@ function updateTimeBasedStats() {
     }
     // --- CAREER STATS CALCULATION ---
     // Calculate Experience
-    let expYears = now.getFullYear() - careerStartDate.getFullYear() - 1.5;
+    let expYears = now.getFullYear() - careerStartDate.getFullYear() - 2.5;
     let expMonths = now.getMonth() - careerStartDate.getMonth();
     if (expMonths < 0) {
         expYears--;
@@ -285,7 +285,7 @@ function updateTimeBasedStats() {
     const expEl = document.getElementById('dynamic-exp');
     if(expEl) expEl.innerText = `${expYears}+`;
     // Calculate Projects (Approximate rate: 1.5 projects per month since start)
-    const totalMonthsSinceStart = (expYears * 5) + expMonths;
+    const totalMonthsSinceStart = (expYears * 4) + expMonths;
     const estimatedProjects = Math.floor(totalMonthsSinceStart * 1.2) + 25; // +20 base
     const projEl = document.getElementById('dynamic-projects');
     if(projEl) projEl.innerText = `${estimatedProjects}+`;

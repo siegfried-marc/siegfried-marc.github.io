@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design & Interfaces | Marc Siegfried</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='900'%3EM%3C/text%3E%3C/svg%3E">
+    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .grid-bg {
+            background-color: #ffffff;
+            background-image: linear-gradient(to right, #f3f4f6 1px, transparent 1px),
+                              linear-gradient(to bottom, #f3f4f6 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .shadow-soft { box-shadow: 0px 10px 30px rgba(0,0,0,0.05); }
+        .shadow-hard { box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.1); }
+
+        /* Premium Minimalist Cyan-to-Blue Ambient Pulsing Aura for Panel Background */
+        .premium-glow-ring {
+            animation: breathingBlueGlow 4s ease-in-out infinite;
+            border-radius: 1rem;
+        }
+
+        @keyframes breathingBlueGlow {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(6, 182, 212, 0.15), 0 0 50px rgba(37, 99, 235, 0.08), 0 10px 30px rgba(0,0,0,0.02);
+            }
+            50% {
+                box-shadow: 0 0 45px rgba(6, 182, 212, 0.35), 0 0 80px rgba(37, 99, 235, 0.2), 0 15px 35px rgba(0,0,0,0.04);
+            }
+        }
+
+        /* Constant Infinite Horizontal Floating Animation for Center Indicator */
+        @keyframes constantHorizontalFloat {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(8px); }
+        }
+
+        /* Constant Infinite Vertical Floating Animation for Mobile Indicator */
+        @keyframes constantVerticalFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        .animate-float-horizontal {
+            animation: constantHorizontalFloat 2.5s ease-in-out infinite;
+        }
+
+        .animate-float-vertical {
+            animation: constantVerticalFloat 2.5s ease-in-out infinite;
+        }
+
+        /* Smooth Slideshow Track */
+        #slides-track {
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.85, 0, 0.15, 1);
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide-item {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-black selection:text-white bg-white text-[#111111] font-sans">
+
+    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase hover:opacity-70 transition-opacity">MARC.S</a>
+        
+        <div class="flex items-center gap-6">
+            <div class="flex items-center font-mono text-[10px] border border-white/30 rounded-full p-1 bg-white/10">
+                <button id="lang-en" class="cursor-pointer px-2.5 py-1 rounded-full bg-white text-black transition-all duration-300">EN</button>
+                <button id="lang-de" class="cursor-pointer px-2.5 py-1 rounded-full hover:text-gray-400 transition-all duration-300">DE</button>
+            </div>
+
+            <div class="hidden lg:block text-xs font-semibold uppercase tracking-widest px-4 py-2 opacity-60" data-en="Web Design & Interfaces" data-de="Webdesign & Interfaces">
+                Web Design & Interfaces
+            </div>
+            
+            <a href="index.html#works" class="group hidden md:flex items-center gap-2 text-sm font-semibold border border-white/30 px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all duration-300 whitespace-nowrap">
+                <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i> 
+                <span data-en="Back to Portfolio" data-de="Zurück zum Portfolio">Back to Portfolio</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="w-full">
+        <header class="min-h-screen flex flex-col justify-center items-center relative px-6 md:px-12 lg:px-16 grid-bg border-b border-gray-100 pt-24 pb-16 overflow-hidden">
+            
+            <div class="max-w-4xl space-y-2 relative z-10 flex flex-col items-center text-center mb-12 lg:mb-14" data-gsap="fade-up">
+                <div class="inline-block bg-gray-100 text-gray-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest" data-en="Digital Experiences" data-de="Digitale Erlebnisse">Digital Experiences</div>
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight" data-en="Elevating web design for modern brands." data-de="Webdesign auf einem neuen Level.">Elevating web design for modern brands.</h1>
+                <p class="text-sm md:text-base text-gray-500 max-w-2xl leading-relaxed" data-en="A direct look at how usability, visual hierarchy, and modern development standards completely reshape an existing platform." data-de="Ein direkter Blick darauf, wie Usability, visuelle Hierarchie und moderne Entwicklungsstandards eine bestehende Plattform komplett neu definieren können.">
+                    A direct look at how usability, visual hierarchy, and modern development standards completely reshape an existing platform.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between w-full max-w-[90rem] mx-auto gap-y-6 md:gap-x-0 px-4">
+                
+                <div class="w-full md:w-[45%] flex flex-col opacity-50 grayscale-[40%] transition-all duration-500 hover:opacity-80 hover:grayscale-10 rounded-2xl border border-gray-200 bg-gray-50 z-10" data-gsap="fade-up">
+                    <div class="p-3 flex items-center justify-between border-b border-gray-200/80">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" data-en="Legacy Design" data-de="Altes Design">Legacy Design</span>
+                        <div class="flex gap-1.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                        </div>
+                    </div>
+                    <div class="w-full aspect-video rounded-b-2xl overflow-hidden relative">
+                        <div class="absolute inset-0 bg-black/5 z-10 pointer-events-none"></div>
+                        <video src="public/sitecomp1_1.mp4" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center justify-center shrink-0 w-20 h-20 bg-black text-white rounded-full shadow-2xl border-4 border-white cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-neutral-900 md:-mx-9 z-40 animate-float-horizontal">
+                    <i class="ri-arrow-right-line text-2xl flex items-center justify-center"></i>
+                </div>
+                <div class="md:hidden flex items-center justify-center w-12 h-12 bg-black text-white rounded-full shadow-2xl border-4 border-white z-40 -my-6 relative cursor-pointer transition-all duration-300 hover:scale-110 animate-float-vertical">
+                    <i class="ri-arrow-down-line text-lg flex items-center justify-center"></i>
+                </div>
+
+                <div class="w-full md:w-[51%] flex flex-col premium-glow-ring border border-slate-200 bg-white transition-all duration-500 relative z-10" data-gsap="fade-up">
+                    <div class="absolute -top-3 right-6 z-40 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-[8px] uppercase tracking-widest px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                        <span class="w-1 h-1 rounded-full bg-white animate-ping"></span>
+                        <span data-en="Optimized Concept" data-de="Optimiertes Konzept">Optimized Concept</span>
+                    </div>
+
+                    <div class="p-3 flex items-center justify-between border-b border-slate-200 bg-slate-50/50 backdrop-blur-sm rounded-t-2xl">
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent flex items-center gap-1.5">
+                            <i class="ri-checkbox-circle-fill text-cyan-500"></i>
+                            <span data-en="Refined Version" data-de="Optimierte Version">Refined Version</span>
+                        </span>
+                        <div class="flex gap-1.5 opacity-60">
+                            <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full aspect-video rounded-b-2xl overflow-hidden relative bg-slate-50">
+                        <video src="public/sitecomp2_1.mp4" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <section class="bg-gray-50 py-32 border-y border-gray-200">
+            <div class="container mx-auto px-6 md:px-12 max-w-6xl" data-gsap="fade-up">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    
+                    <div class="space-y-8">
+                        <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-800 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-blue-200">
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                            <span data-en="Currently Building" data-de="Aktuell in Arbeit">Currently Building</span>
+                        </div>
+                        <h3 class="text-4xl md:text-5xl font-black tracking-tight leading-tight" data-en="Comprehensive Public Study Platform" data-de="Umfassende öffentliche Lernplattform">Comprehensive Public Study Platform</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed" data-en="A dynamic, all-in-one ecosystem designed to support students and professionals. By merging educational tools with career advancement features, this platform serves as a modern hub for academic and professional growth." data-de="Ein dynamisches All-in-One-Ökosystem zur Unterstützung von Studierenden und Professionals. Durch die Verschmelzung von Lerntools mit Funktionen zur Karriereentwicklung dient diese Plattform als moderner Hub für akademisches und berufliches Wachstum.">
+                            A dynamic, all-in-one ecosystem designed to support students and professionals. By merging educational tools with career advancement features, this platform serves as a modern hub for academic and professional growth.
+                        </p>
+                        
+                        <ul class="space-y-4 pt-4">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-1 bg-black text-white rounded-full p-1"><i class="ri-briefcase-line text-xs"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900" data-en="Career & Job Listings" data-de="Karriere- & Stellenangebote">Career & Job Listings</h4>
+                                    <p class="text-sm text-gray-500" data-en="Integrated boards connecting talent with active company profiles." data-de="Integrierte Boards, die Talente mit aktiven Unternehmensprofilen verbinden.">Integrated boards connecting talent with active company profiles.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-1 bg-black text-white rounded-full p-1"><i class="ri-stack-line text-xs"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900" data-en="Interactive Index Cards" data-de="Interaktive Karteikarten">Interactive Index Cards</h4>
+                                    <p class="text-sm text-gray-500" data-en="Customized study material structures with active recall testing." data-de="Maßgeschneiderte Lernmaterial-Strukturen mit Active-Recall-Tests.">Customized study material structures with active recall testing.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-1 bg-black text-white rounded-full p-1"><i class="ri-tools-line text-xs"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900" data-en="Embedded Web Tools" data-de="Integrierte Webtools">Embedded Web Tools</h4>
+                                    <p class="text-sm text-gray-500" data-en="A suite of built-in utilities aimed at improving daily workflow efficiency." data-de="Eine Auswahl an integrierten Tools, die die Effizienz im täglichen Workflow steigern.">A suite of built-in utilities aimed at improving daily workflow efficiency.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="relative w-full aspect-square md:aspect-[4/5] bg-white rounded-3xl shadow-soft border border-gray-100 overflow-hidden flex items-center justify-center p-8 group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-gray-100 to-white opacity-50 pointer-events-none z-0"></div>
+                        
+                        <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-black opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black hover:text-white cursor-pointer"><i class="ri-arrow-left-s-line text-xl"></i></button>
+                        <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-black opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black hover:text-white cursor-pointer"><i class="ri-arrow-right-s-line text-xl"></i></button>
+
+                        <div id="slides-track">
+                            <div class="slide-item">
+                                <img src="public/studyhub_1.png" alt="Study Platform 1" class="relative z-10 w-full h-auto rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-105 border border-gray-100">
+                            </div>
+                            <div class="slide-item">
+                                <img src="public/studyhub_2.png" alt="Study Platform 2" class="relative z-10 w-full h-auto rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-105 border border-gray-100">
+                            </div>
+                            <div class="slide-item">
+                                <img src="public/studyhub_3.png" alt="Study Platform 3" class="relative z-10 w-full h-auto rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-105 border border-gray-100">
+                            </div>
+                            <div class="slide-item">
+                                <img src="public/studyhub_4.png" alt="Study Platform 3" class="relative z-10 w-full h-auto rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-105 border border-gray-100">
+                            </div>
+                            <div class="slide-item">
+                                <img src="public/studyhub_5.png" alt="Study Platform 3" class="relative z-10 w-full h-auto rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-105 border border-gray-100">
+                            </div>
+                        </div>
+
+                        <div id="slides-dots" class="absolute bottom-6 flex gap-2 z-30">
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="container mx-auto px-6 md:px-12 py-32 max-w-7xl">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6" data-gsap="fade-up">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-4" data-en="Previous Works" data-de="Frühere Arbeiten">Previous Works</h2>
+                    <p class="text-gray-500 max-w-xl leading-relaxed" data-en="A selection of interfaces and landing pages I have designed and developed." data-de="Eine Auswahl an Interfaces und Landingpages, die ich konzipiert und entwickelt habe.">A selection of interfaces and landing pages I have designed and developed.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Past Work Card 1: Personal Portfolio -->
+                <article class="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-hard transition-all duration-300" data-gsap="fade-up">
+                    <div class="w-full aspect-video bg-neutral-950 overflow-hidden relative flex items-center justify-center">
+                        <video src="public/old-portfolio.mp4" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-102" autoplay loop muted playsinline></video>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" data-en="Personal Showcase" data-de="Persönliches Showcase">Personal Showcase</div>
+                        <h3 class="text-xl font-bold mb-2" data-en="Legacy Portfolio Website" data-de="Alte Portfolio-Website">Legacy Portfolio Website</h3>
+                        <p class="text-sm text-gray-500 line-clamp-3" data-en="A minimalist and modern interface design heavily focused on clean web layout principles and core programming logic." data-de="Ein minimalistisches und modernes Interface-Design mit klarem Fokus auf strukturiertes Weblayout und Programmierlogik.">A minimalist and modern interface design heavily focused on clean web layout principles and core programming logic.</p>
+                    </div>
+                </article>
+
+                <!-- Past Work Card 2: Analytics Dashboard -->
+                <article class="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-hard transition-all duration-300" data-gsap="fade-up">
+                    <div class="w-full aspect-video bg-neutral-950 overflow-hidden relative flex items-center justify-center">
+                        <video src="public/analytics-dashboard.mp4" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-102" autoplay loop muted playsinline></video>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" data-en="UI/UX Design" data-de="UI/UX Design">UI/UX Design</div>
+                        <h3 class="text-xl font-bold mb-2" data-en="Data Analytics Dashboard" data-de="Daten-Analytics Dashboard">Data Analytics Dashboard</h3>
+                        <p class="text-sm text-gray-500 line-clamp-3" data-en="A simple data visualization interface engineered to track core audience growth metrics and channel analytics through intuitive user charts." data-de="Ein simples Interface zur Datenvisualisierung, das Kernmetriken zum Publikums-Wachstum und Kanal-Analysen über intuitive Diagramme trackt.">A simple data visualization interface engineered to track core audience growth metrics and channel analytics through intuitive user charts.</p>
+                    </div>
+                </article>
+
+                <!-- Past Work Card 3: University Project Website -->
+                <article class="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-hard transition-all duration-300" data-gsap="fade-up">
+                    <div class="w-full aspect-video bg-neutral-950 overflow-hidden relative flex items-center justify-center">
+                        <video src="public/lifeline_website.mp4" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-102" autoplay loop muted playsinline></video>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" data-en="University Project" data-de="Universitätsprojekt">University Project</div>
+                        <h3 class="text-xl font-bold mb-2" data-en="Game Production Hub" data-de="Game-Produktions-Hub">Game Production Hub</h3>
+                        <p class="text-sm text-gray-500 line-clamp-3" data-en="A promotional web interface created for an original game, detailing interactive storytelling mechanics, asset showcases, and dev logs." data-de="Ein Webspecial für eine eigene Spielproduktion, das interaktive Story-Mechaniken, Design-Assets und Entwicklertagebücher dokumentiert.">A promotional web interface created for an original game, detailing interactive storytelling mechanics, asset showcases, and dev logs.</p>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <footer class="bg-black text-white py-24 text-center border-t border-gray-800">
+            <div class="container mx-auto px-6 max-w-2xl space-y-8" data-gsap="fade-up">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest" data-en="Ready to improve your digital presence?" data-de="Bereit, deine digitale Präsenz zu optimieren?">Ready to improve your digital presence?</h3>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight" data-en="Let's discuss your next interface project." data-de="Lass uns über dein nächstes Projekt sprechen.">Let's discuss your next interface project.</h2>
+                <div class="pt-6">
+                    <a href="mailto:contact@example.com" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform inline-block uppercase text-sm tracking-wider">
+                        Get in touch
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Smooth Scrolling (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // GSAP Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+        document.querySelectorAll('[data-gsap="fade-up"]').forEach((el) => {
+            gsap.fromTo(el, { opacity: 0, y: 40 }, {
+                opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
+                scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+            });
+        });
+
+        // Language Logic
+        const btnEn = document.getElementById('lang-en');
+        const btnDe = document.getElementById('lang-de');
+        const translate = (lang) => {
+            if (lang === 'de') {
+                btnDe.classList.add('bg-white', 'text-black'); btnEn.classList.remove('bg-white', 'text-black');
+            } else {
+                btnEn.classList.add('bg-white', 'text-black'); btnDe.classList.remove('bg-white', 'text-black');
+            }
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const content = el.getAttribute(`data-${lang}`);
+                el.innerHTML = content;
+            });
+        };
+        btnEn.addEventListener('click', () => translate('en'));
+        btnDe.addEventListener('click', () => translate('de'));
+
+        // SLIDESHOW LOGIC
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.getElementById('slides-track');
+            const items = document.querySelectorAll('.slide-item');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const dotsContainer = document.getElementById('slides-dots');
+            
+            let count = 0;
+            let slideTimer;
+
+            // Generate Dots
+            items.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-600 w-4' : 'bg-gray-300'}`;
+                dotsContainer.appendChild(dot);
+            });
+
+            const updateSlides = () => {
+                track.style.transform = `translateX(-${count * 100}%)`;
+                const dots = dotsContainer.querySelectorAll('div');
+                dots.forEach((dot, i) => {
+                    dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === count ? 'bg-blue-600 w-4' : 'bg-gray-300'}`;
+                });
+            };
+
+            const nextSlide = () => {
+                count = (count + 1) % items.length;
+                updateSlides();
+            };
+
+            const prevSlide = () => {
+                count = (count - 1 + items.length) % items.length;
+                updateSlides();
+            };
+
+            const startTimer = () => {
+                clearInterval(slideTimer);
+                slideTimer = setInterval(nextSlide, 5000);
+            };
+
+            nextBtn.addEventListener('click', () => { nextSlide(); startTimer(); });
+            prevBtn.addEventListener('click', () => { prevSlide(); startTimer(); });
+
+            startTimer(); // Initialize
+        });
+    </script>
+</body>
+</html>

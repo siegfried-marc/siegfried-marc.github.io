@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="runtime-tab-title">Utility Inspector | Marc Siegfried</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        .font-mono { font-family: 'Space Mono', monospace; }
+        .shadow-hard { box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.1); }
+        
+        /* Subtle glow pulsing for the WIP badge */
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.05); }
+        }
+        .pulse-bg { animation: pulse-slow 3s infinite ease-in-out; }
+    </style>
+</head>
+<body class="bg-white text-black antialiased">
+
+    <!-- Updated Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 p-6 md:p-8 flex justify-between items-center mix-blend-difference text-white">
+        <a href="tools-hub.html" class="font-mono text-sm tracking-widest uppercase hover:opacity-70 transition-opacity">← Back to Hub</a>
+        <div class="font-mono text-xs uppercase tracking-widest opacity-60" id="runtime-breadcrumb">ENGINE // UTILITY</div>
+    </nav>
+
+    <!-- Relative parent wrapper to contain the overlay layout boundaries -->
+    <div class="relative min-h-screen">
+
+        <!-- ================================================================= -->
+        <!-- WIP OVERLAY LAYER (Remove this block completely to activate page) -->
+        <!-- ================================================================= -->
+        <div class="fixed inset-0 z-40 bg-white/40 backdrop-blur-md flex flex-col justify-center items-center p-6 select-none pointer-events-auto">
+            <!-- Pulsing outer glow ring -->
+            <div class="absolute w-80 h-80 bg-black/5 rounded-full blur-3xl pulse-bg pointer-events-none"></div>
+            
+            <div class="relative bg-white border border-black p-8 md:p-10 max-w-md text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl">
+                <div class="inline-flex items-center gap-2 bg-black text-white text-[10px] font-mono px-3 py-1 rounded-full uppercase tracking-widest mb-6">
+                    <span class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-ping"></span>
+                    <span>System Notice</span>
+                </div>
+                <h2 class="text-3xl font-black uppercase tracking-tighter mb-3">Under Construction</h2>
+                <p class="font-mono text-xs text-gray-500 leading-relaxed mb-6">
+                    This engine layout blueprint is currently compiling. Deep code metrics and architectural inspection layers are being configured locally.
+                </p>
+                <a href="tools-hub.html" class="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase border-b-2 border-black pb-1 hover:text-gray-500 hover:border-gray-500 transition-colors">
+                    ← Return to Suite Hub
+                </a>
+            </div>
+        </div>
+        <!-- ================================================================= -->
+
+        <main class="pt-32 pb-24 px-6 md:px-16 max-w-5xl mx-auto">
+            
+            <header class="mb-16 flex flex-col items-center text-center">
+                <!-- Restored standard configuration variables matching user state -->
+                <div id="runtime-tag" class="bg-black text-white text-[10px] font-mono px-4 py-1.5 rounded-full uppercase tracking-widest mb-6">SYSTEM</div>
+                <h1 id="runtime-title" class="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">Utility Title</h1>
+                <p id="runtime-tagline" class="text-gray-500 font-mono text-lg leading-relaxed max-w-2xl">Tagline statement goes here.</p>
+            </header>
+
+            <!-- Rounded 2XL Media Viewport -->
+            <section class="w-full h-[50vh] overflow-hidden rounded-2xl shadow-hard border border-black mb-16 relative">
+                <div id="media-viewport" class="w-full h-full"></div>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-16 border-t border-gray-200 pt-16">
+                
+                <div class="md:col-span-1">
+                    <h4 class="font-mono text-xs uppercase text-black tracking-widest mb-6 font-bold">Technical Pillars</h4>
+                    <ul id="runtime-features" class="space-y-4 font-mono text-sm text-gray-600"></ul>
+                </div>
+
+                <div class="md:col-span-2 space-y-8">
+                    <h4 class="font-mono text-xs uppercase text-black tracking-widest font-bold">Architectural Execution</h4>
+                    <div id="runtime-description" class="font-mono text-sm text-gray-600 leading-relaxed space-y-6"></div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // ... (Keep the toolsDatabase object exactly as in your provided code) ...
+        const toolsDatabase = {
+            "adblocker": {
+                title: "Crive AdBlocker Suite",
+                tag: "Browser Extension",
+                breadcrumb: "ENGINE // NETWORK_FILTRATION",
+                tagline: "Custom architecture removing display scripts, stream injections, and popup code natively before parser translation loops execute.",
+                mediaSrc: "public/crive_adblock_preview.mp4",
+                features: ["Network Request Interception", "DOM Injection Mitigation", "Context Menu Override Script", "PopUp Prevention Stack"],
+                description: "<p>Standard store-bought extensions frequently consume extensive active memory overhead and log usage metrics. This custom environment processes script filters tracking rules with near-zero runtime addition.</p><p>The system forces strict DOM inspection logic to verify layout frames while executing a native bypass loop that unlocks custom disabled menus across restricted source environments.</p>"
+            },
+            "shorts-clipper": {
+                title: "Vertical Shorts Clipper",
+                tag: "AI Media Utility",
+                breadcrumb: "UTILITY // OPEN_SOURCE_AI",
+                tagline: "Local 9:16 portrait re-framer featuring local open-source speech-to-text models processing instant rendering arrays.",
+                mediaSrc: "public/tool_shorts_preview.mp4",
+                features: ["Automatic 9:16 Cropping", "Client-Side Model Run", "Live Captions Map", "No Data Leaks"],
+                description: "<p>Most clipping tools require you to upload your videos to external servers, which can expose private files and slow down your workflow. This utility runs everything directly in the browser.</p><p>By using optimized, open-source AI models right on the client side, it processes audio tracks instantly to generate accurate timeline captions without ever sending a single byte to an external server.</p>"
+            },
+            "batch-merger": {
+                title: "Batch Layout Merger",
+                tag: "Image Engine",
+                breadcrumb: "UTILITY // CANVAS_PROCESSING",
+                tagline: "Client-side pipeline processing parallel image rendering inputs into standardized grid arrays or split comparative layouts.",
+                mediaSrc: "public/tool_merger_preview.mp4",
+                features: ["Concurrently Flatten Grid", "Side-by-Side Visual Tests", "Pure Local Canvas Execution", "Zero File Buffering Layer"],
+                description: "<p>This layout engine was built to handle high-volume visual evaluations instantly. It reads raw image arrays straight from your device, bypassing the lag and upload limits of standard cloud services.</p><p>The tool lets you compile multiple asset files into uniform sheet arrays or run direct A/B grid tests, handling all rendering inside your browser's isolated workspace.</p>"
+            },
+            "pdf-merger": {
+                title: "Client-Side PDF Merger",
+                tag: "Document System",
+                breadcrumb: "UTILITY // BUFFER_MANIPULATION",
+                tagline: "Standalone utility combining multiple binary document matrices into custom compilation bindings natively.",
+                mediaSrc: "public/tool_pdf_preview.mp4",
+                features: ["Binary Buffer Splice", "Drag-and-Drop Architecture", "Zero Cloud Storage Footprint", "Instant Compilation Sync"],
+                description: "<p>Web-based PDF utilities often gatekeep features behind paywalls or expose sensitive files to third-party data tracking. This tool processes document modifications cleanly inside the browser runtime.</p><p>By managing file buffers entirely within the local execution thread, users can merge massive files instantly while keeping private records completely secure.</p>"
+            },
+            "engine-translator": {
+                title: "Game Engine Translator",
+                tag: "Localization Tool",
+                breadcrumb: "ENGINE // LANG_PARSER",
+                tagline: "Custom JSON and string dictionary layout analyzer designed to map system texts without disturbing code blocks.",
+                mediaSrc: "public/tool_translator_preview.mp4",
+                features: ["Isolated String Trees", "Intact Formatting Blocks", "Code Safety Check", "Automated Structural Mapping"],
+                description: "<p>Translating files directly inside game development environments can quickly break code syntax if formatting is handled incorrectly. This utility maps project string dictionaries safely away from engine code blocks.</p><p>It reads game JSON sheets, targets only the text values meant for players, and translates them while keeping the underlying array syntax perfectly preserved.</p>"
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const toolKey = params.get('tool') || 'adblocker';
+            const data = toolsDatabase[toolKey];
+
+            if (!data) return;
+
+            document.getElementById('runtime-tab-title').innerText = `${data.title} | Inspector`;
+            document.getElementById('runtime-title').innerText = data.title;
+            document.getElementById('runtime-tag').innerText = data.tag;
+            document.getElementById('runtime-breadcrumb').innerText = data.breadcrumb;
+            document.getElementById('runtime-tagline').innerText = data.tagline;
+            document.getElementById('runtime-description').innerHTML = data.description;
+
+            const featureContainer = document.getElementById('runtime-features');
+            data.features.forEach(feat => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-3 text-gray-800';
+                li.innerHTML = `<span class="w-2 h-2 bg-black rounded-full"></span> <span>${feat}</span>`;
+                featureContainer.appendChild(li);
+            });
+
+            const viewport = document.getElementById('media-viewport');
+            viewport.innerHTML = `<video src="${data.mediaSrc}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>`;
+
+            const lenis = new Lenis();
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+
+            gsap.from('main', { opacity: 0, y: 40, duration: 1, ease: "power3.out" });
+        });
+    </script>
+</body>
+</html>

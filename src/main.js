@@ -60,65 +60,102 @@ magneticBtns.forEach(btn => {
 window.addEventListener("load", () => {
     // Make body visible (CSS hid it to prevent FOUC)
     gsap.set("body", { autoAlpha: 1 });
-    // Explicitly set initial states for hero elements to avoid CSS conflicts
-    gsap.set(".hero-reveal", { y: 100, autoAlpha: 0 });
-    gsap.set(".hero-img-container", { scale: 0.9, autoAlpha: 0 });
-    gsap.set("#navbar", { autoAlpha: 0 });
-    const tl = gsap.timeline({
-        onComplete: () => {
-            // Safety: Ensure loader is gone from DOM flow
-            gsap.set("#loader", { display: "none" });
-            gsap.set("#loader-curtain", { display: "none" });
-            // Refresh ScrollTrigger to ensure pinned sections are correct after load
-            ScrollTrigger.refresh();
-        }
-    });
-    // Counter Animation
-    let count = { val: 0 };
-    tl.to(count, {
-        val: 100,
-        duration: 2,
-        ease: "power2.inOut",
-        onUpdate: () => {
-            const el = document.getElementById('loader-percent');
-            if(el) el.innerText = Math.floor(count.val) + "%";
-        }
-    })
-    // Curtain Up
-    .to('#loader', { yPercent: -100, duration: 0.8, ease: "power4.inOut" })
-    .to('#loader-curtain', { yPercent: -100, duration: 0.8, ease: "power4.inOut" }, "-=0.6")
-    // Hero Entry
-    .to('#navbar', { autoAlpha: 1, duration: 0.5 })
-    .to('.hero-reveal', {
-        y: 0,
-        autoAlpha: 1,
-        scale: 1,
-        stagger: 0.1,
-        duration: 1,
-        ease: "power3.out"
-    }, "-=0.5")
-     .to('.hero-img-container', {
-        autoAlpha: 1,
-        scale: 1,
-        duration: 1.2,
-        ease: "power3.out"
-    }, "-=1.0")
-    // Typewriter start
-    .add(() => {
-        gsap.to('#typewriter', {
-            text: "UX UI | Motion & Graphic | Content Creation",
-            duration: 3,
-            ease: "none"
-        });
-    }, "-=0.5");
-});
-// Backup timeout in case window.load fails (e.g., slow image)
-setTimeout(() => {
-    if (document.querySelector('.loader-overlay').style.display !== 'none') {
-        gsap.set("body", { autoAlpha: 1 });
-        gsap.to('#loader', { yPercent: -100, duration: 0.5 });
-        gsap.set(".hero-reveal", { y: 0, autoAlpha: 1 });
+
+    const hasVisited = sessionStorage.getItem("hasVisited");
+
+    if (hasVisited) {
+        // --- SKIPPED LOADER (RETURNING VISITOR) ---
+        // Hide loader components immediately
+        gsap.set("#loader", { display: "none" });
+        gsap.set("#loader-curtain", { display: "none" });
+
+        // Instantly display hero elements and navbar without animation
         gsap.set("#navbar", { autoAlpha: 1 });
+        gsap.set(".hero-reveal", { y: 0, autoAlpha: 1, scale: 1 });
+        gsap.set(".hero-img-container", { autoAlpha: 1, scale: 1 });
+        
+        // Fill typewriter content directly
+        const typewriterEl = document.getElementById('typewriter');
+        if (typewriterEl) {
+            typewriterEl.textContent = "UX UI | Motion & Graphic | Content Creation";
+        }
+
+        // Refresh ScrollTrigger to ensure pinned/horizontal sections measure correctly
+        ScrollTrigger.refresh();
+
+    } else {
+        // --- FIRST VISIT OF THE SESSION ---
+        // Mark session as visited right away
+        sessionStorage.setItem("hasVisited", "true");
+
+        // Explicitly set initial states for hero elements to avoid CSS conflicts
+        gsap.set(".hero-reveal", { y: 100, autoAlpha: 0 });
+        gsap.set(".hero-img-container", { scale: 0.9, autoAlpha: 0 });
+        gsap.set("#navbar", { autoAlpha: 0 });
+
+        const tl = gsap.timeline({
+            onComplete: () => {
+                // Safety: Ensure loader is gone from DOM flow
+                gsap.set("#loader", { display: "none" });
+                gsap.set("#loader-curtain", { display: "none" });
+                // Refresh ScrollTrigger to ensure pinned sections are correct after load
+                ScrollTrigger.refresh();
+            }
+        });
+
+        // Counter Animation
+        let count = { val: 0 };
+        tl.to(count, {
+            val: 100,
+            duration: 2,
+            ease: "power2.inOut",
+            onUpdate: () => {
+                const el = document.getElementById('loader-percent');
+                if (el) el.innerText = Math.floor(count.val) + "%";
+            }
+        })
+        // Curtain Up
+        .to('#loader', { yPercent: -100, duration: 0.8, ease: "power4.inOut" })
+        .to('#loader-curtain', { yPercent: -100, duration: 0.8, ease: "power4.inOut" }, "-=0.6")
+        // Hero Entry
+        .to('#navbar', { autoAlpha: 1, duration: 0.5 })
+        .to('.hero-reveal', {
+            y: 0,
+            autoAlpha: 1,
+            scale: 1,
+            stagger: 0.1,
+            duration: 1,
+            ease: "power3.out"
+        }, "-=0.5")
+        .to('.hero-img-container', {
+            autoAlpha: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "power3.out"
+        }, "-=1.0")
+        // Typewriter start
+        .add(() => {
+            gsap.to('#typewriter', {
+                text: "UX UI | Motion & Graphic | Content Creation",
+                duration: 3,
+                ease: "none"
+            });
+        }, "-=0.5");
+    }
+});
+
+// Backup timeout in case window.load fails or takes too long
+setTimeout(() => {
+    const loader = document.querySelector('.loader-overlay') || document.getElementById('loader');
+    if (loader && window.getComputedStyle(loader).display !== 'none') {
+        sessionStorage.setItem("hasVisited", "true");
+        gsap.set("body", { autoAlpha: 1 });
+        gsap.set("#loader", { display: "none" });
+        gsap.set("#loader-curtain", { display: "none" });
+        gsap.set(".hero-reveal", { y: 0, autoAlpha: 1, scale: 1 });
+        gsap.set(".hero-img-container", { autoAlpha: 1, scale: 1 });
+        gsap.set("#navbar", { autoAlpha: 1 });
+        ScrollTrigger.refresh();
     }
 }, 5000);
 
@@ -166,13 +203,73 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('[data-en]').forEach(el => {
             el.textContent = el.getAttribute(`data-${lang}`);
         });
-
-        // Optional: Update typewriter strings if you use them in your main.js
-        // if (lang === 'de') window.typewriterStrings = ["Entwickler", "Designer"];
     };
 
     btnEn.addEventListener('click', () => translate('en'));
     btnDe.addEventListener('click', () => translate('de'));
+
+    // ==========================================
+    // ADD THE TOOLTIP LOGIC RIGHT HERE
+    // ==========================================
+    const tooltip = document.getElementById('project-arrow-tooltip');
+    const closeBtn = document.getElementById('close-arrow-tooltip');
+    const isDismissed = localStorage.getItem('arrowTooltipDismissed');
+
+        if (tooltip && !isDismissed) {
+        // Reveal by setting display to flex safely
+        gsap.set(tooltip, { display: "flex" });
+        tooltip.classList.remove('hidden');
+
+        // Continuous Floating Bounce Function
+        const startFloatingAnimation = () => {
+            gsap.to(tooltip, {
+                y: -6,
+                duration: 1.2,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.easeInOut"
+            });
+        };
+
+        // Entrance Animation
+        gsap.fromTo(tooltip, 
+            { opacity: 0, y: 10, scale: 0.9 }, 
+            { 
+                opacity: 1, 
+                y: 0, 
+                scale: 1, 
+                duration: 0.6, 
+                ease: "back.out(1.7)",
+                delay: 1.5,
+                onComplete: startFloatingAnimation
+            }
+        );
+
+        // Dismiss Function
+        const dismissTooltip = (e) => {
+            if (e) e.stopPropagation();
+            
+            localStorage.setItem('arrowTooltipDismissed', 'true');
+
+            gsap.to(tooltip, {
+                opacity: 0,
+                scale: 0.8,
+                y: 5,
+                duration: 0.3,
+                ease: "power2.in",
+                onComplete: () => tooltip.remove()
+            });
+        };
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', dismissTooltip);
+        }
+
+        const projectLink = tooltip.parentElement?.querySelector('a[href="brand-hub.html"]');
+        if (projectLink) {
+            projectLink.addEventListener('click', dismissTooltip);
+        }
+    }
 });
 
 // 4. Parallax Elements

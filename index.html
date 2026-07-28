@@ -90,7 +90,7 @@
         <div class="order-1 lg:order-2 flex justify-center relative">
             <div class="relative w-full max-w-md">
                 <div class="hero-img-container w-full aspect-[4/5] relative grayscale hover:grayscale-0 transition-all duration-700 ease-in-out group overflow-hidden">
-                    <img src="public\portf10.png" alt="Kelum" class="w-full h-full object-cover">
+                    <img src="public\portf9.png" alt="Kelum" class="w-full h-full object-cover">
 
                     <!-- Overlay Lines -->
                     <div class="absolute inset-0 border border-white/20 pointer-events-none"></div>
@@ -218,33 +218,37 @@
                 </div>
                 <div class="flex gap-20 px-20 pl-[20vw]" id="works-wrapper">
                     
-                    <!-- Card 1 Crive -->
-<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer" id="card-3">
+
+<!-- Card 1 Brand Design -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer" id="card-1">
     <div class="absolute inset-0 bg-gray-100 transform rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
     
     <div class="absolute inset-0 bg-white border border-black p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
         
         <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-200 mb-4 relative shrink-0">
-            <div class="w-full h-full relative slideshow-container">
-                <video src="public\crive_protein-gummies_animation_1.mp4" 
-                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-110"
-                    loop muted playsinline></video>
+            <div class="w-full h-full relative slideshow-container" id="brand-card-slideshow">
+                <img src="public/frshy2.png" 
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-100" alt="frshy Showcase">
 
-                <img src="public\Crive_showcase_w.png"
-                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-110 opacity-0">
+                <img src="public/Nextar2.png"
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0" alt="Nextar Showcase">
                 
-                <img src="public\Crive_gummies_w.png"
-                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-110 opacity-0">
+                <img src="public/crv.png"
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0" alt="CRV Showcase">
 
-                <img src="public\Crive_logo_horizontal.png"
-                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-110 opacity-0">
+                <img src="public/Crive_showcase_w.png"
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0" alt="Crive Showcase">
+
+                <video src="public/crive_protein-gummies_animation_1.mp4" 
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0"
+                    loop muted playsinline></video>
             </div>
             <div class="absolute top-2 right-2 bg-black text-white text-[10px] md:text-xs font-mono px-2 py-1 z-10">
-                GRAPHIC
+                BRANDING
             </div>
         </div>
 
-        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Packaging Design</h3>
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Brand Design & Logos</h3>
 
         <div class="relative flex-grow overflow-hidden mb-4
                     after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
@@ -252,9 +256,9 @@
             
             <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
                 <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
-                data-en="Logo and packaging designs for a personal protein brand called „Crive“. I built the entire brand look from scratch, combining clean typography with professional layouts to create a product that feels both modern and energetic." 
-                data-de="Logo- und Verpackungsdesigns für eine persönliche Proteinmarke namens „Crive“. Ich habe das gesamte Markenbild von Grund auf neu entwickelt und dabei klare Typografie mit professionellen Layouts kombiniert, um ein Produkt zu schaffen, das gleichermaßen modern und energiegeladen wirkt.">
-                    Logo and packaging designs for a personal protein brand called "Crive." I built the entire brand look from scratch, combining clean typography with professional layouts to create a product that feels both modern and energetic.
+                data-en="Strategic identity systems and vector marks across various industries. From high-contrast food branding to sharp fintech aesthetics, each concept is crafted with clear typography and targeted positioning." 
+                data-de="Strategische Identitätssysteme und Vektor-Logos für verschiedene Branchen. Von kontrastreichem Food-Branding bis hin zu präziser Fintech-Ästhetik – jedes Konzept setzt auf klare Typografie und gezielte Positionierung.">
+                    Strategic identity systems and vector marks across various industries. From high-contrast food branding to sharp fintech aesthetics, each concept is crafted with clear typography and targeted positioning.
                 </p>
             </div>
         </div>
@@ -262,7 +266,24 @@
         <div class="mt-auto flex justify-between items-end border-t border-black pt-4 shrink-0">
             <span class="text-4xl font-black opacity-20">01</span>
 
-            <a href="project-detail.html?id=packaging" 
+            <!-- First-time Visitor Arrow Tooltip -->
+            <div id="project-arrow-tooltip" class="hidden absolute bottom-18 right-5 z-30 items-center gap-0 bg-black text-white px-3 py-1.5 rounded-lg border border-white/20 shadow-xl pointer-events-auto select-none">
+                <span class="font-mono text-[11px] whitespace-nowrap" 
+                    data-en="Click here for project details!" 
+                    data-de="Hier klicken für Projekt-Infos!">
+                    Click here for project details!
+                </span>
+
+                <!-- Close button -->
+                <button id="close-arrow-tooltip" aria-label="Close message" class="ml-1 text-gray-400 hover:text-white transition-colors cursor-pointer text-xs leading-none">
+                    <i class="ri-close-line"></i>
+                </button>
+
+                <!-- Tooltip pointer tail pointing at the arrow icon -->
+                <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-black border-r border-b border-white/20 rotate-45"></div>
+            </div>
+
+            <a href="brand-hub.html" 
             onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
             onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
             style="display: inline-block; cursor: pointer;">
@@ -270,55 +291,45 @@
             </a>
         </div>
     </div>
+</div>
 
-    <script>
-        (function() {
-            const container = document.querySelector('#card-3');
-            const slides = container.querySelectorAll('.slideshow-slide');
-            let currentIndex = 0;
-            const intervalTime = 3000; // 3 seconds per slide
+<script>
+    (function initCardSlideshow() {
+        const container = document.getElementById('brand-card-slideshow');
+        if (!container) return;
+        
+        const slides = container.querySelectorAll('.slideshow-slide');
+        if (slides.length <= 1) return;
 
-            if (!slides.length) return;
+        let currentIndex = 0;
 
-            // 1. Set initial smooth style baselines via JavaScript
-            slides.forEach((slide, i) => {
-                slide.style.transition = 'opacity 0.7s ease-in-out, transform 0.7s ease-in-out';
-                slide.style.opacity = i === 0 ? '1' : '0';
-                slide.style.pointerEvents = i === 0 ? 'auto' : 'none';
-                
-                // If the very first slide is a video, trigger play immediately
-                if (i === 0 && slide.tagName === 'VIDEO') {
-                    slide.play().catch(() => {});
-                }
-            });
+        setInterval(() => {
+            const currentSlide = slides[currentIndex];
 
-            function rotateSlides() {
-                const currentSlide = slides[currentIndex];
-                const nextIndex = (currentIndex + 1) % slides.length;
-                const nextSlide = slides[nextIndex];
-
-                // Fade OUT current slide
-                currentSlide.style.opacity = '0';
-                currentSlide.style.pointerEvents = 'none';
-                if (currentSlide.tagName === 'VIDEO') {
-                    currentSlide.pause();
-                }
-
-                // Fade IN next slide
-                nextSlide.style.opacity = '1';
-                nextSlide.style.pointerEvents = 'auto';
-                if (nextSlide.tagName === 'VIDEO') {
-                    nextSlide.currentTime = 0;
-                    nextSlide.play().catch(() => {});
-                }
-
-                currentIndex = nextIndex;
+            // Pause video if moving away from it
+            if (currentSlide.tagName.toLowerCase() === 'video') {
+                currentSlide.pause();
             }
 
-            setInterval(rotateSlides, intervalTime);
-        })();
-    </script>
-</div>
+            // Fade out current slide
+            currentSlide.classList.remove('opacity-100');
+            currentSlide.classList.add('opacity-0');
+
+            // Advance index
+            currentIndex = (currentIndex + 1) % slides.length;
+            const nextSlide = slides[currentIndex];
+
+            // Play video if transitioning into it
+            if (nextSlide.tagName.toLowerCase() === 'video') {
+                nextSlide.play();
+            }
+
+            // Fade in next slide
+            nextSlide.classList.remove('opacity-0');
+            nextSlide.classList.add('opacity-100');
+        }, 2500); // Transitions every 2.5 seconds
+    })();
+</script>
 
 <!-- Card 4 -->
 <div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer mt-20">

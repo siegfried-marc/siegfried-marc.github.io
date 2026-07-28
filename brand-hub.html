@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Identities & Logos | Marc Siegfried</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='900'%3EM%3C/text%3E%3C/svg%3E">
+    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+
+    <style>
+        .font-mono { font-family: 'Space Mono', monospace; }
+        .grid-bg {
+            background-color: #ffffff;
+            background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+                              linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .edge-fade-mask {
+            mask-image: linear-gradient(to right, transparent 0%, #000 15%, #000 85%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 15%, #000 85%, transparent 100%);
+        }
+
+        .interactive-grab {
+            cursor: grab;
+        }
+        .interactive-grab:active {
+            cursor: grabbing;
+        }
+        
+        /* Smooth baseline return transitions when mouse exits cards */
+        [data-gsap="logo-card"] {
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, opacity 0.4s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* Diagonal Stripe Background for WIP / Empty Slots */
+        .wip-pattern {
+            background-image: repeating-linear-gradient(
+                -45deg,
+                #f9fafb,
+                #f9fafb 10px,
+                #f3f4f6 10px,
+                #f3f4f6 20px
+            );
+        }
+    </style>
+</head>
+<body class="antialiased bg-white text-[#111111] overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase hover:opacity-70 transition-opacity">MARC.S</a>
+        
+        <div class="flex items-center gap-4">
+            <!-- Language Switcher Slider -->
+            <div class="flex items-center border border-white/30 rounded-full p-1 font-mono text-xs select-none">
+                <button id="lang-en" onclick="setLanguage('en')" class="px-3 py-1 rounded-full font-bold transition-all bg-white text-black">EN</button>
+                <button id="lang-de" onclick="setLanguage('de')" class="px-3 py-1 rounded-full font-bold transition-all text-white hover:opacity-70">DE</button>
+            </div>
+
+            <a href="index.html#works" class="group flex items-center gap-2 font-mono text-sm border border-white/30 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300">
+                <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i> 
+                <span data-i18n="nav-back">BACK TO PORTFOLIO</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="w-full">
+        <!-- Header -->
+        <header class="min-h-[45vh] flex flex-col justify-center items-center relative px-6 md:px-20 grid-bg border-b border-gray-200 text-center">
+            <div class="max-w-4xl space-y-4 relative z-10 flex flex-col items-center pt-24" id="header-content">
+                <div class="bg-black text-white text-xs font-mono px-4 py-1.5 rounded-full uppercase tracking-widest opacity-0 transform translate-y-4" id="header-tag" data-i18n="header-tag">Brand Identity</div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none opacity-0 transform translate-y-4" id="header-title" data-i18n="header-title">Brand Design &<br>Logo Collection</h1>
+                <p class="text-base md:text-lg text-gray-500 font-mono max-w-2xl leading-relaxed opacity-0 transform translate-y-4" id="header-p" data-i18n="header-p">
+                    A collection of brand designs, clear logos, and realistic mockups built with precision.
+                </p>
+            </div>
+        </header>
+
+        <!-- SECTION 1: Interactive 2D Depth Carousel -->
+        <section class="py-24 border-b border-gray-100 overflow-hidden bg-gray-50/50">
+            <div class="container mx-auto px-6 md:px-12 max-w-7xl mb-14 flex items-center justify-between" data-gsap="fade-up">
+                <div>
+                    <span class="font-mono text-xs uppercase text-gray-400 tracking-widest" data-i18n="sec1-tag">01 // Interactive Showcase</span>
+                    <h2 class="text-3xl font-black uppercase tracking-tighter" data-i18n="sec1-title">Selected Brand Projects</h2>
+                </div>
+                <div class="hidden md:block font-mono text-[10px] text-gray-400 uppercase tracking-widest" data-i18n="sec1-sub">Drag & Mobile Swipe Loop // 04 Units</div>
+            </div>
+
+            <!-- Interactive Viewport Container -->
+            <div class="w-full relative edge-fade-mask py-12 flex items-center interactive-grab touch-pan-y" id="carousel-viewport" data-gsap="fade-up">
+                <div class="flex gap-12 w-max px-24 select-none will-change-transform" id="carousel-track">
+                    
+                    <!-- Mockup 01 -->
+                    <div class="carousel-card w-[320px] md:w-[440px] bg-white rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.08)] flex flex-col shrink-0 will-change-transform">
+                        <div class="bg-gray-100 overflow-hidden aspect-[16/10]">
+                            <img src="public/frshy2.png" alt="frshy" class="w-full h-full object-cover pointer-events-none">
+                        </div>
+                        <div class="p-6 font-mono bg-white flex-1 flex flex-col justify-between pointer-events-none">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-black uppercase tracking-tighter text-[#111111]" data-i18n="card1-title">frshy</h3>
+                                    <span class="text-gray-300 font-bold text-xs">Work_01</span>
+                                </div>
+                                <p class="text-gray-600 text-xs leading-relaxed" data-i18n="card1-desc">Designed a modern identity with high-contrast typography and vibrant accents to disrupt traditional food branding and drive shelf appeal.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mockup 02 -->
+                    <div class="carousel-card w-[320px] md:w-[440px] bg-white rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.08)] flex flex-col shrink-0 will-change-transform">
+                        <div class="bg-gray-100 overflow-hidden aspect-[16/10]">
+                            <img src="public/Nextar2.png" alt="Nextar" class="w-full h-full object-cover pointer-events-none">
+                        </div>
+                        <div class="p-6 font-mono bg-white flex-1 flex flex-col justify-between pointer-events-none">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-black uppercase tracking-tighter text-[#111111]" data-i18n="card2-title">Nextar</h3>
+                                    <span class="text-gray-300 font-bold text-xs">Work_02</span>
+                                </div>
+                                <p class="text-gray-600 text-xs leading-relaxed" data-i18n="card2-desc">Created a premium fintech aesthetic using sharp geometry and dark glassmorphism to convey trust, clarity, and next-gen intelligence.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mockup 03 -->
+                    <div class="carousel-card w-[320px] md:w-[440px] bg-white rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.08)] flex flex-col shrink-0 will-change-transform">
+                        <div class="bg-gray-100 overflow-hidden aspect-[16/10]">
+                            <img src="public/crv.png" alt="CRV" class="w-full h-full object-cover pointer-events-none">
+                        </div>
+                        <div class="p-6 font-mono bg-white flex-1 flex flex-col justify-between pointer-events-none">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-black uppercase tracking-tighter text-[#111111]" data-i18n="card3-title">CRV</h3>
+                                    <span class="text-gray-300 font-bold text-xs">Work_03</span>
+                                </div>
+                                <p class="text-gray-600 text-xs leading-relaxed" data-i18n="card3-desc">Engineered a bold, high-performance identity focused on discipline and strength, seamlessly bridging physical gear with digital app experiences.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mockup 04 -->
+                    <div class="carousel-card w-[320px] md:w-[440px] bg-white rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.08)] flex flex-col shrink-0 will-change-transform">
+                        <div class="bg-gray-100 overflow-hidden aspect-[16/10]">
+                            <img src="public/Crive_showcase_w.png" alt="Crive" class="w-full h-full object-cover pointer-events-none">
+                        </div>
+                        <div class="p-6 font-mono bg-white flex-1 flex flex-col justify-between pointer-events-none">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-black uppercase tracking-tighter text-[#111111]" data-i18n="card4-title">Crive</h3>
+                                    <span class="text-gray-300 font-bold text-xs">Work_04</span>
+                                </div>
+                                <p class="text-gray-600 text-xs leading-relaxed" data-i18n="card4-desc">Crafted an approachable nutrition brand that simplifies active wellness through friendly visual language, clear messaging, and vibrant product packaging.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Logo Design Archive (Magnetic & Wobbly Grid) -->
+        <section class="container mx-auto px-6 md:px-12 py-20 max-w-7xl" id="logo-archive-section">
+            <div class="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4" data-gsap="fade-up">
+                <div>
+                    <span class="font-mono text-xs uppercase text-gray-400 tracking-widest" data-i18n="sec2-tag">02 // Vector Marks</span>
+                    <h2 class="text-3xl font-black uppercase tracking-tighter" data-i18n="sec2-title">The Logo Archive</h2>
+                </div>
+                
+                <!-- Counter & Page Controls Navigation -->
+                <div class="flex items-center gap-4 font-mono text-xs select-none">
+                    <span class="text-gray-400" id="sec2-count" data-i18n="sec2-count">12 ITEMS TOTAL</span>
+                    <div class="h-4 w-[1px] bg-gray-200"></div>
+                    <div class="flex items-center gap-2">
+                        <button id="prev-page" class="w-8 h-8 rounded-full border border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors disabled:opacity-30 disabled:pointer-events-none" aria-label="Previous page">
+                            <i class="ri-arrow-left-s-line"></i>
+                        </button>
+                        <span id="page-indicator" class="font-bold text-black px-1 min-w-[50px] text-center">01 / 01</span>
+                        <button id="next-page" class="w-8 h-8 rounded-full border border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors disabled:opacity-30 disabled:pointer-events-none" aria-label="Next page">
+                            <i class="ri-arrow-right-s-line"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logo Grid Container -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[500px]" id="logo-grid">
+                <!-- Rendered dynamically via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-black text-white py-24 text-center">
+            <div class="container mx-auto px-6 max-w-xl space-y-6">
+                <h2 class="text-4xl font-black uppercase tracking-tight" data-i18n="footer-title">Return to Project Overview</h2>
+                <div class="pt-4">
+                    <a href="index.html#works" class="px-8 py-4 bg-white text-black font-bold hover:bg-gray-200 rounded-full transition-colors inline-block uppercase tracking-widest text-sm" data-i18n="footer-btn">
+                        Portfolio Overview
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Archive Configuration & Data Setup
+        const ITEMS_PER_PAGE = 12;
+        let currentPage = 1;
+        let currentLang = 'en';
+        let isPageTransitioning = false; // Prevents race conditions during rapid clicking
+
+        // Total marks currently defined in project. 
+        // Marks set as active: false (or missing image files) automatically render as WIP placeholder slots.
+        const LOGO_DATA = [
+            { id: 1, active: true },
+            { id: 2, active: true },
+            { id: 3, active: true },
+            { id: 4, active: true },
+            { id: 5, active: true },
+            { id: 6, active: true },
+            { id: 7, active: true },
+            { id: 8, active: true },
+            { id: 9, active: true },
+            { id: 10, active: true },
+            { id: 11, active: true },
+            { id: 12, active: true },
+            { id: 13, active: false },
+            { id: 14, active: false }, 
+            { id: 15, active: false }, 
+            { id: 16, active: false }  
+        ];
+
+        // Language Translation Dictionary
+        const i18n = {
+            en: {
+                "nav-back": "BACK TO PORTFOLIO",
+                "header-tag": "Brand Identity",
+                "header-title": "Brand Design &<br>Logo Collection",
+                "header-p": "A collection of brand designs, clear logos, and realistic mockups built with precision.",
+                "sec1-tag": "01 // Interactive Showcase",
+                "sec1-title": "Selected Brand Projects",
+                "sec1-sub": "Drag & Mobile Swipe Loop // 04 Units",
+                "card1-title": "frshy",
+                "card1-desc": "Designed a modern identity with high-contrast typography and vibrant accents to disrupt traditional food branding and drive shelf appeal.",
+                "card2-title": "Nextar",
+                "card2-desc": "Created a premium fintech aesthetic using sharp geometry and dark glassmorphism to convey trust, clarity, and next-gen intelligence.",
+                "card3-title": "CRV",
+                "card3-desc": "Engineered a bold, high-performance identity focused on discipline and strength, seamlessly bridging physical gear with digital app experiences.",
+                "card4-title": "Crive",
+                "card4-desc": "Crafted an approachable nutrition brand that simplifies active wellness through friendly visual language, clear messaging, and vibrant product packaging.",
+                "sec2-tag": "02 // Vector Marks",
+                "sec2-title": "The Logo Archive",
+                "sec2-count": "{total} ITEMS TOTAL",
+                "wip-title": "WORK IN PROGRESS",
+                "wip-sub": "SLOT RESERVED",
+                "footer-title": "Return to Project Overview",
+                "footer-btn": "Portfolio Overview"
+            },
+            de: {
+                "nav-back": "ZURÜCK ZUM PORTFOLIO",
+                "header-tag": "Marken-Design",
+                "header-title": "Marken-Design &<br>Logo-Sammlung",
+                "header-p": "Eine Sammlung aus Marken-Designs, klaren Logos und realistischen Vorschauen mit präzisem Raster.",
+                "sec1-tag": "01 // Interaktive Vorschau",
+                "sec1-title": "Ausgewählte Marken-Projekte",
+                "sec1-sub": "Ziehen & Wischen // 04 Einheiten",
+                "card1-title": "frshy",
+                "card1-desc": "Entwicklung einer modernen Identität mit kontrastreicher Typografie und lebendigen Akzenten, um klassische Lebensmittel-Visuals neu zu denken.",
+                "card2-title": "Nextar",
+                "card2-desc": "Gestaltung einer hochwertigen Fintech-Ästhetik durch präzise Geometrie und Glassmorphismus, die Vertrauen, Klarheit und Innovation ausstrahlt.",
+                "card3-title": "CRV",
+                "card3-desc": "Konzeption eines performanten Markenauftritts für Disziplin und Stärke, der physisches Equipment nahtlos mit digitalen App-Erlebnissen verbindet.",
+                "card4-title": "Crive",
+                "card4-desc": "Erstellung einer zugänglichen Nutrition-Brand, die aktive Gesundheit durch nahbare Bildsprache, klare Botschaften und ansprechende Verpackungen vermittelt.",
+                "sec2-tag": "02 // Vektor-Logos",
+                "sec2-title": "Das Logo-Archiv",
+                "sec2-count": "{total} LOGOS INSGESAMT",
+                "wip-title": "IN BEARBEITUNG",
+                "wip-sub": "PLATZ RESERVIERT",
+                "footer-title": "Zurück zur Projekt-Übersicht",
+                "footer-btn": "Portfolio-Übersicht"
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const btnEn = document.getElementById('lang-en');
+            const btnDe = document.getElementById('lang-de');
+
+            if (lang === 'de') {
+                if (btnDe) btnDe.className = "px-3 py-1 rounded-full font-bold transition-all bg-white text-black";
+                if (btnEn) btnEn.className = "px-3 py-1 rounded-full font-bold transition-all text-white hover:opacity-70";
+            } else {
+                if (btnEn) btnEn.className = "px-3 py-1 rounded-full font-bold transition-all bg-white text-black";
+                if (btnDe) btnDe.className = "px-3 py-1 rounded-full font-bold transition-all text-white hover:opacity-70";
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                if (key === 'sec2-count') {
+                    const countTemplate = i18n[lang][key] || "{total} ITEMS TOTAL";
+                    el.textContent = countTemplate.replace('{total}', LOGO_DATA.length);
+                } else if (i18n[lang][key]) {
+                    if (key.includes('title') || key.includes('p') || key.includes('back')) {
+                        el.innerHTML = i18n[lang][key];
+                    } else {
+                        el.textContent = i18n[lang][key];
+                    }
+                }
+            });
+
+            renderLogoGrid(currentPage);
+        }
+
+        // ============================================================================
+        // LOGO ARCHIVE PAGINATION & WIP SLOT RENDERER (DOM Native - Safe)
+        // ============================================================================
+        function renderLogoGrid(page) {
+            const grid = document.getElementById('logo-grid');
+            if (!grid) return;
+
+            const totalPages = Math.ceil(LOGO_DATA.length / ITEMS_PER_PAGE) || 1;
+            const targetPage = Math.min(Math.max(1, page), totalPages);
+
+            if (isPageTransitioning) return;
+            isPageTransitioning = true;
+            currentPage = targetPage;
+
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const pageItems = LOGO_DATA.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+            // Halt current active animations immediately
+            const activeCards = grid.querySelectorAll('[data-gsap="logo-card"]');
+            gsap.killTweensOf(activeCards);
+            gsap.set(activeCards, { scale: 1, rotateX: 0, rotateY: 0, x: 0, y: 0, opacity: 1 });
+
+            // Update Pagination UI Elements
+            const pageIndicator = document.getElementById('page-indicator');
+            if (pageIndicator) {
+                pageIndicator.textContent = `${String(currentPage).padStart(2, '0')} / ${String(totalPages).padStart(2, '0')}`;
+            }
+            
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            if (prevBtn) prevBtn.disabled = currentPage === 1;
+            if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+
+            const countEl = document.getElementById('sec2-count');
+            if (countEl) {
+                const countText = i18n[currentLang]["sec2-count"] || "{total} ITEMS TOTAL";
+                countEl.textContent = countText.replace('{total}', LOGO_DATA.length);
+            }
+
+            // Animate grid exit and cleanly swap DOM children
+            gsap.to(activeCards, {
+                opacity: 0,
+                scale: 0.95,
+                duration: 0.15,
+                stagger: 0.01,
+                ease: "power1.in",
+                onComplete: () => {
+                    while (grid.firstChild) {
+                        grid.removeChild(grid.firstChild);
+                    }
+
+                    pageItems.forEach(item => {
+                        const num = String(item.id).padStart(2, '0');
+                        const card = item.active ? createActiveLogoCard(num) : createWipCard(num);
+                        grid.appendChild(card);
+                    });
+
+                    bindLogoCardInteractions();
+                    isPageTransitioning = false;
+                }
+            });
+        }
+
+        // Construct Active Logo Card via DOM API
+        function createActiveLogoCard(num) {
+            const card = document.createElement('div');
+            card.className = "group border border-black rounded-xl overflow-hidden aspect-square bg-gray-50 flex flex-col justify-between p-4 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,0.05)] origin-center";
+            card.setAttribute('data-gsap', 'logo-card');
+
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = "absolute inset-0 flex items-center justify-center p-8 pointer-events-none";
+
+            const img = document.createElement('img');
+            img.src = `public/logos/logo-${num}.png`;
+            img.alt = `Logo mark ${num}`;
+            img.className = "max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out";
+            
+            img.onerror = function() {
+                const wipCard = createWipCard(num);
+                if (card.parentNode) {
+                    card.replaceWith(wipCard);
+                    bindLogoCardInteractions();
+                }
+            };
+
+            imgWrapper.appendChild(img);
+
+            const label = document.createElement('span');
+            label.className = "font-mono text-[10px] text-gray-400 relative z-10 pointer-events-none";
+            label.textContent = `MARK_${num}`;
+
+            card.appendChild(imgWrapper);
+            card.appendChild(label);
+            return card;
+        }
+
+        // Construct WIP Card via DOM API
+        function createWipCard(num) {
+            const card = document.createElement('div');
+            card.className = "group border border-dashed border-gray-300 rounded-xl overflow-hidden aspect-square wip-pattern flex flex-col justify-between p-4 relative origin-center select-none";
+            card.setAttribute('data-gsap', 'logo-card');
+
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = "absolute inset-0 flex flex-col items-center justify-center p-6 text-center pointer-events-none";
+
+            const iconBox = document.createElement('div');
+            iconBox.className = "w-10 h-10 rounded-full bg-gray-200/60 border border-gray-300 flex items-center justify-center mb-3 text-gray-400 group-hover:scale-110 transition-transform";
+
+            const icon = document.createElement('i');
+            icon.className = "ri-loader-3-line animate-spin text-lg";
+            iconBox.appendChild(icon);
+
+            const titleSpan = document.createElement('span');
+            titleSpan.className = "font-mono font-bold text-[11px] uppercase tracking-wider text-gray-500";
+            titleSpan.textContent = i18n[currentLang]["wip-title"] || "WORK IN PROGRESS";
+
+            const subSpan = document.createElement('span');
+            subSpan.className = "font-mono text-[9px] uppercase tracking-widest text-gray-400 mt-1";
+            subSpan.textContent = i18n[currentLang]["wip-sub"] || "SLOT RESERVED";
+
+            contentWrapper.appendChild(iconBox);
+            contentWrapper.appendChild(titleSpan);
+            contentWrapper.appendChild(subSpan);
+
+            const label = document.createElement('span');
+            label.className = "font-mono text-[10px] text-gray-400 relative z-10 pointer-events-none";
+            label.textContent = `MARK_${num}`;
+
+            card.appendChild(contentWrapper);
+            card.appendChild(label);
+            return card;
+        }
+
+        function bindLogoCardInteractions() {
+            const cards = document.querySelectorAll('[data-gsap="logo-card"]');
+            
+            gsap.fromTo(cards, 
+                { opacity: 0, scale: 0.95, y: 15 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: 0.3,
+                    stagger: 0.02,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                }
+            );
+
+            cards.forEach((card) => {
+                card.addEventListener('mousemove', (e) => {
+                    if (isPageTransitioning) return;
+
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                    gsap.to(card, {
+                        scale: 1.12,
+                        opacity: 1,
+                        rotateX: y * -22,
+                        rotateY: x * 22,
+                        x: x * 15,
+                        y: y * 15,
+                        shadow: "0px 20px 40px rgba(0,0,0,0.25)",
+                        duration: 0.2,
+                        ease: "power1.out",
+                        overwrite: "auto"
+                    });
+
+                    cards.forEach((sibling) => {
+                        if (sibling !== card) {
+                            gsap.to(sibling, {
+                                scale: 0.94,
+                                opacity: 0.45,
+                                duration: 0.3,
+                                ease: "power2.out",
+                                overwrite: "auto"
+                            });
+                        }
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    if (isPageTransitioning) return;
+
+                    gsap.to(card, {
+                        scale: 1,
+                        rotateX: 0,
+                        rotateY: 0,
+                        x: 0,
+                        y: 0,
+                        shadow: card.classList.contains('border-dashed') ? "none" : "4px 4px 0px 0px rgba(0,0,0,0.05)",
+                        duration: 0.4,
+                        ease: "elastic.out(1.1, 0.6)",
+                        overwrite: "auto"
+                    });
+
+                    cards.forEach((sibling) => {
+                        gsap.to(sibling, {
+                            scale: 1,
+                            opacity: 1,
+                            duration: 0.3,
+                            ease: "power2.out",
+                            overwrite: "auto"
+                        });
+                    });
+                });
+            });
+        }
+
+        // Initialization Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup Pagination Button Listeners
+            const prevPageBtn = document.getElementById('prev-page');
+            if (prevPageBtn) {
+                prevPageBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!isPageTransitioning && currentPage > 1) {
+                        renderLogoGrid(currentPage - 1);
+                    }
+                });
+            }
+
+            const nextPageBtn = document.getElementById('next-page');
+            if (nextPageBtn) {
+                nextPageBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const totalPages = Math.ceil(LOGO_DATA.length / ITEMS_PER_PAGE);
+                    if (!isPageTransitioning && currentPage < totalPages) {
+                        renderLogoGrid(currentPage + 1);
+                    }
+                });
+            }
+
+            renderLogoGrid(1);
+        });
+
+        // Smooth Scroll core initialization
+        const lenis = new Lenis();
+        function raf(time) { 
+            lenis.raf(time); 
+            requestAnimationFrame(raf); 
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP Initialization
+        gsap.registerPlugin(ScrollTrigger, Draggable);
+        
+        // Entrance Intro Header Animation
+        const tl = gsap.timeline();
+        tl.to('#header-tag', { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" })
+          .to('#header-title', { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.3")
+          .to('#header-p', { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
+
+        // Standard block element transitions
+        document.querySelectorAll('[data-gsap="fade-up"]').forEach((el) => {
+            gsap.fromTo(el, 
+                { opacity: 0, y: 25 },
+                {
+                    opacity: 1, 
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 92%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // ============================================================================
+        // DRAG & SWIPE ONLY AUTOMATED MOMENTUM CAROUSEL
+        // ============================================================================
+        const viewport = document.getElementById('carousel-viewport');
+        const track = document.getElementById('carousel-track');
+        
+        if (viewport && track) {
+            const originalCards = Array.from(track.children);
+
+            // Setup structural clones for clean wrapping loops
+            originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
+            originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
+
+            const allCards = Array.from(track.children);
+            let cardWidth = originalCards[0]?.offsetWidth || 440; 
+            let gap = 48; 
+            let totalIterationWidth = (cardWidth + gap) * originalCards.length;
+
+            const BASE_AUTOPLAY_SPEED = -1.2; 
+            const SLOWDOWN_SPEED = -0.3;      
+
+            let currentVelocity = BASE_AUTOPLAY_SPEED; 
+            let targetVelocity = BASE_AUTOPLAY_SPEED;
+            let isDragging = false;
+            let isHovered = false;
+
+            let lastX = 0;
+            let lastTime = 0;
+            let dragVelocity = 0;
+
+            function updateDepthEffects() {
+                let currentX = gsap.getProperty(track, "x");
+                
+                if (currentX > 0) {
+                    currentX -= totalIterationWidth;
+                    gsap.set(track, { x: currentX });
+                } else if (currentX < -totalIterationWidth) {
+                    currentX += totalIterationWidth;
+                    gsap.set(track, { x: currentX });
+                }
+
+                const viewportRect = viewport.getBoundingClientRect();
+                const viewportCenter = viewportRect.left + viewportRect.width / 2;
+
+                allCards.forEach((card) => {
+                    const cardRect = card.getBoundingClientRect();
+                    const cardCenter = cardRect.left + cardRect.width / 2;
+                    
+                    const maxDistance = viewportRect.width * 0.6;
+                    const distance = Math.abs(viewportCenter - cardCenter);
+                    const progress = Math.min(distance / maxDistance, 1);
+
+                    const scale = gsap.utils.mapRange(0, 1, 1.2, 0.65, progress);
+                    const opacity = gsap.utils.mapRange(0, 1, 1.0, 0.25, progress);
+
+                    gsap.set(card, { 
+                        scale: scale, 
+                        opacity: opacity,
+                        transformOrigin: "center center",
+                        zIndex: Math.round(gsap.utils.mapRange(0, 1, 100, 1, progress))
+                    });
+                });
+            }
+
+            gsap.ticker.add(() => {
+                if (!isDragging) {
+                    currentVelocity += (targetVelocity - currentVelocity) * 0.05;
+                    let nextX = gsap.getProperty(track, "x") + currentVelocity;
+                    gsap.set(track, { x: nextX });
+                    
+                    if (targetVelocity !== BASE_AUTOPLAY_SPEED && targetVelocity !== SLOWDOWN_SPEED) {
+                        targetVelocity += (BASE_AUTOPLAY_SPEED - targetVelocity) * 0.025;
+                    }
+                    updateDepthEffects();
+                }
+            });
+
+            const dragInstance = Draggable.create(track, {
+                type: "x",
+                trigger: viewport,
+                onPress: function() {
+                    isDragging = true;
+                    targetVelocity = SLOWDOWN_SPEED;
+                    lastX = gsap.getProperty(track, "x");
+                    lastTime = Date.now();
+                    dragVelocity = 0;
+                },
+                onDrag: function() {
+                    let currentX = gsap.getProperty(track, "x");
+                    let currentTime = Date.now();
+                    let timeDelta = currentTime - lastTime;
+                    
+                    if (timeDelta > 0) {
+                        dragVelocity = (currentX - lastX) / (timeDelta / 16.666);
+                    }
+                    
+                    if (currentX > 0) {
+                        this.startX -= totalIterationWidth;
+                        currentX -= totalIterationWidth;
+                        gsap.set(track, { x: currentX });
+                    } else if (currentX < -totalIterationWidth) {
+                        this.startX += totalIterationWidth;
+                        currentX += totalIterationWidth;
+                        gsap.set(track, { x: currentX });
+                    }
+                    
+                    lastX = currentX;
+                    lastTime = currentTime;
+                    updateDepthEffects();
+                },
+                onRelease: function() {
+                    isDragging = false;
+                    currentVelocity = gsap.utils.clamp(-45, 45, dragVelocity);
+                    targetVelocity = isHovered ? SLOWDOWN_SPEED : BASE_AUTOPLAY_SPEED;
+                }
+            })[0];
+
+            viewport.addEventListener('mouseenter', () => {
+                isHovered = true;
+                if (!isDragging) targetVelocity = SLOWDOWN_SPEED;
+            });
+
+            viewport.addEventListener('mouseleave', () => {
+                isHovered = false;
+                if (!isDragging) targetVelocity = BASE_AUTOPLAY_SPEED;
+            });
+
+            function recalibrateMetrics() {
+                if (originalCards[0]) {
+                    cardWidth = originalCards[0].offsetWidth || 440;
+                    totalIterationWidth = (cardWidth + gap) * originalCards.length;
+                }
+                if (dragInstance) dragInstance.update();
+                updateDepthEffects();
+            }
+
+            window.addEventListener('resize', recalibrateMetrics);
+            window.addEventListener('load', recalibrateMetrics);
+            setTimeout(updateDepthEffects, 100);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marc Siegfried | Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='900'%3EM%3C/text%3E%3C/svg%3E">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <!-- Lenis for Smooth Scrolling -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./src/main.css">
+</head>
+<body class="antialiased selection:bg-black selection:text-white">
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    <!-- Splash Screen -->
+    <div class="loader-overlay" id="loader">
+        <div class="text-6xl md:text-9xl font-black tracking-tighter mix-blend-difference" id="loader-percent">000</div>
+        <div class="text-xs font-mono mt-4 tracking-widest uppercase opacity-50">Loading Interface</div>
+    </div>
+    <!-- Navigation -->
+<nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white opacity-0" id="navbar">
+    <a href="#" id="home-button" class="text-2xl font-black tracking-tighter uppercase cursor-pointer hover:opacity-70 transition-opacity">MARC.S</a>
+    
+    <div class="hidden md:flex gap-8 font-mono text-sm">
+        <a href="#about" class="hover:underline underline-offset-4" data-en="ABOUT" data-de="ÜBER MICH">ABOUT</a>
+        <a href="#works" class="hover:underline underline-offset-4" data-en="WORKS" data-de="PROJEKTE">WORKS</a>
+        <a href="#contact" class="hover:underline underline-offset-4" data-en="CONTACT" data-de="KONTAKT">CONTACT</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+        <div class="flex items-center font-mono text-[10px] border border-white/30 rounded-full p-1 bg-white/10">
+            <button id="lang-en" class="cursor-pointer px-2 py-1 rounded-full bg-white text-black transition-all duration-300">EN</button>
+            <button id="lang-de" class="cursor-pointer px-2 py-1 rounded-full hover:text-gray-400 transition-all duration-300">DE</button>
+        </div>
+
+        <div class="hidden sm:block text-xs font-mono border border-white/30 px-3 py-1 rounded-full whitespace-nowrap" data-en="AVAILABLE FOR WORK" data-de="VERFÜGBAR FÜR PROJEKTE">
+            AVAILABLE FOR WORK
+        </div>
+    </div>
+</nav>
+    <main class="relative z-10 w-full overflow-hidden">
+
+         <!-- Hero Section -->
+<section class="min-h-screen flex flex-col justify-center relative px-6 md:px-20 pt-24 pb-32 md:pb-0 grid-bg">
+
+        <!-- Background Parallax Text -->
+    <div class="absolute top-1/4 -right-20 text-[20vw] font-bold text-gray-50 opacity-20 pointer-events-none select-none leading-none z-0 parallax-element" data-speed="0.2">
+        DEV
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="order-2 lg:order-1 space-y-6">
+            <div class="overflow-hidden">
+                <h2 class="text-xl text-gray-500 font-mono hero-reveal" 
+                data-en="Hello, I am" 
+                data-de="Hallo, ich bin">Hello, I am</h2>
+            </div>
+            <div class="relative">
+                <h1 class="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4">
+                    <div class="overflow-hidden"><span class="block hero-reveal">MARC</span></div>
+                    <div class="overflow-hidden"><span class="block hero-reveal text-stroke">SIEGFRIED</span></div>
+                </h1>
+            </div>
+            <div class="h-12 overflow-hidden flex items-center gap-2 opacity-0 animate-fade-in" 
+     style="animation: fadeIn 2s forwards; animation-delay: 3.5s;">
+                <span class="w-2 h-2 bg-black rounded-full animate-pulse"></span>
+                <span class="text-xl md:text-2xl font-mono" id="typewriter"></span>
+            </div>
+            <div class="pt-8 flex flex-col sm:flex-row gap-6 hero-reveal">
+                <a href="#contact" class="magnetic-btn px-10 py-4 bg-black text-white font-bold hover:bg-gray-900 transition-colors shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] border border-black text-center" data-en="START A PROJECT" data-de="STARTE EIN PROJEKT">
+                    START A PROJECT
+                </a>
+                <a href="#about" class="magnetic-btn px-10 py-4 border border-black font-bold hover:bg-black hover:text-white transition-all text-center" data-en="VIEW PROFILE" data-de="ZUM PROFIL">
+                    VIEW PROFILE
+                </a>
+            </div>
+        </div>
+        
+        <div class="order-1 lg:order-2 flex justify-center relative">
+            <div class="relative w-full max-w-md">
+                <div class="hero-img-container w-full aspect-[4/5] relative grayscale hover:grayscale-0 transition-all duration-700 ease-in-out group overflow-hidden">
+                    <img src="public\portf10.png" alt="Kelum" class="w-full h-full object-cover">
+
+                    <!-- Overlay Lines -->
+                    <div class="absolute inset-0 border border-white/20 pointer-events-none"></div>
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 text-xs font-mono font-bold border border-black" data-en="SCROLL TO EXPLORE" data-de="SCROLL NACH UNTEN">
+                        SCROLL TO EXPLORE
+                    </div>
+                </div>
+
+               <!-- Floating Badge -->
+                <div class="absolute -bottom-5 -right-0 md:-right-12 w-24 h-24 md:w-32 md:h-32 rounded-full bg-black text-white flex items-center justify-center text-center text-xs font-mono rotate-12 animate-spin-slow shadow-2xl hero-reveal z-50">
+                    <img src="public\logo2.png" class="w-2/3 h-2/3 object-contain" style="width: 500px; height: 500px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-0 animate-fade-in-up" style="animation-delay: 2s;">
+        <div class="w-[1px] h-20 bg-gradient-to-b from-transparent to-black"></div>
+    </div>
+</section>
+
+        <!-- Marquee -->
+<div class="mt-20 md:mt-0 py-12 bg-black text-white overflow-hidden border-y border-white/10 rotate-[-2deg] scale-105 z-20 relative">
+    <div class="flex whitespace-nowrap marquee-track">
+        <span class="text-4xl md:text-6xl font-black font-mono mx-8 tracking-tighter">CODING • UI/UX DESIGN • GRAPHIC DESIGN • WEB DEVELOPMENT • MOTION DESIGN • VIDEO EDITING • CREATIVE •</span>
+        <span class="text-4xl md:text-6xl font-black font-mono mx-8 tracking-tighter">CODING • UI/UX DESIGN • GRAPHIC DESIGN • WEB DEVELOPMENT • MOTION DESIGN • VIDEO EDITING • CREATIVE •</span>
+    </div>
+</div>
+        <!-- Bio & Map Section -->
+        <section id="about" class="py-32 relative">
+            <div class="container mx-auto px-6 md:px-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                    <div>
+                        <span class="inline-block border border-black px-4 py-1 rounded-full text-sm font-mono mb-8" data-gsap="fade">LOCATION_DATA</span>
+                        <h2 class="text-5xl md:text-7xl font-black mb-8 leading-tight" data-gsap="slide-up">
+                            BORN IN <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-800">OBERSTDORF</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 leading-relaxed mb-10 max-w-md" data-gsap="fade" 
+                        data-en="Bachelor’s graduate in Media Design, based in Sonthofen. Combining my experience and creativity to create exceptional digital experiences." 
+                        data-de="Bachelor-Absolvent im Bereich Mediendesign, wohnhaft in Sonthofen. Ich kombiniere meine Erfahrung und Kreativität, um außergewöhnliche digitale Erlebnisse zu schaffen.">
+                            Bachelor’s graduate in Media Design, based in Sonthofen. Combining my experience and creativity to create exceptional digital experiences.
+                        </p>
+                        <!-- Stats -->
+                        <div class="grid grid-cols-2 gap-8 mb-12">
+                            <div class="border-l-2 border-black pl-6" data-gsap="fade">
+                                <div class="text-4xl font-bold mb-2" id="dynamic-projects">0+</div>
+                                <div class="text-sm font-mono text-gray-500" data-en="PROJECTS DONE" data-de="ERLEDIGTE PROJEKTE">PROJECTS DONE</div>
+                            </div>
+                            <div class="border-l-2 border-black pl-6" data-gsap="fade">
+                                <div class="text-4xl font-bold mb-2" id="dynamic-exp">0+</div>
+                                <div class="text-sm font-mono text-gray-500" data-en="YEARS EXP." data-de="JAHRE ERFAHRUNG">YEARS EXP.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Interactive Map -->
+<div class="relative h-[400px] md:h-[500px] bg-gray-50 border border-gray-200 rounded-2xl flex items-center justify-center overflow-hidden" id="map-container" data-gsap="scale-in">
+    
+    <!-- Simplified SVG Map of Oberstdorf -->
+    <div class="relative inline-block h-full md:h-auto">
+        <img src="public\oberstdorf_g.png" class="w-auto h-full md:w-[500px] md:h-auto object-contain">
+
+        <!-- Pin -->
+        <div class="absolute map-pin opacity-0 top-[32%] left-[73%] -translate-x-1/2 -translate-y-[85%] flex flex-col items-center" id="map-pin">
+            <i class="ri-map-pin-fill text-4xl text-black drop-shadow-2xl"></i>
+            <div class="w-3 h-1 bg-black/50 rounded-full blur-[2px] mt-[-5px]"></div>
+        </div>
+
+        <!-- Radar Effect -->
+        <div class="absolute top-[39%] left-[73%] w-20 h-20 -translate-x-1/2 -translate-y-1/2 border border-black/30 rounded-full animate-ping opacity-30 pointer-events-none"></div>
+    </div>
+        <div class="absolute top-4 right-4 text-xs font-mono text-gray-400">OBERSTDORF</div>
+</div>
+                </div>
+            </div>
+        </section>
+        <!-- Live Age Section -->
+        <section class="py-20 bg-black text-white relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                <div class="w-full h-full grid-bg invert"></div>
+            </div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <div class="mb-12">
+                    <h3 class="text-sm font-mono uppercase tracking-[0.3em] text-gray-400 mb-2">System Runtime</h3>
+                    <h2 class="text-3xl md:text-5xl font-bold" data-en="LIFE CHRONOMETER" data-de="LEBENSCHRONOMETER">LIFE CHRONOMETER</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+                    <!-- Unit Block -->
+                    <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
+                        <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="years">00</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Years" data-de="Jahre">Years</div>
+                    </div>
+                    <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
+                        <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="months">00</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Months" data-de="Monate">Months</div>
+                    </div>
+                    <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
+                        <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="days">00</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Days" data-de="Tage">Days</div>
+                    </div>
+                    <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
+                        <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="hours">00</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Hours" data-de="Stunden">Hours</div>
+                    </div>
+                    <div class="bg-gray-900/50 p-6 border border-gray-800 rounded-lg hover:border-white transition-colors group">
+                        <div class="text-5xl md:text-6xl font-black font-mono age-digit group-hover:scale-110 transition-transform duration-300" id="minutes">00</div>
+                        <div class="text-xs uppercase text-gray-500 mt-2" data-en="Minutes" data-de="Minuten">Minutes</div>
+                    </div>
+                    <div class="bg-white text-black p-6 border border-white rounded-lg relative overflow-hidden">
+                        <div class="text-5xl md:text-6xl font-black font-mono age-digit relative z-10" id="seconds">00</div>
+                        <div class="text-xs uppercase text-gray-800 mt-2 relative z-10 font-bold" data-en="Seconds" data-de="Sekunden">Seconds</div>
+                        <div class="absolute bottom-0 left-0 h-1 bg-black transition-all duration-1000 ease-linear w-full" id="sec-bar"></div>
+                    </div>
+                </div>
+                <div class="mt-12 text-gray-500 font-mono text-xs">
+                    ORIGIN: 2002-01-28T11:10:00+05:30
+                </div>
+            </div>
+        </section>
+        <!-- Horizontal Scroll Works -->
+        <section id="works" class="bg-white relative overflow-hidden">
+            <div class="h-screen sticky top-0 flex items-center overflow-hidden" id="works-container">
+                <div class="absolute top-10 left-10 z-20">
+                    <h2 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-black to-gray-400 opacity-20" data-en="WORKS" data-de="PROJEKTE">WORKS</h2>
+                </div>
+                <div class="flex gap-20 px-20 pl-[20vw]" id="works-wrapper">
+                    
+
+<!-- Card 1 Brand Design -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer" id="card-1">
+    <div class="absolute inset-0 bg-gray-100 transform rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-white border border-black p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-200 mb-4 relative shrink-0">
+            <div class="w-full h-full relative slideshow-container" id="brand-card-slideshow">
+                <img src="public/frshy2.png" 
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-100" alt="frshy Showcase">
+
+                <img src="public/Nextar2.png"
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0" alt="Nextar Showcase">
+                
+                <img src="public/crv.png"
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0" alt="CRV Showcase">
+
+                <img src="public/Crive_showcase_w.png"
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0" alt="Crive Showcase">
+
+                <video src="public/crive_protein-gummies_animation_1.mp4" 
+                    class="slideshow-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out scale-100 group-hover:scale-110 opacity-0"
+                    loop muted playsinline></video>
+            </div>
+            <div class="absolute top-2 right-2 bg-black text-white text-[10px] md:text-xs font-mono px-2 py-1 z-10">
+                BRANDING
+            </div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Brand Design & Logos</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
+                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="Strategic identity systems and vector marks across various industries. From high-contrast food branding to sharp fintech aesthetics, each concept is crafted with clear typography and targeted positioning." 
+                data-de="Strategische Identitätssysteme und Vektor-Logos für verschiedene Branchen. Von kontrastreichem Food-Branding bis hin zu präziser Fintech-Ästhetik – jedes Konzept setzt auf klare Typografie und gezielte Positionierung.">
+                    Strategic identity systems and vector marks across various industries. From high-contrast food branding to sharp fintech aesthetics, each concept is crafted with clear typography and targeted positioning.
+                </p>
+            </div>
+        </div>
+        
+        <div class="mt-auto flex justify-between items-end border-t border-black pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-20">01</span>
+
+            <!-- First-time Visitor Arrow Tooltip -->
+            <div id="project-arrow-tooltip" class="hidden absolute bottom-18 right-5 z-30 items-center gap-0 bg-black text-white px-3 py-1.5 rounded-lg border border-white/20 shadow-xl pointer-events-auto select-none">
+                <span class="font-mono text-[11px] whitespace-nowrap" 
+                    data-en="Click here for project details!" 
+                    data-de="Hier klicken für Projekt-Infos!">
+                    Click here for project details!
+                </span>
+
+                <!-- Close button -->
+                <button id="close-arrow-tooltip" aria-label="Close message" class="ml-1 text-gray-400 hover:text-white transition-colors cursor-pointer text-xs leading-none">
+                    <i class="ri-close-line"></i>
+                </button>
+
+                <!-- Tooltip pointer tail pointing at the arrow icon -->
+                <div class="absolute -bottom-1.5 right-4 w-3 h-3 bg-black border-r border-b border-white/20 rotate-45"></div>
+            </div>
+
+            <a href="brand-hub.html" 
+            onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
+            onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
+            style="display: inline-block; cursor: pointer;">
+                <i class="ri-arrow-right-up-line text-2xl transition-transform duration-300" style="display: inline-block;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function initCardSlideshow() {
+        const container = document.getElementById('brand-card-slideshow');
+        if (!container) return;
+        
+        const slides = container.querySelectorAll('.slideshow-slide');
+        if (slides.length <= 1) return;
+
+        let currentIndex = 0;
+
+        setInterval(() => {
+            const currentSlide = slides[currentIndex];
+
+            // Pause video if moving away from it
+            if (currentSlide.tagName.toLowerCase() === 'video') {
+                currentSlide.pause();
+            }
+
+            // Fade out current slide
+            currentSlide.classList.remove('opacity-100');
+            currentSlide.classList.add('opacity-0');
+
+            // Advance index
+            currentIndex = (currentIndex + 1) % slides.length;
+            const nextSlide = slides[currentIndex];
+
+            // Play video if transitioning into it
+            if (nextSlide.tagName.toLowerCase() === 'video') {
+                nextSlide.play();
+            }
+
+            // Fade in next slide
+            nextSlide.classList.remove('opacity-0');
+            nextSlide.classList.add('opacity-100');
+        }, 2500); // Transitions every 2.5 seconds
+    })();
+</script>
+
+<!-- Card 4 -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer mt-20">
+    <div class="absolute inset-0 bg-gray-900 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-black text-white border border-gray-800 p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-black mb-4 relative shrink-0">
+            <video src="public\webdesign_showcase.mp4" class="w-full h-full object-contain transition-all duration-700 scale-100 group-hover:scale-110" autoplay loop muted playsinline></video>
+            <div class="absolute top-2 right-2 bg-white text-black text-[10px] md:text-xs font-mono px-2 py-1">Interfaces</div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Web & Interface Design</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="I design and build modern, accessible, and semantic web interfaces, focusing on clean layouts and intuitive user experiences. My work demonstrates an ability to organize varied content into seamless digital products that bridge technical performance with aesthetic clarity." 
+                data-de="Ich gestalte und erstelle moderne, barrierefreie und semantische Web-Interfaces mit Fokus auf klaren Layouts und intuitiven Nutzererlebnissen. Meine Arbeit zeigt die Fähigkeit, unterschiedliche Inhalte in nahtlose digitale Produkte zu strukturieren, die technische Leistung mit ästhetischer Klarheit verbinden.">
+                    I design and build modern, accessible, and semantic web interfaces, focusing on clean layouts and intuitive user experiences. My work demonstrates an ability to organize varied content into seamless digital products that bridge technical performance with aesthetic clarity.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-auto flex justify-between items-end border-t border-gray-700 pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-20">02</span>
+
+            <a href="web-design.html" 
+            onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
+            onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
+            style="display: inline-block; cursor: pointer;">
+                <i class="ri-arrow-right-up-line text-2xl transition-transform duration-300" style="display: inline-block;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+                    <!-- Card 3 - Gradient -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer">
+    <div class="absolute inset-0 bg-gray-100 transform rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-white border border-black p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-200 mb-4 relative shrink-0">
+            <video src="public\gradients.mp4" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+            <div class="absolute top-2 right-2 bg-black text-[10px] md:text-xs font-mono px-2 py-1 text-white">MOTION DESIGN</div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Gradient Motion Design</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
+                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="A project dedicated to gradient motion design where I explored liquid-like color shifts in After Effects. I experimented with various techniques to achieve these smooth, visually satisfying transitions, showing my ability to create modern, abstract visuals and high-quality motion textures." 
+                data-de="Ein Projekt, das sich dem Gradient Motion Design widmet, bei dem ich fließende Farbverläufe in After Effects erforscht habe. Ich habe mit verschiedenen Techniken experimentiert, um diese weichen, visuell ansprechenden Übergänge zu erzielen, und dabei meine Fähigkeit gezeigt, moderne, abstrakte Visuals und hochwertige Motion-Texturen zu gestalten.">
+                    A project dedicated to gradient motion design where I explored liquid-like color shifts in After Effects. I experimented with various techniques to achieve these smooth, visually satisfying transitions, showing my ability to create modern, abstract visuals and high-quality motion textures.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-auto flex justify-between items-end border-t border-black pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-10">03</span>
+            
+            <a href="project-detail.html?id=gradients" 
+            onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
+            onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
+            style="display: inline-block; cursor: pointer;">
+                <i class="ri-arrow-right-up-line text-2xl transition-transform duration-300" style="display: inline-block;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+                    <!-- Card 2 -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer mt-20">
+    <div class="absolute inset-0 bg-gray-900 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-black text-white border border-gray-800 p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-800 mb-4 relative shrink-0">
+            <video src="public\logos.mp4" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110" autoplay loop muted playsinline></video>
+            <div class="absolute top-2 right-2 bg-white text-black text-[10px] md:text-xs font-mono px-2 py-1">MOTION DESIGN</div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Logo Intro Animation</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="Animated cinematic intro for my personal logo using After Effects. I used lighting and depth to turn a static design into a professional opening sequence, showing my skill in creating high-quality motion graphics that give a brand a more dramatic and polished feel." 
+                data-de="Animiertes, cineastisches Intro für mein persönliches Logo in After Effects. Durch den Einsatz von Licht und Tiefenwirkung habe ich ein statisches Design in eine professionelle Opening-Sequenz verwandelt und dabei meine Fähigkeit gezeigt, hochwertige Motion Graphics zu erstellen, die einer Marke einen dramatischeren und zugleich polierten Look verleihen.">
+                    Animated cinematic intro for my personal logo using After Effects. I used lighting and depth to turn a static design into a professional opening sequence, showing my skill in creating high-quality motion graphics that give a brand a more dramatic and polished feel.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-auto flex justify-between items-end border-t border-gray-700 pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-20">04</span>
+
+            <a href="project-detail.html?id=logos" 
+            onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
+            onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
+            style="display: inline-block; cursor: pointer;">
+                <i class="ri-arrow-right-up-line text-2xl transition-transform duration-300" style="display: inline-block;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+                    <!-- Card 5 -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer" id="card-5">
+    <div class="absolute inset-0 bg-gray-100 transform rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-white border border-black p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-200 mb-4 relative shrink-0">
+            <div class="w-full h-full relative">
+                <img src="public\student-job_thumbnail_g.png"
+                     class="slideshow-slide w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110">
+                <img src="public\graphic-design_thumbnail.png"
+                     class="slideshow-slide w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110 hidden">
+                <img src="public\motion-design_thumbnail.png"
+                     class="slideshow-slide w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110 hidden">
+            </div>
+
+            <div class="absolute top-2 right-2 bg-black text-white text-[10px] md:text-xs font-mono px-2 py-1">
+                GRAPHIC
+            </div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Thumbnails</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-100 pl-3">
+                <p class="text-gray-500 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="A series of thumbnails I created in Adobe Photoshop for social media, focusing on clear layouts and bold text to make them stand out. This project shows my skill in blending images and designing eye-catching visuals that help content get noticed in a busy feed." 
+                data-de="Eine Reihe von Thumbnails, die ich in Adobe Photoshop für soziale Medien erstellt habe, mit Fokus auf klaren Layouts und auffälliger Typografie, um sie hervorzuheben. Dieses Projekt zeigt meine Kompetenz, Bilder zu kombinieren und aufmerksamkeitsstarke Designs zu entwickeln, die Inhalte in einem überfüllten Feed sichtbar machen.">
+                    A series of thumbnails I created in Adobe Photoshop for social media, focusing on clear layouts and bold text to make them stand out. This project shows my skill in blending images and designing eye-catching visuals that help content get noticed in a busy feed.
+                </p>
+            </div>
+        </div>
+        
+        <div class="mt-auto flex justify-between items-end border-t border-black pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-20">05</span>
+
+            <a href="thumbnail-video-showcase.html" 
+            onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
+            onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
+            style="display: inline-block; cursor: pointer;">
+                <i class="ri-arrow-right-up-line text-2xl transition-transform duration-300" style="display: inline-block;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <!-- Card 6 -->
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer mt-20" id="card-6">
+    <div class="absolute inset-0 bg-gray-900 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-black text-white border border-gray-800 p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <!-- Media Container -->
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-800 mb-4 relative shrink-0">
+            <div class="absolute inset-0 w-full h-full js-slideshow-container">
+                <video src="public\tools_showcase.mp4" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110" autoplay loop muted playsinline></video>
+            </div>
+            <div class="absolute top-2 right-2 bg-white text-black text-[10px] md:text-xs font-mono px-2 py-1 z-10">JavaScript (ES6+)</div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Web Tools & Extensions</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="A collection of local-first browser tools and extensions built to handle file conversion, media clipping, and ad blocking entirely on the client side. Includes a custom network filtration script, a right-click enabler, and asset utilities designed to eliminate external server dependencies and preserve absolute data privacy." 
+                data-de="Eine Sammlung lokaler Browser-Tools und Extensions für Dateikonvertierung, Media-Clipping und Ad-Blocking direkt auf Client-Seite. Umfasst ein maßgeschneidertes Netzwerk-Filtrationsskript, einen Right-Click-Enabler und Asset-Utilities, die ohne externe Serverabhängigkeiten auskommen, um absoluten Datenschutz zu garantieren.">
+                    A collection of local-first browser tools and extensions built to handle file conversion, media clipping, and ad blocking entirely on the client side. Includes a custom network filtration script, a right-click enabler, and asset utilities designed to eliminate external server dependencies and preserve absolute data privacy.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-auto flex justify-between items-end border-t border-gray-700 pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-20">06</span>
+
+            <a href="tools-hub.html" 
+            onmouseenter="this.querySelector('i').style.transform = 'translate(4px, -4px)'" 
+            onmouseleave="this.querySelector('i').style.transform = 'translate(0, 0)'"
+            style="display: inline-block; cursor: pointer;">
+                <i class="ri-arrow-right-up-line text-2xl transition-transform duration-300" style="display: inline-block;"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Isolated JS Handler to completely prevent scaling reset conflicts -->
+    <script>
+        (function() {
+            const container = document.querySelector('#card-6');
+            const slides = container.querySelectorAll('.js-slideshow-container img');
+            let currentIndex = 0;
+            const intervalTime = 4000; // 4 seconds per view
+
+            if (slides.length <= 1) return;
+
+            function rotateSlides() {
+                const nextIndex = (currentIndex + 1) % slides.length;
+                
+                // Fade out current slide, fade in next slide smoothly via standard CSS transition properties
+                slides[currentIndex].style.opacity = '0';
+                slides[nextIndex].style.opacity = '1';
+                
+                currentIndex = nextIndex;
+            }
+
+            // Ensure initial structural states are loaded ready
+            slides.forEach((img, i) => {
+                img.style.transition = 'opacity 1s ease-in-out, transform 0.7s ease-in-out';
+                img.style.opacity = i === 0 ? '1' : '0';
+            });
+
+            setInterval(rotateSlides, intervalTime);
+        })();
+    </script>
+</div>
+
+    <script>
+        (function() {
+            const container = document.querySelector('#card-5');
+            const slides = container.querySelectorAll('.slideshow-slide');
+            let index = 0;
+            const interval = 3000; 
+
+            if (!slides.length) return;
+
+            function showNextSlide() {
+                slides[index].classList.add('hidden');
+                index = (index + 1) % slides.length;
+                slides[index].classList.remove('hidden');
+            }
+
+            slides.forEach((img, i) => {
+                img.classList.toggle('hidden', i !== 0);
+            });
+
+            setInterval(showNextSlide, interval);
+        })();
+    </script>
+</div>
+
+                    <!-- Card 6 
+<div class="work-item w-[85vw] md:w-[600px] h-[65vh] md:h-[60vh] relative group cursor-pointer mt-20">
+    <div class="absolute inset-0 bg-gray-900 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-black"></div>
+    
+    <div class="absolute inset-0 bg-black text-white border border-gray-800 p-6 md:p-8 flex flex-col transform group-hover:-translate-y-2 transition-transform duration-500">
+        
+        <div class="w-full h-2/5 md:h-3/5 overflow-hidden bg-gray-800 mb-4 relative shrink-0">
+            <img src="public\stats_smal.png" 
+                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100 opacity-70 group-hover:opacity-100">
+            <div class="absolute top-2 right-2 bg-white text-black text-[10px] md:text-xs font-mono px-2 py-1">CONTENT CREATION</div>
+        </div>
+
+        <h3 class="text-2xl md:text-4xl font-bold mb-2 shrink-0">Social Media Stats</h3>
+
+        <div class="relative flex-grow overflow-hidden mb-4
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 
+                    after:bg-gradient-to-t after:from-black after:to-transparent after:pointer-events-none">
+            
+            <div class="h-full overflow-y-auto pr-2 custom-scrollbar border-l-2 border-gray-800 pl-3">
+                <p class="text-gray-400 font-mono text-xs md:text-sm leading-relaxed pb-8" 
+                data-en="100,000 followers on TikTok reached in under three months, shown through a dashboard of my account’s growth and analytics. It reflects my interest in tracking social media trends and learning what type of content connects with an audience to help a channel grow." 
+                data-de="100.000 Follower auf TikTok in weniger als drei Monaten erreicht, dargestellt anhand eines Dashboards zum Wachstum und zu den Analysen meines Accounts. Dies spiegelt mein Interesse daran wider, Social-Media-Trends zu verfolgen und zu verstehen, welche Inhalte bei einem Publikum ankommen, um das Wachstum eines Kanals zu fördern.">
+                    100,000 followers on TikTok reached in under three months, shown through a dashboard of my account’s growth and analytics. It reflects my interest in tracking social media trends and learning what type of content connects with an audience to help a channel grow.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-auto flex justify-between items-end border-t border-gray-700 pt-4 shrink-0">
+            <span class="text-4xl font-black opacity-20">06</span>
+            <i class="ri-arrow-right-up-line text-2xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+        </div>
+    </div>
+</div> 
+                    -->
+
+                </div>
+            </div>
+        </section>
+        <!-- Services with Timeline Line -->
+        <section class="py-32 relative">
+            <div class="timeline-line"></div>
+            <div class="timeline-progress" id="scroll-line"></div>
+            <div class="container mx-auto px-6 max-w-4xl relative z-10">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl font-bold bg-white inline-block px-4 relative z-20">SKILLS & EXPERTISE</h2>
+                </div>
+                <div class="space-y-24">
+                    <!-- Service 1 -->
+<div class="flex flex-col md:flex-row items-center gap-10 group" data-gsap="service-item">
+    <div class="w-full md:w-1/2 flex justify-end order-1 md:order-1">
+        <div class="p-8 border border-gray-200 bg-white shadow-lg hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 w-full md:w-80">
+            <i class="ri-pen-nib-fill text-5xl mb-4"></i>
+            <h3 class="text-2xl font-bold mb-2" data-en="Graphic Design" data-de="Grafik Design">Graphic Design</h3>
+            <p class="text-sm text-gray-500" 
+            data-en="Visual storytelling through branding, logos, and digital illustrations." 
+            data-de="Visuelles Storytelling durch Branding, Logos und digitale Illustrationen.">
+            Visual storytelling through branding, logos, and digital illustrations.</p>
+        </div>
+    </div>
+
+    <div class="w-4 h-4 bg-black rounded-full border-4 border-white z-20 order-2 md:order-2 shrink-0"></div>
+
+    <div class="w-full md:w-1/2 order-3 md:order-3 pl-0 md:pl-10 flex justify-start">
+        <ul class="font-mono text-sm space-y-2 text-gray-400 group-hover:text-black transition-colors max-w-[150px] md:max-w-none">
+            <li>Photoshop</li>
+            <li>Illustrator</li>
+            <li>Brand Identity</li>
+            <li>Packaging Design</li>
+            <li class="leading-tight">Marketing Materials</li>
+        </ul>
+    </div>
+</div>
+                    <!-- Service 2 -->
+                    <div class="flex flex-col md:flex-row items-center gap-10 group" data-gsap="service-item">
+                        <div class="w-full md:w-1/2 flex justify-end md:justify-start order-1 md:order-3 text-right md:text-left">
+                            <div class="p-8 border border-gray-200 bg-white shadow-lg hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 w-full md:w-80">
+                                <i class="ri-layout-2-fill text-5xl mb-4"></i>
+                                <h3 class="text-2xl font-bold mb-2">UI/UX Design</h3>
+                                <p class="text-sm text-gray-500" 
+                                data-en="Creating intuitive interfaces and seamless user journeys. Accessibility focused." 
+                                data-de="Entwicklung intuitiver Interfaces und durchgängiger User Journeys mit Schwerpunkt auf Barrierefreiheit.">
+                                Creating intuitive interfaces and seamless user journeys. Accessibility focused.</p>
+                            </div>
+                        </div>
+                        <div class="w-4 h-4 bg-black rounded-full border-4 border-white z-20 order-2 md:order-2"></div>
+                        <div class="w-full md:w-1/2 order-3 md:order-1 text-left md:text-right pr-0 md:pr-10">
+                             <ul class="font-mono text-sm space-y-2 text-gray-400 group-hover:text-black transition-colors">
+                                <li>HTML / CSS / JS</li>
+                                <li>Figma / Adobe XD</li>
+                                <li>Wireframing</li>
+                                <li>Prototyping</li>
+                                <li>User Research</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service 3 - Video Editing -->
+                    <div class="flex flex-col md:flex-row items-center gap-10 group" data-gsap="service-item">
+                        <div class="w-full md:w-1/2 flex justify-end order-1 md:order-1">
+                            <div class="p-8 border border-gray-200 bg-white shadow-lg hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 w-full md:w-80">
+                                <img src="public\8350470.png" width="50px" height="50px">
+                                <h3 class="text-2xl font-bold mb-2">Video Editing</h3>
+                                <p class="text-sm text-gray-500" 
+                                data-en="Creative storytelling through precise editing, color, and sound." 
+                                data-de="Kreatives Storytelling durch präzise Montage, Farbgestaltung und Ton.">
+                                Creative storytelling through precise editing, color, and sound.</p>
+                            </div>
+                        </div>
+                        <div class="w-4 h-4 bg-black rounded-full border-4 border-white z-20 order-2 md:order-2"></div>
+                        <div class="w-full md:w-1/2 order-3 md:order-3 pl-0 md:pl-10">
+                            <ul class="font-mono text-sm space-y-2 text-gray-400 group-hover:text-black transition-colors">
+                                <li>After Effects</li>
+                                <li>Premiere Pro</li>
+                                <li>MAGIX Video deluxe</li>
+                                <li>Color Grading</li>
+                                <li>Producer</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Section -->
+<section id="contact" class="py-32 bg-black text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    <div class="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+        <h2 class="text-6xl md:text-9xl font-black mb-12 hover:tracking-wide transition-all duration-500 cursor-default" data-en="GET IN TOUCH" data-de="MELDE DICH">GET IN TOUCH</h2>
+        
+<div class="flex flex-wrap justify-center gap-8 mb-20">
+    <a href="https://github.com/siegfried-marc" target="_blank" 
+       class="magnetic-btn w-20 h-20 md:w-24 md:h-24 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black hover:scale-110 transition-all duration-300">
+        <i class="ri-github-fill text-3xl p-0 m-0 leading-none flex items-center justify-center h-full"></i>
+    </a>
+
+    <a href="mailto:siegfried.marc01@gmail.com" 
+       class="magnetic-btn w-20 h-20 md:w-24 md:h-24 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black hover:scale-110 transition-all duration-300">
+        <i class="ri-mail-send-fill text-3xl p-0 m-0 leading-none flex items-center justify-center h-full"></i>
+    </a>
+
+    <a href="https://wa.me/+491743986033" target="_blank" 
+       class="magnetic-btn w-20 h-20 md:w-24 md:h-24 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black hover:scale-110 transition-all duration-300">
+        <i class="ri-whatsapp-fill text-3xl p-0 m-0 leading-none flex items-center justify-center h-full"></i>
+    </a>
+</div>
+
+                <div class="w-full max-w-2xl border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 font-mono text-xs">
+                    <p>&copy; 2026 MARC SIEGFRIED</p>
+                    <p class="mt-2 md:mt-0">DESIGNED BY MARC.S</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- External JS -->
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
+

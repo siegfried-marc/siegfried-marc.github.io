@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumbnail Design & Video Editing | Marc Siegfried</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='900'%3EM%3C/text%3E%3C/svg%3E">
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+
+    <style>
+        :root{
+            --accent: #FF4526;
+            --accent-dim: #FFE4DC;
+            --ink: #111111;
+        }
+        .font-mono { font-family: 'Space Mono', monospace; }
+
+        .grid-bg {
+            background-color: #ffffff;
+            background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+                              linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .edge-fade-mask {
+            mask-image: linear-gradient(to right, transparent 0%, #000 15%, #000 85%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 15%, #000 85%, transparent 100%);
+        }
+        /* Note: vertical fade for the marquee is done with solid gradient
+           overlay panels in the markup, not CSS mask-image — masks can
+           desync from continuously-animated transform children and flash
+           unclipped content at the fade edges. */
+
+        .interactive-grab { cursor: grab; }
+        .interactive-grab:active { cursor: grabbing; }
+
+        /* ===== Section 1: Feed marquee ===== */
+        .marquee-col {
+            overflow: hidden;
+            isolation: isolate;
+            contain: layout paint;
+            transform: translateZ(0);
+        }
+        .marquee-track {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            will-change: transform;
+            backface-visibility: hidden;
+            animation: marquee-up linear infinite;
+        }
+        .marquee-track.dir-reverse { animation-direction: reverse; }
+        .marquee-col:hover .marquee-track { animation-play-state: paused; }
+        @keyframes marquee-up {
+            from { transform: translate3d(0, 0, 0); }
+            to { transform: translate3d(0, -50%, 0); }
+        }
+
+        .thumb { aspect-ratio: 16/10; position: relative; overflow: hidden; }
+
+        /* ===== Section 2: A/B bars ===== */
+        .ctr-bar-track { background: #F0F0F0; }
+        .ctr-bar-fill { width: 0%; }
+
+        /* ===== Section 3: Phone reels ===== */
+        .phone-frame {
+            background: #0B0B0B;
+            border: 6px solid #0B0B0B;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+        }
+        .caption-pop {
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.2,1.4,.4,1);
+        }
+        /* transform-based (compositor only) instead of animating width (layout) */
+        .progress-fill {
+            transform-origin: left center;
+            transform: scaleX(0);
+            animation: progress-loop 6s linear infinite;
+        }
+        @keyframes progress-loop {
+            0% { transform: scaleX(0); }
+            96%, 100% { transform: scaleX(1); }
+        }
+        .reels-paused .progress-fill { animation-play-state: paused; }
+        /* depth effect: set a few times per second via data-d, animated by the compositor (no per-frame JS) */
+        .phone-card { transition: transform .6s cubic-bezier(.25,1,.5,1), opacity .6s ease; backface-visibility: hidden; }
+        .phone-card[data-d="0"] { transform: scale(1.08); opacity: 1; }
+        .phone-card[data-d="1"] { transform: scale(.97);  opacity: .85; }
+        .phone-card[data-d="2"] { transform: scale(.9);   opacity: .65; }
+        .phone-card[data-d="3"] { transform: scale(.85);  opacity: .5; }
+        .has-video .progress-fill { animation: none; }
+        .reel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .reel-shade { position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(to top, rgba(0,0,0,.55), transparent 40%); }
+        /* solid edge fades instead of mask-image (masks re-composite every frame on moving content) */
+        .reel-edge { position: absolute; top: 0; bottom: 0; width: 15%; z-index: 10; pointer-events: none; }
+        .reel-edge.l { left: 0; background: linear-gradient(to right, #fcfcfd, transparent); }
+        .reel-edge.r { right: 0; background: linear-gradient(to left, #fcfcfd, transparent); }
+        .icon-rail i { text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+
+        [data-gsap="tool-card"] {
+            transition: transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s ease;
+        }
+    </style>
+</head>
+<body class="antialiased bg-white text-[#111111] overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase hover:opacity-70 transition-opacity">MARC.S</a>
+
+        <div class="flex items-center gap-4">
+            <div class="flex items-center border border-white/30 rounded-full p-1 font-mono text-xs select-none">
+                <button id="lang-en" onclick="setLanguage('en')" class="px-3 py-1 rounded-full font-bold transition-all bg-white text-black">EN</button>
+                <button id="lang-de" onclick="setLanguage('de')" class="px-3 py-1 rounded-full font-bold transition-all text-white hover:opacity-70">DE</button>
+            </div>
+
+            <a href="index.html#works" class="group flex items-center gap-2 font-mono text-sm border border-white/30 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300">
+                <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i>
+                <span data-i18n="nav-back">BACK TO PORTFOLIO</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="w-full">
+        <!-- Header -->
+        <header class="min-h-[45vh] flex flex-col justify-center items-center relative px-6 md:px-20 pb-16 grid-bg border-b border-gray-200 text-center">
+            <div class="max-w-4xl space-y-4 relative z-10 flex flex-col items-center pt-24" id="header-content">
+                <div class="bg-black text-white text-xs font-mono px-4 py-1.5 rounded-full uppercase tracking-widest opacity-0 transform translate-y-4" id="header-tag" data-i18n="header-tag">Thumbnail Design &amp; Video Editing</div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none opacity-0 transform translate-y-4" id="header-title" data-i18n="header-title">Thumbnails That Get Clicked,<br>Edits That Keep People Watching</h1>
+                <p class="text-base md:text-lg text-gray-500 font-mono max-w-2xl leading-relaxed opacity-0 transform translate-y-4" id="header-p" data-i18n="header-p">
+                    A live feed of thumbnails, A/B tests, and short-form edits built to hold attention. Just scroll.
+                </p>
+            </div>
+        </header>
+
+        <!-- SECTION 1: Interactive Content Feed -->
+        <section class="py-24 border-b border-gray-100 overflow-hidden bg-gray-50/50">
+            <div class="container mx-auto px-6 md:px-12 max-w-7xl mb-14 flex items-center justify-between" data-gsap="fade-up">
+                <div>
+                    <span class="font-mono text-xs uppercase text-gray-400 tracking-widest" data-i18n="sec1-tag">01 // Interactive Feed</span>
+                    <h2 class="text-3xl font-black uppercase tracking-tighter" data-i18n="sec1-title">Built For The Scroll</h2>
+                </div>
+                <div class="hidden md:block font-mono text-[10px] text-gray-400 uppercase tracking-widest" data-i18n="sec1-sub">Auto-Scrolling Preview // Hover To Pause</div>
+            </div>
+
+            <div class="container mx-auto px-6 md:px-12 max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-6 h-[760px] relative" data-gsap="fade-up">
+
+                <!-- Fade overlays: solid gradient panels painted on top, not a CSS mask,
+                     so they can never desync from the animating cards beneath them -->
+                <div class="absolute top-0 left-0 right-0 h-20 md:h-28 bg-gradient-to-b from-[#fcfcfd] to-transparent pointer-events-none z-20"></div>
+                <div class="absolute bottom-0 left-0 right-0 h-20 md:h-28 bg-gradient-to-t from-[#fcfcfd] to-transparent pointer-events-none z-20"></div>
+
+                <!-- Column 1 -->
+                <div class="marquee-col h-full">
+                    <div class="marquee-track" style="animation-duration: 46s;">
+                        <!-- Cards are rendered from FEED_COLUMNS (top of the script) -->
+                    </div>
+                </div>
+
+                <!-- Column 2 (reverse) -->
+                <div class="marquee-col h-full">
+                    <div class="marquee-track dir-reverse" style="animation-duration: 55s;">
+                        <!-- Cards are rendered from FEED_COLUMNS (top of the script) -->
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="marquee-col h-full hidden md:block">
+                    <div class="marquee-track" style="animation-duration: 50s;">
+                        <!-- Cards are rendered from FEED_COLUMNS (top of the script) -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: A/B Testing Lab -->
+        <section class="py-24 border-b border-gray-100 container mx-auto px-6 md:px-12 max-w-7xl">
+            <div class="mb-14 flex items-center justify-between" data-gsap="fade-up">
+                <div>
+                    <span class="font-mono text-xs uppercase text-gray-400 tracking-widest" data-i18n="sec2-tag">02 // A/B Testing Lab</span>
+                    <h2 class="text-3xl font-black uppercase tracking-tighter" data-i18n="sec2-title">Data Backs The Design</h2>
+                </div>
+                <div class="hidden md:block font-mono text-[10px] text-gray-400 uppercase tracking-widest" data-i18n="sec2-sub">Scroll To Reveal Results</div>
+            </div>
+
+            <div class="space-y-8" id="ab-tests">
+                <!-- Tests are rendered from AB_TESTS (top of the script) -->
+
+                </div>
+        </section>
+
+        <!-- SECTION 3: Shorts & Reels -->
+        <section class="py-24 border-b border-gray-100 overflow-hidden bg-gray-50/50">
+            <div class="container mx-auto px-6 md:px-12 max-w-7xl mb-14 flex items-center justify-between" data-gsap="fade-up">
+                <div>
+                    <span class="font-mono text-xs uppercase text-gray-400 tracking-widest" data-i18n="sec3-tag">03 // Short-Form Edits</span>
+                    <h2 class="text-3xl font-black uppercase tracking-tighter" data-i18n="sec3-title">Cut To Keep Them Watching</h2>
+                </div>
+                <div class="hidden md:block font-mono text-[10px] text-gray-400 uppercase tracking-widest" data-i18n="sec3-sub">Drag To Browse // Auto-Playing</div>
+            </div>
+
+            <div class="w-full relative py-6 flex items-center interactive-grab touch-pan-y" id="phone-viewport" data-gsap="fade-up">
+                <div class="flex gap-8 w-max px-24 select-none will-change-transform" id="phone-track">
+
+                    <!-- Cards are rendered by JS from the REELS array at the bottom of the page -->
+                </div>
+                <div class="reel-edge l"></div>
+                <div class="reel-edge r"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Toolkit -->
+        <section class="container mx-auto px-6 md:px-12 py-24 max-w-7xl">
+            <div class="mb-12" data-gsap="fade-up">
+                <span class="font-mono text-xs uppercase text-gray-400 tracking-widest" data-i18n="sec4-tag">04 // The Toolkit</span>
+                <h2 class="text-3xl font-black uppercase tracking-tighter" data-i18n="sec4-title">One Frame, One Timeline, One Story</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="tool-card border border-gray-100 rounded-2xl p-7" data-gsap="tool-card">
+                    <i class="ri-image-2-line text-3xl mb-4 block"></i>
+                    <h3 class="font-black text-lg uppercase tracking-tight mb-2" data-i18n="tool1-title">Photoshop</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed" data-i18n="tool1-desc">Compositing, color grading, and retouching — plus typography that still reads at a 120px preview.</p>
+                </div>
+                <div class="tool-card border border-gray-100 rounded-2xl p-7" data-gsap="tool-card">
+                    <i class="ri-scissors-cut-line text-3xl mb-4 block"></i>
+                    <h3 class="font-black text-lg uppercase tracking-tight mb-2" data-i18n="tool2-title">Premiere Pro</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed" data-i18n="tool2-desc">Story-first edits — pacing, jump cuts, sound design, and captions that keep the drop-off curve flat.</p>
+                </div>
+                <div class="tool-card border border-gray-100 rounded-2xl p-7" data-gsap="tool-card">
+                    <i class="ri-magic-line text-3xl mb-4 block"></i>
+                    <h3 class="font-black text-lg uppercase tracking-tight mb-2" data-i18n="tool3-title">After Effects</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed" data-i18n="tool3-desc">Motion graphics and kinetic type that make a 15-second clip feel intentional, not thrown together.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-black text-white py-24 text-center">
+            <div class="container mx-auto px-6 max-w-xl space-y-6">
+                <h2 class="text-4xl font-black uppercase tracking-tight" data-i18n="footer-title">Return to Project Overview</h2>
+                <div class="pt-4">
+                    <a href="index.html#works" class="px-8 py-4 bg-white text-black font-bold hover:bg-gray-200 rounded-full transition-colors inline-block uppercase tracking-widest text-sm" data-i18n="footer-btn">
+                        Portfolio Overview
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // ============================================================================
+        // CONTENT: everything you need to swap in your own work lives in this block.
+        // Layout, animation and styling are untouched; just edit the values below.
+        //
+        //  * image: path to your file. When set, it replaces the placeholder artwork
+        //    (bg / art are then ignored). Leave "" to keep the placeholder.
+        //  * Section 1 + 2 thumbnails: 16:10 images fit exactly (e.g. 1280x800).
+        //    16:9 YouTube thumbnails (1280x720) also work, with a very slight crop.
+        //  * Add / remove / reorder entries freely.
+        // ============================================================================
+
+        // ---- 01 // Interactive Feed: three scrolling columns of cards ----------------
+        const FEED_COLUMNS = [
+            // ---- Column 1 ----
+            [
+                { image: "public/thumbnails/tn_cass3.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "Reworking Cassidy's Ultimate",
+                  meta: "16K views · 9.4% CTR",
+                  avatar: "Ps", avatarBg: "#1c2b4a", avatarText: "white",
+                  bg: "radial-gradient(circle at 30% 30%, #1c2b4a, #050912 70%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex items-center px-5\"> <span class=\"font-black text-white text-2xl leading-[1.05] tracking-tight uppercase\">This Changes<br>Everything</span> </div> <div class=\"absolute top-3 right-3 bg-[var(--accent)] text-white text-[10px] font-mono font-bold px-2 py-1 rounded-full\">NEW</div>" },   // placeholder only
+                { image: "public/thumbnails/ae4.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "How to 3D in After Effects",
+                  meta: "9K views · 7.8% CTR",
+                  avatar: "Ae", avatarBg: "#0d3b2e", avatarText: "white",
+                  bg: "linear-gradient(135deg, #0d3b2e, #062018 80%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex flex-col items-center justify-center\"> <span class=\"font-black text-white text-3xl tracking-tighter\">$0 → $10K</span> <span class=\"font-mono text-[10px] text-[#7CFFB2] mt-1 uppercase tracking-widest\">In 90 Days</span> </div> <i class=\"ri-arrow-right-up-line absolute bottom-3 right-3 text-[#7CFFB2] text-3xl\"></i>" },   // placeholder only
+                { image: "public/student-job_thumbnail_g.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "The Best Student Jobs",
+                  meta: "36K views · 8.1% CTR",
+                  avatar: "MA", avatarBg: "#5b3df0", avatarText: "white",
+                  bg: "linear-gradient(160deg, #5b3df0, #241660 85%)",   // placeholder only
+                  art: "<div class=\"absolute top-3 left-3 w-9 h-9 rounded-full bg-white flex items-center justify-center font-black text-sm\">01</div> <div class=\"absolute inset-0 flex items-end p-4\"> <span class=\"font-black text-white text-xl uppercase leading-tight\">Step By Step<br>Guide</span> </div>" },   // placeholder only
+            ],
+            // ---- Column 2 ----
+            [
+                { image: "public/motion-design_thumbnail.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "How To Make Aesthetic Reels",
+                  meta: "22K views · 13.6% CTR",
+                  avatar: "!!", avatarBg: "#ADD8E6", avatarText: "white",
+                  bg: "linear-gradient(135deg, #FFD400, #FFB800)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex items-center p-4\"> <span class=\"font-black text-black text-xl leading-[1.05] uppercase\">I Can't Believe<br>This Happened</span> </div> <div class=\"absolute w-14 h-14 rounded-full border-4 border-[var(--accent)] top-4 right-4\"></div>" },   // placeholder only
+                { image: "public/thumbnails/loading.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "Loading...",
+                  meta: "15K views · 10.9% CTR",
+                  avatar: "TR", avatarBg: "#3a0000", avatarText: "white",
+                  bg: "linear-gradient(160deg, #3a0000, #0a0000 85%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex items-center justify-center p-4\"> <span class=\"font-black text-white text-lg uppercase text-center leading-tight\">The Truth Nobody<br>Tells You</span> </div> <div class=\"absolute bottom-3 left-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded px-2 py-0.5 font-mono text-[9px] text-white uppercase tracking-widest\">Exposed</div>" },   // placeholder only
+                { image: "public/thumbnails/loading.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "Loading...",
+                  meta: "21K views · 11.2% CTR",
+                  avatar: "30", avatarBg: "#FF8A5C", avatarText: "white",
+                  bg: "linear-gradient(90deg, #d9d9d9 50%, #FF8A5C 50%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex items-center justify-center gap-2\"> <span class=\"font-black text-black/70 text-sm uppercase\">Before</span> <i class=\"ri-arrow-right-line text-black text-xl\"></i> <span class=\"font-black text-white text-sm uppercase\">After</span> </div> <span class=\"absolute bottom-3 left-1/2 -translate-x-1/2 font-black text-black uppercase text-lg tracking-tighter\">30 Days Later</span>" },   // placeholder only
+            ],
+            // ---- Column 3 ----
+            [
+                { image: "public/thumbnails/sq3r.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "The Only Study Method You Need",
+                  meta: "19K views · 12.3% CTR",
+                  avatar: "7D", avatarBg: "#002b5c", avatarText: "white",
+                  bg: "linear-gradient(150deg, #002b5c, #00060f 85%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex flex-col items-center justify-center\"> <span class=\"font-black text-white text-4xl tracking-tighter\">7</span> <span class=\"font-mono text-[10px] text-cyan-300 uppercase tracking-widest\">Days Only</span> </div>" },   // placeholder only
+                { image: "public/graphic-design_thumbnail.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "Free Graphic Design Course",
+                  meta: "6.2K views · 9.9% CTR",
+                  avatar: "GO", avatarBg: "#C93B00", avatarText: "white",
+                  bg: "linear-gradient(135deg, #FF7A45, #C93B00 80%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex items-end p-4\"> <span class=\"font-black text-white text-xl uppercase leading-tight\">We Got Lost<br>On Purpose</span> </div> <i class=\"ri-map-pin-2-fill absolute top-3 right-3 text-white text-2xl\"></i>" },   // placeholder only
+                { image: "public/thumbnails/premiere-pro-thumbnail.png",  // e.g. "assets/thumbs/my-thumb.jpg" (16:10 works best)
+                  title: "Apple Like Editing In Premiere Pro",
+                  meta: "15K views · 14.1% CTR",
+                  avatar: "GG", avatarBg: "#2a002a", avatarText: "white",
+                  bg: "linear-gradient(160deg, #2a002a, #0a000a 85%)",   // placeholder only
+                  art: "<div class=\"absolute inset-0 flex items-center p-4\"> <span class=\"font-black text-white text-2xl uppercase leading-[1.05]\">Nobody Has<br>Done This</span> </div> <div class=\"absolute -bottom-4 -right-4 w-24 h-24 rounded-full bg-[var(--accent)]/30 blur-xl\"></div>" },   // placeholder only
+            ],
+        ];
+
+        // ---- 02 // A/B Testing Lab: one entry per test --------------------------------
+        // The "+X% CTR" badge and the bar lengths are calculated from the two ctr values.
+        const CTR_BAR_SCALE = 4.4;   // bar width % per 1% CTR (a 10% CTR fills 44% of the bar)
+        const AB_TESTS = [
+            { title: "Generic vs Aesthetic",
+              a: { image: "public/thumbnails/bad-thumbnail1.png", ctr: 4.1,   // Version A (baseline); ctr = click-through rate in %
+                   bg: "#e5e5e5",   // placeholder only
+                   art: "<div class=\"absolute inset-0 flex items-center justify-center\"> <span class=\"font-mono text-gray-400 text-xs\">full body, small text</span> </div> <div class=\"absolute bottom-3 left-3 bg-white/80 rounded px-2 py-1 font-mono text-[10px] text-gray-500\">\"My Morning Routine\"</div>" },
+              b: { image: "public/student-job_thumbnail_g.png", ctr: 9.8,   // Version B (winner); ctr = click-through rate in %
+                   bg: "radial-gradient(circle at 25% 40%, #FF7A50, #B8210A 75%)",   // placeholder only
+                   art: "<div class=\"absolute inset-0 flex items-center p-4\"> <span class=\"font-black text-white text-xl uppercase leading-tight\">My Morning<br>Routine 😳</span> </div> <div class=\"absolute w-16 h-16 rounded-full border-4 border-white top-3 right-3\"></div>" } },
+            { title: "Cluttered vs Single Focal Point (no text)",
+              a: { image: "public/thumbnails/bad-thumbnail2.png", ctr: 3.6,   // Version A (baseline); ctr = click-through rate in %
+                   bg: "#eee",   // placeholder only
+                   art: "<div class=\"absolute inset-0 flex flex-wrap items-center justify-center gap-1 p-2\"> <span class=\"font-mono text-[8px] bg-gray-300 px-1 rounded\">tip 1</span> <span class=\"font-mono text-[8px] bg-gray-300 px-1 rounded\">tip 2</span> <span class=\"font-mono text-[8px] bg-gray-300 px-1 rounded\">tip 3</span> <span class=\"font-mono text-[8px] bg-gray-300 px-1 rounded\">tip 4</span> <span class=\"font-mono text-[8px] bg-gray-300 px-1 rounded\">tip 5</span> </div>" },
+              b: { image: "public/thumbnails/ae4.png", ctr: 7.2,   // Version B (winner); ctr = click-through rate in %
+                   bg: "linear-gradient(160deg, #1a1a2e, #05050a 85%)",   // placeholder only
+                   art: "<div class=\"absolute inset-0 flex items-center justify-center\"> <span class=\"font-black text-white text-3xl tracking-tighter\">ONE TIP</span> </div> <span class=\"absolute bottom-3 right-3 font-mono text-[10px] text-gray-400 uppercase\">that actually works</span>" } },
+            { title: "Low-Angle Viewpoint vs High-Angle Viewpoint",
+              a: { image: "public/thumbnails/loading.png", ctr: 5.0,   // Version A (baseline); ctr = click-through rate in %
+                   bg: "#dcdcdc",   // placeholder only
+                   art: "<div class=\"absolute inset-0 flex items-center justify-center\"> <span class=\"font-mono text-gray-400 text-xs\">neutral face, plain title</span> </div>" },
+              b: { image: "public/thumbnails/loading.png", ctr: 11.4,   // Version B (winner); ctr = click-through rate in %
+                   bg: "linear-gradient(135deg, #FFD400, #FF9800)",   // placeholder only
+                   art: "<div class=\"absolute inset-0 flex items-center justify-center\"> <span class=\"font-black text-black text-2xl\">😱 WAIT WHAT</span> </div> <div class=\"absolute w-12 h-12 rounded-full border-4 border-[var(--accent)] bottom-3 left-3\"></div>" } },
+        ];
+
+        // ---- 03 // Short-Form Edits: vertical reels ---------------------------------
+        //   video:  'assets/reel-01.mp4'   // vertical 9:16, H.264 MP4 (or WebM), ~720x1280, a few MB
+        //   poster: 'assets/reel-01.jpg'   // optional still shown until the video loads
+        // Leave video empty to keep the animated placeholder (bg + captions).
+        const REELS = [
+            { tool: 'Premiere Pro',  handle: '@_Marc', note: 'Jump cuts + pacing',     likes: '48K',  comments: '612',  shares: '3.1K',
+              bg: 'linear-gradient(160deg,#20201f,#050505 80%)', video: 'public/reels/reel1.mp4', poster: '',
+              captions: ['wait for it...', 'THIS is why', 'no way 😳'] },
+            { tool: 'After Effects', handle: '@_Marc', note: 'Kinetic typography',     likes: '92K',  comments: '1.4K', shares: '5.8K',
+              bg: 'linear-gradient(160deg,#241660,#0a0620 80%)', video: 'public/reels/reel2.mp4', poster: '',
+              captions: ['3 tips <span class="bg-[var(--accent)] px-1 -rotate-2 inline-block">nobody</span> tells you', 'save this', 'for later'] },
+            { tool: 'Premiere Pro',  handle: '@_Marc', note: 'Sound-synced cuts',      likes: '61K',  comments: '804',  shares: '2.9K',
+              bg: 'linear-gradient(160deg,#0d3b2e,#020a08 80%)', video: 'public/reels/reel3.mp4', poster: '',
+              captions: ['on beat. every. cut. 🔥', 'sound matters', 'trust the process'] },
+            { tool: 'After Effects', handle: '@_Marc', note: 'Motion graphics intro',  likes: '120K', comments: '2.2K', shares: '9.4K',
+              bg: 'linear-gradient(160deg,#3a0000,#0a0000 80%)', video: 'public/reels/reel5.mp4', poster: '',
+              captions: ['POV: you found the editor', "here's my secret", 'watch closely'] },
+            { tool: 'Premiere Pro',  handle: '@_Marc', note: 'Match cut transitions',  likes: '77K',  comments: '960',  shares: '4.2K',
+              bg: 'linear-gradient(160deg,#002b5c,#00060f 80%)', video: 'public/reels/reel6.mp4', poster: '',
+              captions: ['before → after', 'same person', '30 days apart'] },
+            { tool: 'After Effects', handle: '@_Marc', note: 'Animated captions',      likes: '150K', comments: '3.6K', shares: '11K',
+              bg: 'linear-gradient(160deg,#5b3df0,#100a2e 80%)', video: 'public/reels/reel7.mp4', poster: '',
+              captions: ['day 1 vs day 30', 'consistency wins', 'start today'] },
+                { tool: 'Premiere Pro',  handle: '@_Marc', note: 'Speed ramps',            likes: '64K',  comments: '720',  shares: '3.3K',
+                  bg: 'linear-gradient(160deg,#4a2a00,#0a0500 80%)', video: 'public/reels/reel8.mp4', poster: '',
+                  captions: ['speed ramp 🚀', 'smooth af', 'try this'] },
+                { tool: 'After Effects', handle: '@_Marc', note: 'Logo reveal',            likes: '88K',  comments: '1.1K', shares: '6.2K',
+                  bg: 'linear-gradient(160deg,#003a3a,#000a0a 80%)', video: 'public/reels/reel9.mp4', poster: '',
+                  captions: ['logo reveal ✨', '1 min tutorial', 'part 2?'] }
+        ];
+
+        // Max number of reel videos playing at once. Reels play from about two cards BEFORE they slide in,
+        // so they are already running when they appear (nearest the centre first if there are more than this).
+        // If an older device struggles, lower it (1 = centre only).
+        const MAX_PLAYING = 8;
+
+        // ============================================================================
+        // Rendering (no need to edit below to change content)
+        // ============================================================================
+        const thumbHTML = (v, extra = '') => v.image
+            ? `<div class="thumb${extra}"><img src="${v.image}" alt="" loading="lazy" decoding="async" draggable="false" class="absolute inset-0 w-full h-full object-cover"></div>`
+            : `<div class="thumb${extra}" style="background:${v.bg}">${v.art}</div>`;
+
+        const feedCardHTML = c => `
+            <div class="feed-card rounded-2xl overflow-hidden bg-white shadow-[0px_10px_30px_rgba(0,0,0,0.06)]">
+                ${thumbHTML(c)}
+                <div class="p-4 flex gap-3 items-start">
+                    <div class="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-[10px] font-bold font-mono" style="background:${c.avatarBg};color:${c.avatarText || 'white'}">${c.avatar}</div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-bold truncate">${c.title}</p>
+                        <p class="font-mono text-[10px] text-gray-400 mt-1">${c.meta}</p>
+                    </div>
+                </div>
+            </div>`;
+        document.querySelectorAll('.marquee-track').forEach((track, i) => {
+            track.innerHTML = (FEED_COLUMNS[i] || []).map(feedCardHTML).join('');
+        });
+
+        const abSide = (v, winner) => `
+            <div>
+                ${thumbHTML(v, ' rounded-xl mb-3')}
+                <p class="font-mono text-xs ${winner ? 'text-[var(--accent)] font-bold' : 'text-gray-400'} uppercase tracking-widest mb-1">${winner ? 'Version B — Winner' : 'Version A'}</p>
+                <div class="ctr-bar-track rounded-full h-3 overflow-hidden">
+                    <div class="ctr-bar-fill h-full rounded-full ${winner ? 'bg-[var(--accent)]' : 'bg-gray-400'}" data-pct="${Math.min(100, v.ctr * CTR_BAR_SCALE).toFixed(1)}"></div>
+                </div>
+                <p class="font-mono text-xs text-gray-500 mt-1"><span class="ctr-count" data-target="${v.ctr}">0</span>% CTR</p>
+            </div>`;
+        const abBox = document.getElementById('ab-tests');
+        if (abBox) abBox.innerHTML = AB_TESTS.map((t, i) => {
+            const d = Math.round((t.b.ctr / t.a.ctr - 1) * 100);
+            return `
+            <div class="ab-test rounded-2xl border border-gray-100 p-6 md:p-8" data-gsap="fade-up">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="font-mono text-[10px] uppercase tracking-widest text-gray-400">Test ${String(i + 1).padStart(2, '0')} — ${t.title}</span>
+                    <span class="delta-badge font-mono text-xs font-bold text-white bg-[var(--accent)] px-3 py-1 rounded-full opacity-0 scale-75">${d >= 0 ? '+' : ''}${d}% CTR</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${abSide(t.a, false)}${abSide(t.b, true)}</div>
+            </div>`;
+        }).join('');
+
+        // ============================================================================
+        // i18n
+        // ============================================================================
+        let currentLang = 'en';
+        const i18n = {
+            en: {
+                "nav-back": "BACK TO PORTFOLIO",
+                "header-tag": "Thumbnail Design & Video Editing",
+                "header-title": "Thumbnails That Get Clicked,<br>Edits That Keep People Watching",
+                "header-p": "A live feed of thumbnails, A/B tests, and short-form edits built to hold attention. Just scroll.",
+                "sec1-tag": "01 // Interactive Feed",
+                "sec1-title": "Built For The Scroll",
+                "sec1-sub": "Auto-Scrolling Preview // Hover To Pause",
+                "sec2-tag": "02 // A/B Testing Lab",
+                "sec2-title": "Data Backs The Design",
+                "sec2-sub": "Scroll To Reveal Results",
+                "sec3-tag": "03 // Short-Form Edits",
+                "sec3-title": "Cut To Keep Them Watching",
+                "sec3-sub": "Drag To Browse // Auto-Playing",
+                "sec4-tag": "04 // The Toolkit",
+                "sec4-title": "One Frame, One Timeline, One Story",
+                "tool1-title": "Photoshop",
+                "tool1-desc": "Compositing, color grading, and retouching — plus typography that still reads at a 120px preview.",
+                "tool2-title": "Premiere Pro",
+                "tool2-desc": "Story-first edits — pacing, jump cuts, sound design, and captions that keep the drop-off curve flat.",
+                "tool3-title": "After Effects",
+                "tool3-desc": "Motion graphics and kinetic type that make a 15-second clip feel intentional, not thrown together.",
+                "footer-title": "Return to Project Overview",
+                "footer-btn": "Portfolio Overview"
+            },
+            de: {
+                "nav-back": "ZURÜCK ZUM PORTFOLIO",
+                "header-tag": "Thumbnail-Design & Videoschnitt",
+                "header-title": "Thumbnails, Die Geklickt Werden,<br>Schnitte, Die Fesseln",
+                "header-p": "Ein Live-Feed aus Thumbnails, A/B-Tests und Kurzformat-Edits, die Aufmerksamkeit halten. Einfach scrollen.",
+                "sec1-tag": "01 // Interaktiver Feed",
+                "sec1-title": "Gemacht Für Den Scroll",
+                "sec1-sub": "Automatischer Scroll // Hover Zum Pausieren",
+                "sec2-tag": "02 // A/B-Testlabor",
+                "sec2-title": "Daten Stützen Das Design",
+                "sec2-sub": "Scrollen Für Ergebnisse",
+                "sec3-tag": "03 // Kurzformat-Edits",
+                "sec3-title": "Geschnitten, Um Zu Fesseln",
+                "sec3-sub": "Ziehen Zum Durchsuchen // Läuft Automatisch",
+                "sec4-tag": "04 // Das Werkzeug",
+                "sec4-title": "Ein Bild, Eine Timeline, Eine Geschichte",
+                "tool1-title": "Photoshop",
+                "tool1-desc": "Compositing, Colorgrading und Retusche — plus Typografie, die auch bei 120px Vorschau noch lesbar bleibt.",
+                "tool2-title": "Premiere Pro",
+                "tool2-desc": "Story-first geschnitten — Tempo, Jumpcuts, Sounddesign und Untertitel, die die Abbruchrate niedrig halten.",
+                "tool3-title": "After Effects",
+                "tool3-desc": "Motion Graphics und kinetische Typografie, die einen 15-Sekunden-Clip bewusst wirken lassen.",
+                "footer-title": "Zurück Zur Projekt-Übersicht",
+                "footer-btn": "Portfolio-Übersicht"
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const btnEn = document.getElementById('lang-en');
+            const btnDe = document.getElementById('lang-de');
+            if (lang === 'de') {
+                if (btnDe) btnDe.className = "px-3 py-1 rounded-full font-bold transition-all bg-white text-black";
+                if (btnEn) btnEn.className = "px-3 py-1 rounded-full font-bold transition-all text-white hover:opacity-70";
+            } else {
+                if (btnEn) btnEn.className = "px-3 py-1 rounded-full font-bold transition-all bg-white text-black";
+                if (btnDe) btnDe.className = "px-3 py-1 rounded-full font-bold transition-all text-white hover:opacity-70";
+            }
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
+            });
+        }
+
+        // ============================================================================
+        // Smooth scroll + GSAP setup
+        // ============================================================================
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger, Draggable);
+
+        const tl = gsap.timeline();
+        tl.to('#header-tag', { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" })
+          .to('#header-title', { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.3")
+          .to('#header-p', { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
+
+        document.querySelectorAll('[data-gsap="fade-up"]').forEach((el) => {
+            gsap.fromTo(el, { opacity: 0, y: 25 }, {
+                opacity: 1, y: 0, duration: 0.6, ease: "power2.out",
+                scrollTrigger: { trigger: el, start: "top 92%", toggleActions: "play none none none" }
+            });
+        });
+
+        gsap.utils.toArray('[data-gsap="tool-card"]').forEach((el, i) => {
+            gsap.fromTo(el, { opacity: 0, y: 25 }, {
+                opacity: 1, y: 0, duration: 0.5, delay: i * 0.08, ease: "power2.out",
+                scrollTrigger: { trigger: el, start: "top 92%", toggleActions: "play none none none" }
+            });
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(el, { y: y * -6, x: x * 6, boxShadow: "0px 14px 28px rgba(0,0,0,0.08)", duration: 0.3, ease: "power1.out" });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { y: 0, x: 0, boxShadow: "none", duration: 0.4, ease: "power2.out" });
+            });
+        });
+
+        // ============================================================================
+        // SECTION 1: duplicate feed columns for a seamless vertical loop
+        // ============================================================================
+        document.querySelectorAll('.marquee-track').forEach(track => {
+            track.innerHTML += track.innerHTML;
+        });
+
+        // ============================================================================
+        // SECTION 2: A/B testing bars + counters, scroll-triggered
+        // ============================================================================
+        gsap.utils.toArray('.ctr-bar-fill').forEach(bar => {
+            const pct = bar.getAttribute('data-pct');
+            gsap.fromTo(bar, { width: '0%' }, {
+                width: pct + '%', duration: 1.1, ease: 'power3.out',
+                scrollTrigger: { trigger: bar, start: 'top 85%', toggleActions: 'play none none none' }
+            });
+        });
+
+        gsap.utils.toArray('.ctr-count').forEach(el => {
+            const target = parseFloat(el.getAttribute('data-target'));
+            const counter = { val: 0 };
+            gsap.to(counter, {
+                val: target, duration: 1.1, ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+                onUpdate: () => { el.textContent = counter.val.toFixed(1); }
+            });
+        });
+
+        gsap.utils.toArray('.delta-badge').forEach(badge => {
+            gsap.to(badge, {
+                opacity: 1, scale: 1, duration: 0.5, delay: 0.9, ease: 'back.out(2)',
+                scrollTrigger: { trigger: badge, start: 'top 85%', toggleActions: 'play none none none' }
+            });
+        });
+
+        // ============================================================================
+        // SECTION 3: Short-form reels carousel
+        // ----------------------------------------------------------------------------
+        // TO USE YOUR OWN WORK: fill in `video` (and optionally `poster`) for any reel.
+        //   video: 'assets/reel-01.mp4'   // vertical 9:16, H.264 MP4 (or WebM), ~720x1280, a few MB
+        //   poster: 'assets/reel-01.jpg'  // optional still shown until the video loads
+        // Leave `video` empty to keep the animated placeholder. Edit tool/handle/note/stats freely.
+        // ============================================================================
+        (() => {
+            // REELS and MAX_PLAYING are defined in the CONTENT block at the top of this script.
+            const viewport = document.getElementById('phone-viewport');
+            const track = document.getElementById('phone-track');
+            if (!viewport || !track) return;
+            const section = viewport.closest('section');
+
+            const cardHTML = (r, i) => `
+                <div class="phone-card w-[220px] shrink-0 will-change-transform${r.video ? ' has-video' : ''}" data-n="${i}" data-d="3">
+                    <div class="phone-frame rounded-[2rem] aspect-[9/16] relative overflow-hidden" style="background:${r.bg}">
+                        ${r.video ? `<video class="reel-video" data-src="${r.video}" ${r.poster ? `poster="${r.poster}"` : ''} muted loop playsinline preload="none" disablepictureinpicture></video><div class="reel-shade"></div>` : ''}
+                        <div class="absolute top-3 left-3 right-3 h-[3px] bg-white/20 rounded-full overflow-hidden">
+                            <div class="progress-fill h-full w-full bg-white rounded-full" style="animation-delay:${i}s"></div>
+                        </div>
+                        <div class="absolute top-7 left-3 bg-black/70 text-white font-mono text-[9px] px-2 py-1 rounded-full uppercase tracking-wide">${r.tool}</div>
+                        ${r.video ? '' : `<div class="absolute inset-0 flex items-center justify-center px-6"><span class="caption-el caption-pop font-black text-white text-2xl text-center uppercase leading-tight">${r.captions[0]}</span></div>`}
+                        <div class="icon-rail absolute right-3 bottom-16 flex flex-col items-center gap-4 text-white">
+                            <div class="flex flex-col items-center gap-1"><i class="ri-heart-fill text-xl"></i><span class="font-mono text-[8px]">${r.likes}</span></div>
+                            <div class="flex flex-col items-center gap-1"><i class="ri-chat-3-fill text-xl"></i><span class="font-mono text-[8px]">${r.comments}</span></div>
+                            <div class="flex flex-col items-center gap-1"><i class="ri-share-forward-fill text-xl"></i><span class="font-mono text-[8px]">${r.shares}</span></div>
+                        </div>
+                        <div class="absolute bottom-3 left-3 right-14">
+                            <p class="text-white text-[10px] font-mono">${r.handle} · ${r.note}</p>
+                        </div>
+                    </div>
+                </div>`;
+
+            let cards = [], vw = 0, cardW = 220, gap = 32, padL = 96, step = 252;
+            let x = 0, running = null, frame = 0;
+            const BASE = -0.9, SLOW = -0.2;   // px per frame at 60fps (scaled by real frame time below)
+            let vel = BASE, target = BASE, dragging = false, hovered = false, lastPX = 0, lastT = 0, dragV = 0;
+
+            // Append `count` cards, continuing the reel order from the current last card.
+            function fill(count) {
+                let n = track.lastElementChild ? +track.lastElementChild.dataset.n : -1, html = '';
+                for (let k = 0; k < count; k++) { n = (n + 1) % REELS.length; html += cardHTML(REELS[n], n); }
+                track.insertAdjacentHTML('beforeend', html);
+            }
+
+            // Layout is measured only here (init + resize), never per frame.
+            function build() {
+                vw = viewport.clientWidth;
+                if (!track.children.length) fill(REELS.length);
+                const cs = getComputedStyle(track);
+                cardW = track.firstElementChild.offsetWidth || 220;
+                gap = parseFloat(cs.columnGap) || 32;
+                padL = parseFloat(cs.paddingLeft) || 0;
+                step = cardW + gap;
+                // enough cards to cover the screen plus spare ones on both sides, always in whole sets
+                const sets = Math.max(1, Math.ceil((Math.ceil(vw / step) + 3) / REELS.length));
+                const want = sets * REELS.length;
+                if (track.children.length < want) fill(want - track.children.length);
+                cards = Array.from(track.children).map((el, i) => {
+                    const c = el._c || (el._c = {
+                        el, n: +el.dataset.n, shown: true, play: false, d: 3, idx: 0, dist: 0,
+                        caps: REELS[+el.dataset.n].captions,
+                        cap: el.querySelector('.caption-el'),
+                        video: el.querySelector('video'),
+                        prog: el.querySelector('.progress-fill')
+                    });
+                    c.left = padL + i * step;
+                    return c;
+                });
+            }
+
+            // Endless loop without ever teleporting a visible card: a card that has fully left on one side
+            // is moved (as the same element, with its video) to the other end while the track offsets by
+            // exactly one slot, so nothing changes on screen. Returns how far the track was shifted.
+            function recycle(cx) {
+                const M = cardW * 1.2;
+                let moved = 0;
+                while (cx + padL + cardW < -M) {
+                    const c = cards.shift(); cards.push(c); track.appendChild(c.el);
+                    cx += step; moved += step;
+                }
+                while (cx + padL > -M + gap + 8) {
+                    const c = cards.pop(); cards.unshift(c); track.insertBefore(c.el, track.firstElementChild);
+                    cx -= step; moved -= step;
+                }
+                if (moved) cards.forEach((c, i) => { c.left = padL + i * step; });
+                return moved;
+            }
+
+            function setPlaying(c, on) {
+                c.play = on;
+                const v = c.video;
+                if (!v) return;
+                if (!v.hasAttribute('src')) { v.muted = true; v.preload = 'auto'; v.src = v.dataset.src; }
+                if (on) v.play().catch(() => {}); else v.pause();
+            }
+
+            const vis = [], live = [];
+            function render() {
+                const mid = vw / 2, half = cardW / 2;
+                const calm = !dragging && Math.abs(vel) < 4;       // heavy work only when not flinging
+                const hideX = cardW, liveX = cardW * 2.2, freeX = cardW * 3.2;
+                vis.length = 0; live.length = 0;
+                for (const c of cards) {
+                    const cx = c.left + half + x;
+                    c.dist = Math.abs(mid - cx);
+                    if (cx < -hideX || cx > vw + hideX) {          // off-screen: just hide it (video keeps running)
+                        if (c.shown) { c.shown = false; c.el.style.visibility = 'hidden'; }
+                    } else {
+                        if (!c.shown) { c.shown = true; c.el.style.visibility = ''; }
+                        if (calm) {
+                            const d = c.dist < step * 0.5 ? 0 : c.dist < step * 1.5 ? 1 : c.dist < step * 2.5 ? 2 : 3;
+                            if (d !== c.d) { c.d = d; c.el.dataset.d = d; }   // CSS animates this
+                        }
+                        vis.push(c);
+                    }
+                    if (c.video) {
+                        if (cx < -freeX || cx > vw + freeX) {      // far away: free the decoder
+                            if (c.video.hasAttribute('src')) { c.video.pause(); c.video.removeAttribute('src'); c.video.load(); }
+                            c.play = false;
+                        } else if (cx >= -liveX && cx <= vw + liveX) {
+                            live.push(c);                          // "live zone": loaded + playing before it slides in
+                        }
+                    }
+                }
+                if (!running) return;
+                if (calm) {
+                    live.sort((p, q) => p.dist - q.dist);
+                    live.forEach((c, r) => { const on = r < MAX_PLAYING; if (c.play !== on) setPlaying(c, on); });
+                }
+                if (++frame % 3 === 0) {                          // progress bars: ~20 updates/s is plenty
+                    for (const c of live) {
+                        const v = c.video;
+                        if (c.play && v.duration) c.prog.style.transform = `scaleX(${v.currentTime / v.duration})`;
+                    }
+                }
+            }
+
+            function cycleCaptions() {
+                cards.forEach(c => {
+                    if (!c.cap || !c.shown) return;
+                    setTimeout(() => {
+                        c.idx = (c.idx + 1) % c.caps.length;
+                        c.cap.style.opacity = 0;
+                        c.cap.style.transform = 'translateY(10px) scale(0.96)';
+                        setTimeout(() => {
+                            c.cap.innerHTML = c.caps[c.idx];
+                            c.cap.style.opacity = 1;
+                            c.cap.style.transform = 'translateY(0) scale(1)';
+                        }, 350);
+                    }, (c.n % 6) * 130);
+                });
+            }
+
+            function tick() {
+                const dt = Math.min(gsap.ticker.deltaRatio(), 3);   // same speed on 60/120/144Hz screens
+                if (!dragging) {
+                    vel += (target - vel) * Math.min(1, 0.05 * dt);
+                    x += vel * dt;
+                    x += recycle(x);
+                    if (target !== BASE && target !== SLOW) target += (BASE - target) * Math.min(1, 0.025 * dt);
+                }
+                track.style.transform = `translate3d(${x}px,0,0)`;
+                render();
+            }
+
+            // Direct pointer dragging (mouse + touch); x is the single source of truth.
+            viewport.style.touchAction = 'pan-y';
+            viewport.style.cursor = 'grab';
+            viewport.addEventListener('dragstart', e => e.preventDefault());
+            viewport.addEventListener('pointerdown', e => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                dragging = true; target = SLOW; lastPX = e.clientX; lastT = performance.now(); dragV = 0;
+                viewport.setPointerCapture(e.pointerId);
+                viewport.style.cursor = 'grabbing';
+            });
+            viewport.addEventListener('pointermove', e => {
+                if (!dragging) return;
+                const now = performance.now(), dx = e.clientX - lastPX, dt = now - lastT;
+                lastPX = e.clientX;
+                if (dt > 0) dragV = dragV * 0.6 + (dx / (dt / 16.667)) * 0.4;   // smoothed px per frame
+                lastT = now;
+                x += dx;
+                x += recycle(x);
+            });
+            const endDrag = () => {
+                if (!dragging) return;
+                dragging = false;
+                viewport.style.cursor = 'grab';
+                if (performance.now() - lastT > 80) dragV = 0;                   // held still before letting go
+                vel = Math.max(-40, Math.min(40, dragV));
+                target = hovered ? SLOW : BASE;
+            };
+            viewport.addEventListener('pointerup', endDrag);
+            viewport.addEventListener('pointercancel', endDrag);
+
+            viewport.addEventListener('mouseenter', () => { hovered = true; if (!dragging) target = SLOW; });
+            viewport.addEventListener('mouseleave', () => { hovered = false; if (!dragging) target = BASE; });
+
+            // Everything (ticker, caption timer, CSS animations, video) sleeps while the section is off-screen or the tab is hidden.
+            let inView = false, capTimer = null;
+            function sync() {
+                const go = inView && !document.hidden;
+                if (go === running) return;
+                running = go;
+                section.classList.toggle('reels-paused', !go);
+                if (go) { cards.forEach(c => { c.play = false; }); gsap.ticker.add(tick); capTimer = setInterval(cycleCaptions, 2300); }
+                else { gsap.ticker.remove(tick); clearInterval(capTimer); cards.forEach(c => c.video && c.video.pause()); }
+            }
+
+            build();
+            x += recycle(x);
+            track.style.transform = `translate3d(${x}px,0,0)`;
+            render();
+
+            new IntersectionObserver(([e]) => { inView = e.isIntersecting; sync(); }, { rootMargin: '150px 0px' }).observe(viewport);
+            document.addEventListener('visibilitychange', sync);
+
+            let rz;
+            const recalibrate = () => { clearTimeout(rz); rz = setTimeout(() => { build(); render(); }, 100); };
+            window.addEventListener('resize', recalibrate);
+            window.addEventListener('load', recalibrate);
+        })();
+    </script>
+</body>
+</html>
